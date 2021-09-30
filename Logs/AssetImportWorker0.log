@@ -224,3 +224,108 @@ Received Import Request.
 Start importing Assets/Textures/WoodN.jpg using Guid(5b5d799b9bb96854ba8582efef6712c4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '26f902e4dcecce168be4bede3fd9f518') in 0.034475 seconds 
   Import took 0.045673 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 1336.862927 seconds.
+  path: Assets/Models/Pawn.fbx
+  artifactKey: Guid(941b565c898c1f94db98481f7572e704) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Models/Pawn.fbx using Guid(941b565c898c1f94db98481f7572e704) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dd3ebb62b2585173e4c442ef78bf26b9') in 0.048657 seconds 
+  Import took 0.059880 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 47.704577 seconds.
+  path: Assets/Materials/BoardInside.mat
+  artifactKey: Guid(cc18c2fbd7b4d4f499c032bf1195b8cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/BoardInside.mat using Guid(cc18c2fbd7b4d4f499c032bf1195b8cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '40bba5d71d23950fef24b4cb1d66c155') in 0.196050 seconds 
+  Import took 0.208208 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000179 seconds.
+  path: Assets/Materials/BoardLines.mat
+  artifactKey: Guid(915735a9cdcdba8478d61bb110223891) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/BoardLines.mat using Guid(915735a9cdcdba8478d61bb110223891) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '43bcd88b25c590cee44babca7d92a18e') in 0.033453 seconds 
+  Import took 0.041438 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000247 seconds.
+  path: Assets/Materials/BoardOutside.mat
+  artifactKey: Guid(91f20f2566e886640954f5200f354913) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/BoardOutside.mat using Guid(91f20f2566e886640954f5200f354913) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ce80d0ebeb9504c4c6531c1bb8dc06f0') in 0.039560 seconds 
+  Import took 0.051762 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 166.151703 seconds.
+  path: Assets/Models/Desk.fbx
+  artifactKey: Guid(24739074575c91447a6dd4541a32799b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Models/Desk.fbx using Guid(24739074575c91447a6dd4541a32799b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '05dfa4c9e4b8c7e1d9e1a5e4e2014d67') in 0.068112 seconds 
+  Import took 0.080519 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 21.718355 seconds.
+  path: Assets/Models/Pawn.fbx
+  artifactKey: Guid(941b565c898c1f94db98481f7572e704) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Models/Pawn.fbx using Guid(941b565c898c1f94db98481f7572e704) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '65212e7ca718254098a9435dbb247265') in 0.044575 seconds 
+  Import took 0.053987 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 37.427923 seconds.
+  path: Assets/Prefabs
+  artifactKey: Guid(13d7d41355a57e84b89e04b89f17c436) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs using Guid(13d7d41355a57e84b89e04b89f17c436) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4553a58ac1917c81308c886aa117dbe5') in 0.024166 seconds 
+  Import took 0.039117 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.862788 seconds.
+  path: Assets/Prefabs/Board.prefab
+  artifactKey: Guid(bec1e8c3c3021d44085a0ef440900015) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Board.prefab using Guid(bec1e8c3c3021d44085a0ef440900015) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd02cb223aec458225d788f6b62cf4335') in 0.048844 seconds 
+  Import took 0.061599 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.643256 seconds.
+  path: Assets/Prefabs/Pawn.prefab
+  artifactKey: Guid(c559f3a6304f3e14f815167930db5092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pawn.prefab using Guid(c559f3a6304f3e14f815167930db5092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '97bc2a0bfbc09c9c6bf36d209636aa3d') in 0.042577 seconds 
+  Import took 0.064636 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.026097 seconds.
+  path: Assets/Prefabs/Pawn 1.prefab
+  artifactKey: Guid(c559f3a6304f3e14f815167930db5092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pawn 1.prefab using Guid(c559f3a6304f3e14f815167930db5092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f8edc2abec4389f8095b634bd5c45441') in 0.052882 seconds 
+  Import took 0.064822 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 113.636717 seconds.
+  path: Assets/Prefabs/Pawn 1.prefab
+  artifactKey: Guid(c559f3a6304f3e14f815167930db5092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pawn 1.prefab using Guid(c559f3a6304f3e14f815167930db5092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2771e033f46366def566fce2780b5f08') in 0.027923 seconds 
+  Import took 0.035104 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 108.260925 seconds.
+  path: Assets/Prefabs/Pawn 2.prefab
+  artifactKey: Guid(eaefecc9d4ceb4745b2652270709c734) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Pawn 2.prefab using Guid(eaefecc9d4ceb4745b2652270709c734) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '60dcca50c22a2682de84bbb7e968ebb8') in 0.066742 seconds 
+  Import took 0.083917 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 35.792572 seconds.
+  path: Assets/Models/Desk.blend
+  artifactKey: Guid(9544cf4613b5d184a922e7230417d1e0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Models/Desk.blend using Guid(9544cf4613b5d184a922e7230417d1e0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '115c3e9dab5339623bec1417299ed06e') in 0.069565 seconds 
+  Import took 0.085795 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
