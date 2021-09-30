@@ -1,19 +1,15 @@
 ﻿namespace Quoridor.Model
 {
-    public sealed class Pawn
+    public class Pawn
     {
-        private const int _defaultWallsCount = 10;
-
-        public int WallsCount { get; private set; }
-        public Cell CurrentCell { get; private set; }
-
-        public Pawn(int wallsCount, Cell currentCell)
+        private Coords _pawnCoords { get; set; }
+        public Pawn(Coords coords)
         {
-            WallsCount = wallsCount;
-            CurrentCell = currentCell;
+            _pawnCoords = coords;
         }
+        
+    };
 
-        public Pawn(Cell currentCell) : this(_defaultWallsCount, currentCell) { }
 
-    }
 }
+
