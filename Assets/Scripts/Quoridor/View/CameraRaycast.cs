@@ -24,7 +24,8 @@ namespace QuoridorDelta.Quoridor
                 hit.transform.gameObject.layer == _layerForRaycast.value &&
                 hit.normal == Vector3.up)
             {
-                Debug.Log($"{hit.transform.gameObject.layer}");
+                //Debug.Log($"{hit.transform.gameObject.layer}");
+                //Debug.Log($"{_layerForRaycast.value}");
                 Debug.Log($"{hit.point}");
             }
         }
