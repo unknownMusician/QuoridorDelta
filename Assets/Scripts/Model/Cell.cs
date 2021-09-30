@@ -4,18 +4,16 @@ namespace Quoridor.Model
 {
     public sealed class Cell
     {
-        private int _xPosition;
-        private int _yPosition;
+        public readonly int XPosition;
+        public readonly int YPosition;
 
-        public bool ContainsPawn { get; set; }
-        public int XPositon => _xPosition;
-        public int YPositon => _yPosition;
+        public bool ContainsPawn { get; private set; }
 
-        public Cell(bool isPawned, int xPos, int yPos)
+        public Cell(int xPos, int yPos)
         {
-            ContainsPawn = isPawned;
-            _xPosition = xPos;
-            _yPosition = yPos;
+            ContainsPawn = false;
+            XPosition = xPos;
+            YPosition = yPos;
         }
     }
 }
