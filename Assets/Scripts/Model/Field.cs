@@ -7,18 +7,18 @@ namespace Quoridor.Model
     {
         public readonly Pawn FirstPawn;
         public readonly Pawn SecondPawn;
-        private List<Wall> _walls { get; }
+        public readonly List<Wall> Walls;
        
         public Field(Pawn pawn1,Pawn pawn2)
         {
             FirstPawn = pawn1;
             SecondPawn = pawn2;
-            _walls = new List<Wall>();
+            Walls = new List<Wall>();
         }
 
         public void AddWallOnField(Wall wall)
         {
-            _walls.Add(wall);
+            Walls.Add(wall);
         }
     }
 }
