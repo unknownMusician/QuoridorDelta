@@ -2,10 +2,10 @@
 {
     public class Pawn
     {
-        public Coords _pawnCoords { get; set; }
+        public Coords PawnCoords { get; set; }
         public Pawn(Coords coords)
         {
-            _pawnCoords = coords;
+            PawnCoords = coords;
         }
         
        
