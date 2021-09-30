@@ -3,17 +3,17 @@
     public class Player
     {
         public readonly Pawn PlayerPawn;
-        public int _amountOfWallsCanSet { get; private set; }
+        public int AmountOfWallsCanSet { get; private set; }
 
         public Player(Pawn pawn,int amountOfWalls)
         {
             PlayerPawn = pawn;
-            _amountOfWallsCanSet = amountOfWalls;
+            AmountOfWallsCanSet = amountOfWalls;
         }
 
         public void DecremntAmountOfWalls()
         {
-            _amountOfWallsCanSet--;
+            AmountOfWallsCanSet--;
         }
     }
 }
