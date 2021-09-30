@@ -21,4 +21,5 @@ namespace Quoridor.Model
             Walls.Add(wall);
         }
     }
+  
 }
