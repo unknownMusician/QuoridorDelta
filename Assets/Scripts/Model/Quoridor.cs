@@ -10,9 +10,7 @@ namespace Quoridor.Model
 
         public Quoridor()
         {
-            Board = new Field();
-            Player1 = new Pawn(Board.GetCell(Board.Size / 2, 0));
-            Player2 = new Pawn(Board.GetCell(Board.Size / 2, Board.Size - 1));
+            
         }
         
     }
