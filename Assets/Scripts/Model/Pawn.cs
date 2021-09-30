@@ -1,4 +1,6 @@
-﻿namespace Quoridor.Model
+﻿using System;
+
+namespace Quoridor.Model
 {
     public class Pawn
     {
@@ -7,9 +9,7 @@
         {
             PawnCoords = coords;
         }
-        
        
-
     };
 
 
