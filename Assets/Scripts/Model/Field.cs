@@ -2,7 +2,7 @@
 
 namespace Quoridor.Model
 {
-    public sealed class Board
+    public sealed class Field
     {
         private const int _defaultBoardSize = 9;
         private Cell[,] _cellGrid;
@@ -10,7 +10,7 @@ namespace Quoridor.Model
 
         public readonly int Size;
 
-        public Board(int size)
+        public Field(int size)
         {
             if (size / 2 == 0)
             {
@@ -20,7 +20,7 @@ namespace Quoridor.Model
             SetupCells();
             SetupWallSlots();
         }
-        public Board() : this(_defaultBoardSize) { }
+        public Field() : this(_defaultBoardSize) { }
 
         private void SetupCells()
         {
