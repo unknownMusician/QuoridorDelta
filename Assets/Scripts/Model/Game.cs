@@ -22,18 +22,6 @@ namespace Quoridor.Model
             Player2 = new Player(secondPawn, amountOfPlayerWalls);
 
             Field = new Field(firstPawn,secondPawn);
-
         }
-
-        public void MovePawn()
-        {
-
-        }
-
-        public void SetWall()
-        {
-
-        }
-
     }
 }
