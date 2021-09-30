@@ -11,10 +11,8 @@ namespace Quoridor.Model
         public Quoridor()
         {
             Board = new Board();
-            Cell firstPlayerStartPosition, secondPlayerStartPosition;
-            Board.GetPawnsStartPositions(Board, out firstPlayerStartPosition, out secondPlayerStartPosition);
-            Player1 = new Pawn(firstPlayerStartPosition);
-            Player2 = new Pawn(secondPlayerStartPosition);
+            Player1 = new Pawn(Board.GetCell(Board.Size / 2, 0));
+            Player2 = new Pawn(Board.GetCell(Board.Size / 2, Board.Size - 1));
         }
         
     }

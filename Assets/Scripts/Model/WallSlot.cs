@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Quoridor.Model
+﻿namespace Quoridor.Model
 {
     public sealed class WallSlot
     {
@@ -8,11 +6,9 @@ namespace Quoridor.Model
         public readonly int YPosition;
 
         public Wall Wall { get; private set; }
-        //public bool ContainsWall { get; private set; }
 
         public WallSlot(int xPos, int yPos)
         {
-            //ContainsWall = false;
             XPosition = xPos;
             YPosition = yPos;
         }
