@@ -1,7 +1,8 @@
 ﻿namespace Quoridor.Model
 {
-    public class MoveType
+    public enum MoveType
     {
-
+        MovePawn,
+        PlaceWall
     }
 }
