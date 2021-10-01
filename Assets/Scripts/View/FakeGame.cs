@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using QuoridorDelta.Model;
+using UnityEngine;
 
-namespace QuoridorDelta.Quoridor
+namespace QuoridorDelta.View
 {
     // todo: remove
     public class FakeGame

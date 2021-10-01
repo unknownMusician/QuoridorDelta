@@ -1,4 +1,5 @@
-﻿namespace QuoridorDelta.Quoridor
+﻿
+namespace QuoridorDelta.Model
 {
     public enum PlayerType
     {

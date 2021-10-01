@@ -1,30 +1,28 @@
 using UnityEngine;
-using Quoridor.Model;
-using System;
+using QuoridorDelta.Model;
 
-namespace QuoridorDelta.Quoridor
+namespace QuoridorDelta.View
 {
     public class RaycastToDesk : MonoBehaviour
     {
         [SerializeField] private LayerMask _layerForRaycast;
         private Camera _camera;
 
-        void Awake()
-        {
-            _camera = GetComponent<Camera>();
-        }
+        // use [RequireComponent(typeof(Camera))] attribute
+        private void Awake() => _camera = GetComponent<Camera>();
 
-        void Update()
+        private void Update()
         {
             if (Input.GetMouseButton(0))
             {
-                RaycastHit hit = default;
-                Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
-                Coords coords = GetWallCoords(hit);
-                Debug.Log($"{coords.X}:{coords.Y}");
+                Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
+                Coords? coords = GetWallCoords(hit);
+                // needs null check or *
+                Debug.Log($"{coords.Value.X}:{coords.Value.Y}");
             }
         }
-        public Coords GetPawnCoords(RaycastHit hit)
+        // * or do not use nullable
+        public Coords? GetPawnCoords(RaycastHit hit)
         {
             if (hit.transform.gameObject.layer == _layerForRaycast.value &&
                 hit.normal == Vector3.up)
@@ -36,7 +34,7 @@ namespace QuoridorDelta.Quoridor
             }
             return null;
         }
-        public Coords GetWallCoords(RaycastHit hit)
+        public Coords? GetWallCoords(RaycastHit hit)
         {
             if (hit.transform.gameObject.layer == _layerForRaycast.value &&
                 hit.normal == Vector3.up)
