@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace QuoridorDelta.Model
 {
     public sealed class Game

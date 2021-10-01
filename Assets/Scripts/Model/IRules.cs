@@ -1,4 +1,5 @@
-﻿namespace QuoridorDelta.Model
+﻿
+namespace QuoridorDelta.Model
 {
     public interface IRules
     {

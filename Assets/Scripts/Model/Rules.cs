@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 namespace QuoridorDelta.Model
 {
@@ -28,10 +29,10 @@ namespace QuoridorDelta.Model
         public bool CanMovePawn(Pawn pawn, Field field, Coords newCoords)
         {
 
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public bool CanPlaceWall(Player player, Field field, WallCoords newWallCoords) => throw new System.NotImplementedException();
-        public Coords[] GetPossibleMoves(Pawn pawn, Field field) => throw new System.NotImplementedException();
+        public bool CanPlaceWall(Player player, Field field, WallCoords newWallCoords) => throw new NotImplementedException();
+        public Coords[] GetPossibleMoves(Pawn pawn, Field field) => throw new NotImplementedException();
     }
 }
