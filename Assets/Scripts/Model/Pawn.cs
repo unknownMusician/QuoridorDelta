@@ -1,17 +1,11 @@
-﻿using System;
-
-namespace Quoridor.Model
+﻿
+namespace QuoridorDelta.Model
 {
     public class Pawn
     {
-        public Coords PawnCoords { get; set; }
-        public Pawn(Coords coords)
-        {
-            PawnCoords = coords;
-        }
-       
+        public Coords Coords { get; set; }
+
+        public Pawn(Coords coords) => Coords = coords;
     };
-
-
 }
 

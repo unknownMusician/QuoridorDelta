@@ -1,19 +1,27 @@
-﻿namespace Quoridor.Model
+﻿
+namespace QuoridorDelta.Model
 {
     public class Player
     {
-        public readonly Pawn PlayerPawn;
-        public int AmountOfWallsCanSet { get; private set; }
+        public readonly Pawn Pawn;
+        public int WallCount { get; private set; }
 
-        public Player(Pawn pawn,int amountOfWalls)
+        public Player(Pawn pawn, int wallCount)
         {
-            PlayerPawn = pawn;
-            AmountOfWallsCanSet = amountOfWalls;
+            Pawn = pawn;
+            WallCount = wallCount;
         }
 
-        public void DecremntAmountOfWalls()
+        public void DecremntWallCount()
         {
-            AmountOfWallsCanSet--;
+            if (WallCount > 0)
+            {
+                WallCount--;
+            }
+            else
+            {
+                throw new System.InvalidOperationException();
+            }
         }
     }
 }
