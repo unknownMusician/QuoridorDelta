@@ -6,7 +6,7 @@ namespace QuoridorDelta.Model
     public class GameData
     {
 
-        private Data _data;
+        private TestData _data;
 
 
         public GameData()
@@ -15,25 +15,42 @@ namespace QuoridorDelta.Model
         }
 
 
-        public bool ChangePawnCoords(Pawn pawn)
+        public void ChangePawnCoords(PlayerType playerType,Coords newCoords)
         {
-            return false;
+            _data.ChangePawnCoords(GetPlayer(playerType).Pawn, newCoords);
         }
 
-        public bool AddWallOnField()
+        public void AddWallOnField(PlayerType playerType, WallCoords wallCoords)
         {
-            return false;
+            _data.AddWallOnField(GetPlayer(playerType), wallCoords);
         }
 
         public Field GetField()
         {
-            return null;
+            return _data.Field;
         }
 
-        public Player GetPlayer()
+        public Player GetPlayer(PlayerType playerType)
         {
-            return null;
+            Player playerToReturn;
+            switch (playerType)
+            {
+                case PlayerType.First:
+                    playerToReturn = _data.Player1;
+                    break;
+                case PlayerType.Second:
+                    playerToReturn = _data.Player2;
+                    break;
+                default:
+                    playerToReturn =  null; // Maybe throw exception
+                    break;
+
+            }
+            return playerToReturn;
+
         }
+
+      
 
 
 
