@@ -1,11 +1,6 @@
-﻿using Quoridor.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuoridorDelta.Model;
 
-namespace Quoridor.Controller
+namespace QuoridorDelta.Controller
 {
     class Controller
     {
