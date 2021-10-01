@@ -20,4 +20,5 @@ namespace QuoridorDelta.Model
 
         public static implicit operator Coords((int x, int y) tuple) => new Coords(tuple.x, tuple.y);
     }
+
 }

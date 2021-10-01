@@ -9,15 +9,7 @@ namespace QuoridorDelta.Model
 
         public Game()
         {
-            const int playerWallCount = 10;
-
-            Pawn firstPawn = new Pawn((4, 0));
-            Pawn secondPawn = new Pawn((4, 8));
-
-            Player1 = new Player(firstPawn, playerWallCount);
-            Player2 = new Player(secondPawn, playerWallCount);
-
-            Field = new Field(firstPawn, secondPawn);
+           
         }
     }
 }
