@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Quoridor.Model
+namespace QuoridorDelta.Model
 {
     public sealed class Field
     {
-        public readonly Pawn FirstPawn;
-        public readonly Pawn SecondPawn;
-        public readonly List<Wall> Walls;
-       
-        public Field(Pawn pawn1,Pawn pawn2)
+        public readonly Pawn Pawn1;
+        public readonly Pawn Pawn2;
+        public readonly List<WallCoords> Walls;
+
+        public Field(Pawn pawn1, Pawn pawn2)
         {
-            FirstPawn = pawn1;
-            SecondPawn = pawn2;
-            Walls = new List<Wall>();
+            Pawn1 = pawn1;
+            Pawn2 = pawn2;
+            Walls = new List<WallCoords>();
         }
 
-        public void AddWallOnField(Wall wall)
-        {
-            Walls.Add(wall);
-        }
+        public void AddWall(WallCoords wall) => Walls.Add(wall);
     }
-  
+
 }

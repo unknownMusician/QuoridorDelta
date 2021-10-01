@@ -1,6 +1,5 @@
-﻿using System;
-
-namespace Quoridor.Model
+﻿
+namespace QuoridorDelta.Model
 {
     public sealed class Game
     {
@@ -10,18 +9,15 @@ namespace Quoridor.Model
 
         public Game()
         {
-            Coords startPostionOfFirstPawn = new Coords(0, 0); // default postions 
-            Coords startPostionOfSecondPawn = new Coords(0, 0);
+            const int playerWallCount = 10;
 
-            const int amountOfPlayerWalls = 10;
+            Pawn firstPawn = new Pawn((4, 0));
+            Pawn secondPawn = new Pawn((4, 8));
 
-            Pawn firstPawn = new Pawn(startPostionOfFirstPawn); 
-            Pawn secondPawn = new Pawn(startPostionOfSecondPawn);
+            Player1 = new Player(firstPawn, playerWallCount);
+            Player2 = new Player(secondPawn, playerWallCount);
 
-            Player1 = new Player(firstPawn, amountOfPlayerWalls);
-            Player2 = new Player(secondPawn, amountOfPlayerWalls);
-
-            Field = new Field(firstPawn,secondPawn);
+            Field = new Field(firstPawn, secondPawn);
         }
     }
 }

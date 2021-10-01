@@ -1,4 +1,5 @@
-﻿namespace Quoridor.Model
+﻿
+namespace QuoridorDelta.Model
 {
     public enum MoveType
     {
