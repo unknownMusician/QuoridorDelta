@@ -1,7 +1,7 @@
 ﻿
 namespace QuoridorDelta.Model
 {
-    public struct WallCoords
+    public readonly struct WallCoords
     {
         public readonly Coords Coords;
         public readonly WallOrientation Orientation;
