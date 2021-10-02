@@ -27,12 +27,19 @@ namespace QuoridorDelta.View
         }
         private WallCoords Vector3ToWallCoords(Vector3 hitPoint, Vector3 startPoint, int maxClampValue)
         {
-            // wall orientation calculating
-            WallOrientation wallOrientation = default; 
             Vector3 point = hitPoint - startPoint;
+            Vector3 pointInNewSystem = new Vector3(point.x - ((int)point.x + 0.5f), 0, point.z - ((int)point.z + 0.5f));
+            WallOrientation wallOrientation = GetWallOrientation(pointInNewSystem);
+
             return new WallCoords(
                 Vector3ToCoords(hitPoint, startPoint, maxClampValue),
                 wallOrientation);
+        }
+        private WallOrientation GetWallOrientation(Vector3 coordsInOwnCoordSystem)
+        {
+            return (Mathf.Abs(coordsInOwnCoordSystem.z) < coordsInOwnCoordSystem.x || 
+                Mathf.Abs(coordsInOwnCoordSystem.z) < -coordsInOwnCoordSystem.x) ? 
+                WallOrientation.Horizontal : WallOrientation.Vertical;
         }
 
         public bool TryGetPawnMoveCoords(out Coords coords)
@@ -44,7 +51,7 @@ namespace QuoridorDelta.View
                 hit.normal == Vector3.up)
             {
                 coords = Vector3ToCoords(hit.point, _deskStartPoint, _deskSize - 1);
-                Debug.Log($"{coords.X}:{coords.Y}");
+                //Debug.Log($"{coords.X}:{coords.Y}");
                 return true;
             }
             coords = default;
@@ -59,7 +66,7 @@ namespace QuoridorDelta.View
                 hit.normal == Vector3.up)
             {
                 coords = Vector3ToWallCoords(hit.point, _wallStartPoint, _deskSize - 2);
-                Debug.Log($"{coords.Coords.X}:{coords.Coords.Y}");
+                //Debug.Log($"{coords.Coords.X}:{coords.Coords.Y}:{coords.Orientation}");
                 return true;
             }
             coords = default;

@@ -69,7 +69,7 @@ namespace QuoridorDelta.View
             {
                 _movePawnHandler(coords);
                 _movePawnHandler = null;
-                Debug.Log($"MovePawn");
+                //Debug.Log($"MovePawn");
             }
         }
         private void SendPlaceWallCoords(WallCoords coords)
@@ -78,7 +78,7 @@ namespace QuoridorDelta.View
             {
                 _placeWallHandler(coords);
                 _placeWallHandler = null;
-                Debug.Log($"PlaceWall");
+                //Debug.Log($"PlaceWall");
             }
         }
 
