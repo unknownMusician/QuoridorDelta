@@ -3,48 +3,120 @@ using QuoridorDelta.Model;
 
 namespace QuoridorDelta.View
 {
-    public class RaycastToDesk : MonoBehaviour
+    public sealed class RaycastToDesk
     {
-        [SerializeField] private LayerMask _layerForRaycast;
         private Camera _camera;
+        private LayerMask _layerForRaycast;
 
-        // use [RequireComponent(typeof(Camera))] attribute
-        private void Awake() => _camera = GetComponent<Camera>();
+        public RaycastToDesk(Camera camera, LayerMask layerMask)
+        {
+            _camera = camera;
+            _layerForRaycast = layerMask;
+        }
+        //private void Awake() => _camera = GetComponent<Camera>();
 
-        private void Update()
+        //public void SwitchToPawnMoveSender()
+        //{
+        //    Debug.Log($"MovePawnInput");
+        //    _input.OnLeftMouseButtonClicked += () =>
+        //    {
+        //        if (TryGetPawnMoveCoords(out Coords coords))
+        //        {
+        //            _view.SendMovePawnCoords(coords);
+        //        }
+        //    };
+        //}
+        //public void SwitchToPlaceWallSender()
+        //{
+        //    _input.OnLeftMouseButtonClicked += () =>
+        //    {
+        //        Debug.Log($"PlaceWallInput");
+        //        if (TryGetPlaceWallCoords(out WallCoords coords))
+        //        {
+        //            _view.SendPlaceWallCoords(coords);
+        //        }
+        //    };
+        //}
+        //public bool TryMakeRaycastToDesk(out Coords coords, MoveType moveType)
+        //{
+        //    Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
+
+        //    if (hit.transform.gameObject.layer == _layerForRaycast.value && hit.normal == Vector3.up)
+        //    {
+        //        switch (moveType)
+        //        {
+        //            case MoveType.MovePawn:
+        //                coords = Vector3ToPawnCoords(hit.point, Vector3.zero);
+        //                break;
+        //            case MoveType.PlaceWall:
+        //                coords = Vector3ToPawnCoords(hit.point, new Vector3(1, 0, 1));
+        //                break;
+        //            default:
+        //                coords = default;
+        //                break;
+        //        }
+        //        Debug.Log($"{coords.X}:{coords.Y}");
+        //        return true;
+        //    }
+        //    coords = default;
+        //    return false;
+        //}
+        private Coords Vector3ToPawnCoords(Vector3 hitPoint, Vector3 startPoint)
         {
-            if (Input.GetMouseButton(0))
-            {
-                Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
-                Coords? coords = GetWallCoords(hit);
-                // needs null check or *
-                Debug.Log($"{coords.Value.X}:{coords.Value.Y}");
-            }
+            Vector3 point = hitPoint - startPoint;
+            return new Coords((int)point.x, (int)point.z);
         }
-        // * or do not use nullable
-        public Coords? GetPawnCoords(RaycastHit hit)
+
+        public bool TryGetPawnMoveCoords(out Coords coords)
         {
-            if (hit.transform.gameObject.layer == _layerForRaycast.value &&
-                hit.normal == Vector3.up)
+            Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
+
+            if (hit.transform.gameObject.layer == _layerForRaycast.value && hit.normal == Vector3.up)
             {
-                Vector3 startPoint = Vector3.zero;
-                Vector3 point = startPoint + hit.point;
-                Coords coords = new Coords((int)point.x, (int)point.z);
-                return coords;
+                coords = Vector3ToPawnCoords(hit.point, Vector3.zero);
+                Debug.Log($"{coords.X}:{coords.Y}");
+                return true;
             }
-            return null;
+            coords = default;
+            return false;
         }
-        public Coords? GetWallCoords(RaycastHit hit)
+        public bool TryGetPlaceWallCoords(out WallCoords coords)
         {
-            if (hit.transform.gameObject.layer == _layerForRaycast.value &&
-                hit.normal == Vector3.up)
+            Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
+
+            if (hit.transform.gameObject.layer == _layerForRaycast.value && hit.normal == Vector3.up)
             {
-                Vector3 startPoint = new Vector3(1, 0, 1);
-                Vector3 point = hit.point - startPoint;
-                Coords coords = new Coords((int)point.x, (int)point.z);
-                return coords;
+                // todo: implement choise of Wall Orientation
+                coords = new WallCoords(Vector3ToPawnCoords(hit.point, new Vector3(1, 0, 1)), default);
+                Debug.Log($"{coords.Coords.X}:{coords.Coords.Y}");
+                return true;
             }
-            return null;
+            coords = default;
+            return false;
         }
+        //private Coords? GetPawnCoords(RaycastHit hit)
+        //{
+        //    if (hit.transform.gameObject.layer == _layerForRaycast.value &&
+        //        hit.normal == Vector3.up)
+        //    {
+        //        Vector3 startPoint = Vector3.zero;
+        //        Vector3 point = startPoint + hit.point;
+        //        Coords coords = new Coords((int)point.x, (int)point.z);
+        //        return coords;
+        //    }
+        //    return null;
+        //}
+        //private Coords? GetWallCoords(RaycastHit hit)
+        //{
+        //    if (hit.transform.gameObject.layer == _layerForRaycast.value &&
+        //        hit.normal == Vector3.up)
+        //    {
+        //        Vector3 startPoint = new Vector3(1, 0, 1);
+        //        Vector3 point = hit.point - startPoint;
+        //        Coords coords = new Coords((int)point.x, (int)point.z);
+        //        return coords;
+        //    }
+        //    return null;
+        //}
     }
 }
