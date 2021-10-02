@@ -86,16 +86,20 @@ namespace QuoridorDelta.View
         {
             if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
             {
-                SendMovePawnCoords(coords);
                 _input.OnLeftMouseButtonClicked -= PawnCoordsClickHandler;
+                SendMovePawnCoords(coords);
             }
+            //else
+            //{
+            //    Debug.Log($"no");
+            //}
         }
         private void WallCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
             {
-                SendPlaceWallCoords(coords);
                 _input.OnLeftMouseButtonClicked -= WallCoordsClickHandler;
+                SendPlaceWallCoords(coords);
             }
         }
     }
