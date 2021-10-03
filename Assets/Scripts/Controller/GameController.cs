@@ -29,36 +29,43 @@ namespace QuoridorDelta.Controller
 
         public GameController(GameData gameData, IView view)
         {
-            GameData = gameData;
             View = view;
             Rules = new Rules();
+            GameData = gameData;
         }
 
         public void Run()
         {
+            bool doWePlay = true;
             bool weHaveWinner = false;
             GameType gameType = View.GetGameType();
-            
 
-            while (!weHaveWinner)
-            {
 
-                PlayerType currentPlayer = PlayerType.First;
-                // Maybe View StartGame
-                switch (gameType)
+
+            while (doWePlay)
+            {             
+                while (!weHaveWinner)
                 {
-                    case GameType.PlayerVersusBot:                                      
-                        break;
-                    case GameType.PlayerVersusPlayer:
-                        
-
-
-                        break;
-                    default:
-                        break;
+                    PlayerType currentPlayer = PlayerType.First;
+                    
+                    switch (gameType)
+                    {
+                        case GameType.PlayerVersusBot:
+                            break;
+                        case GameType.PlayerVersusPlayer:
+                            PlayUntillWeHaveWinner(currentPlayer);
+                            weHaveWinner = true;
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }     
-            
+                doWePlay = View.ShouldRestart();
+                if (doWePlay)
+                {
+                    GameData.ClearAndRegenerateData();
+                }
+            }
         }
 
 
@@ -68,11 +75,11 @@ namespace QuoridorDelta.Controller
             while (!doWeHaveWinner)
             {
                 Play(currentPlayer);
-                doWeHaveWinner = Rules.didPlayerWin(currentPlayer);
+                doWeHaveWinner = Rules.DidPlayerWin(currentPlayer);
                 if (doWeHaveWinner)
                 {
-                    View.ShowWinner(currentPlayer)
-                            }
+                    View.ShowWinner(currentPlayer);
+                }
                 else
                 {
                     currentPlayer = ChangePlayers(currentPlayer);
