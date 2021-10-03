@@ -11,7 +11,7 @@ namespace QuoridorDelta.View.Proxy
     // todo
     public sealed class QuoridorProxy : IView, IDisposable
     {
-        private bool _isAlive = true;
+        private volatile bool _isAlive = true;
         private readonly Task _task;
 
         internal ConcurrentQueue<IRequest> Requests { get; } = new ConcurrentQueue<IRequest>();
