@@ -46,6 +46,8 @@ namespace QuoridorDelta.Controller
                 if (doWePlay)
                 {
                     _gameData.ClearAndRegenerateData();
+                    _view1.MovePlayerPawn(PlayerType.First, new Coords(4, 0));
+                    _view1.MovePlayerPawn(PlayerType.Second, new Coords(4, 8));
                 }
             }
             while (doWePlay);
