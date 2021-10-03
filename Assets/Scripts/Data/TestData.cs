@@ -32,10 +32,30 @@ namespace QuoridorDelta.Data
             pawn.Coords = newCoords;
         }
         
-        public void AddWallOnField(Player player,WallCoords wallCoords)
+        public void AddWallOnField(PlayerType player,WallCoords wallCoords)
         {
             Field.AddWall(wallCoords);
-            DecremntPlayerWallCount(player);
+            DecremntPlayerWallCount(ParsePlayerTypeToPlayer(player));
+        }
+
+        public Player ParsePlayerTypeToPlayer(PlayerType playerType)
+        {
+            Player playerToReturn;
+            switch (playerType)
+            {
+                case PlayerType.First:
+                    playerToReturn = Player1;
+                    break;
+                case PlayerType.Second:
+                    playerToReturn = Player2;
+                    break;
+                default:
+                    playerToReturn = null; // Maybe throw exception
+                    break;
+
+            }
+            return playerToReturn;
+
         }
 
         public void DecremntPlayerWallCount(Player player)
