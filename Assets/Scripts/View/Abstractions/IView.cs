@@ -12,7 +12,7 @@ namespace QuoridorDelta.View
         WallCoords GetPlaceWallCoords(PlayerType playerType);
 
         void MovePlayerPawn(PlayerType playerType, Coords newCoords);
-        void PlacePlayerWall(PlayerType playerType, Coords newCoords);
+        void PlacePlayerWall(PlayerType playerType, WallCoords newCoords);
         void ShowWrongMove(PlayerType playerType, MoveType moveType);
 
         void ShowWinner(PlayerType playerType);
