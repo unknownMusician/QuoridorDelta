@@ -27,9 +27,9 @@ namespace QuoridorDelta.Data
             Field = new Field(firstPawn, secondPawn);
         }
 
-       public void ChangePawnCoords(Pawn pawn, Coords newCoords)
+       public void ChangePawnCoords(PlayerType playerType, Coords newCoords)
         {
-            pawn.Coords = newCoords;
+            ParsePlayerTypeToPlayer(playerType).Pawn.Coords = newCoords;
         }
         
         public void AddWallOnField(PlayerType player,WallCoords wallCoords)
