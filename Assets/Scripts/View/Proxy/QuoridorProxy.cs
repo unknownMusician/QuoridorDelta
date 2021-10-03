@@ -4,12 +4,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace QuoridorDelta.View.Proxy
 {
     // todo
     public sealed class QuoridorProxy : IView, IDisposable
     {
+        private bool _isAlive = true;
         private readonly Task _task;
 
         internal ConcurrentQueue<IRequest> Requests { get; } = new ConcurrentQueue<IRequest>();
@@ -29,6 +31,11 @@ namespace QuoridorDelta.View.Proxy
 
             while (!request.Initialized)
             {
+                if (!_isAlive)
+                {
+                    // todo
+                    throw new TaskCanceledException();
+                }
                 // todo: 100 is fast, 200 is somewhere ok, 500 is slow
                 const int sleepTime = 100;
 
@@ -41,8 +48,16 @@ namespace QuoridorDelta.View.Proxy
         private TOut Wait<TOut>() => WaitRequest(new InputlessRequest<TOut>());
         private void Send<TIn>(TIn input) => Requests.Enqueue(new ActionRequest<TIn>(input));
 
-        public void Dispose() => _task.Dispose();
-
+        public void Dispose()
+        {
+            _isAlive = false;
+            try
+            {
+                _task.Wait();
+            }
+            catch (AggregateException) { }
+            _task.Dispose();
+        }
 
         public GameType GetGameType() => Wait<GameType>();
         public MoveType GetMoveType(PlayerType playerType) => Wait<PlayerType, MoveType>(playerType);
