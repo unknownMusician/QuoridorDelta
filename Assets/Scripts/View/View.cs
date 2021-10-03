@@ -1,6 +1,7 @@
 ﻿using QuoridorDelta.Model;
 using QuoridorDelta.View.Proxy;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -130,8 +131,16 @@ namespace QuoridorDelta.View
             _gameTypeChoiseMenu.SetActive(true);
         }
 
-        public void ShowWrongMove(PlayerType playerType, MoveType moveType) => _wrongMoveInfoMenu.SetActive(true);
+        public void ShowWrongMove(PlayerType playerType, MoveType moveType)
+        {
+            const float waitingTime = 2.0f;
+
+            _wrongMoveInfoMenu.SetActive(true);
+            StartCoroutine(Waiting(waitingTime, () => _winnerInfoMenu.SetActive(false)));
+        }
+
         public void ShowWinner(PlayerType playerType) => _winnerInfoMenu.SetActive(true);
+
         public void ShouldRestart(Action<bool> handler)
         {
             _shouldRestart = handler;
@@ -160,6 +169,17 @@ namespace QuoridorDelta.View
             _shouldRestart = null;
 
             Application.Quit();
+        }
+
+        private IEnumerator Waiting(float time, Action onFin)
+        {
+            float t = 0.0f;
+            while (t < 1.0f)
+            {
+                t += Time.deltaTime / time;
+                yield return null;
+            }
+            onFin.Invoke();
         }
     }
 }
