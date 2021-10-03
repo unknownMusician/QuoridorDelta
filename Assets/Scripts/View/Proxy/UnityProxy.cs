@@ -51,13 +51,13 @@ namespace QuoridorDelta.View.Proxy
                 else if (_proxy.MovePawnRequest != null && !_proxy.MovePawnRequest.Initialized && !_startedMovePawnInitialization)
                 {
                     _startedMovePawnInitialization = true;
-                    _view.GetMovePawnCoords(_proxy.MovePawnRequest.Input, handle => { _startedMovePawnInitialization = false; _proxy.MovePawnRequest.Initialize(handle); });
+                    _view.GetMovePawnCoords(_proxy.MovePawnRequest.Input.Item1, _proxy.MovePawnRequest.Input.Item2, handle => { _startedMovePawnInitialization = false; _proxy.MovePawnRequest.Initialize(handle); });
                     Debug.Log($"Initialized MovePawnRequest");
                 }
                 else if (_proxy.PlaceWallRequest != null && !_proxy.PlaceWallRequest.Initialized && !_startedPlaceWallInitialization)
                 {
                     _startedMovePawnInitialization = true;
-                    _view.GetPlaceWallCoords(_proxy.PlaceWallRequest.Input, handle => { _startedMovePawnInitialization = false; _proxy.PlaceWallRequest.Initialize(handle); });
+                    _view.GetPlaceWallCoords(_proxy.PlaceWallRequest.Input.Item1, _proxy.PlaceWallRequest.Input.Item2, handle => { _startedMovePawnInitialization = false; _proxy.PlaceWallRequest.Initialize(handle); });
                     Debug.Log($"Initialized PlaceWallRequest");
                 }
 
