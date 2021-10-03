@@ -11,7 +11,7 @@ namespace QuoridorDelta.View.Proxy
 
         internal Request<PlayerType, MoveType> MoveTypeRequest { get; private set; }
         internal Request<(PlayerType, IEnumerable<Coords>), Coords> MovePawnRequest { get; private set; }
-        internal Request<(PlayerType, IEnumerable<WallCoords>), WallCoords> PlaceWallRequest { get; private set; }
+        internal Request<PlayerType, WallCoords> PlaceWallRequest { get; private set; }
 
         public QuoridorProxy() => _task = Task.Run(Start);
 
@@ -45,9 +45,9 @@ namespace QuoridorDelta.View.Proxy
             return WaitFor<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves), value => MovePawnRequest = value);
         }
 
-        public WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleMoves)
+        public WallCoords GetPlaceWallCoords(PlayerType playerType)
         {
-            return WaitFor<(PlayerType, IEnumerable<WallCoords>), WallCoords>((playerType, possibleMoves), value => PlaceWallRequest = value);
+            return WaitFor<PlayerType, WallCoords>(playerType, value => PlaceWallRequest = value);
         }
 
         public void Dispose() => _task.Dispose();

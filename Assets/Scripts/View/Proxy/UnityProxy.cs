@@ -57,7 +57,7 @@ namespace QuoridorDelta.View.Proxy
                 else if (_proxy.PlaceWallRequest != null && !_proxy.PlaceWallRequest.Initialized && !_startedPlaceWallInitialization)
                 {
                     _startedMovePawnInitialization = true;
-                    _view.GetPlaceWallCoords(_proxy.PlaceWallRequest.Input.Item1, _proxy.PlaceWallRequest.Input.Item2, handle => { _startedMovePawnInitialization = false; _proxy.PlaceWallRequest.Initialize(handle); });
+                    _view.GetPlaceWallCoords(_proxy.PlaceWallRequest.Input, handle => { _startedMovePawnInitialization = false; _proxy.PlaceWallRequest.Initialize(handle); });
                     Debug.Log($"Initialized PlaceWallRequest");
                 }
 
