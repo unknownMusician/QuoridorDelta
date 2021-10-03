@@ -13,6 +13,9 @@ namespace QuoridorDelta.View
         [SerializeField] private UserInput _input;
         [SerializeField] private LayerMask _layerMask;
         [SerializeField] private GameObject _boardObject;
+        [SerializeField] private GameObject _backlightCellPrefab;
+        [SerializeField] private GameObject _backlightsParent;
+
         [Header("UI")]
         [SerializeField] private GameObject _moveTypeChoiseMenu;
         [SerializeField] private GameObject _gameTypeChoiseMenu;
@@ -25,6 +28,7 @@ namespace QuoridorDelta.View
         private PlayerBehaviour _pawnBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
+        private Backlight _backlight;
 
 
         private Action<MoveType> _moveTypeHandler;
@@ -37,9 +41,10 @@ namespace QuoridorDelta.View
         {
             _proxy.StartGame(this);
             _camera = GetComponent<Camera>();
-            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, CoordsConverter);
+            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
             _pawnBehaviour = GetComponent<PlayerBehaviour>();
             CoordsConverter = new CoordsConverter(_boardObject.transform.position);
+            _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
         }
 
         public void GetMoveType(PlayerType playerType, Action<MoveType> handler)
@@ -51,9 +56,9 @@ namespace QuoridorDelta.View
         public void GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves, Action<Coords> handler)
         {
             _movePawnHandler = handler;
+            _backlight.TurnOnLightOnCells(possibleMoves);
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
-
         public void GetPlaceWallCoords(PlayerType playerType, Action<WallCoords> handler)
         {
             _placeWallHandler = handler;
@@ -67,6 +72,7 @@ namespace QuoridorDelta.View
                 _moveTypeHandler(MoveType.MovePawn);
                 _moveTypeHandler = null;
                 _moveTypeChoiseMenu.SetActive(false);
+                _backlight.TurnOffLights();
             }
         }
         public void PlaceWallButtonClick()
@@ -104,10 +110,6 @@ namespace QuoridorDelta.View
                 _input.OnLeftMouseButtonClicked -= PawnCoordsClickHandler;
                 SendMovePawnCoords(coords);
             }
-            //else
-            //{
-            //    Debug.Log($"no");
-            //}
         }
         private void WallCoordsClickHandler()
         {
