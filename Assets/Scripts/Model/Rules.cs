@@ -151,10 +151,19 @@ namespace QuoridorDelta.Model
             return possibleMoves.ToArray();
         }
 
-        public bool DidPlayerWin(PlayerType playerType)
+        public bool DidPlayerWin(PlayerType playerType, Player player)
         {
-            // todo
-            return false;
+            const int MaxFieldYValue = 8;
+            const int MinFieldYValue = 0;
+
+            int coordsY = player.Pawn.Coords.Y;
+
+            return playerType switch
+            {
+                PlayerType.First => coordsY == MaxFieldYValue,
+                PlayerType.Second => coordsY == MinFieldYValue,
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

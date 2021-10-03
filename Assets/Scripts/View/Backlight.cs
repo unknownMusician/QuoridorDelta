@@ -7,6 +7,7 @@ namespace QuoridorDelta.View
 {
     public sealed class Backlight
     {
+        private const int MaxPossibleLightsCount = 6;
         private GameObject _lightPrefab;
         private CoordsConverter _coordsConverter;
         private GameObject _lightsParent;
@@ -19,7 +20,7 @@ namespace QuoridorDelta.View
             _coordsConverter = coordsConverter;
             _lightPrefab = lightPrefab;
             _lightsParent = lightsParent;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < MaxPossibleLightsCount; i++)
             {
                 _lights.Add(GameObject.Instantiate(_lightPrefab, _lightsParent.transform).GetComponent<RectTransform>());
             }
