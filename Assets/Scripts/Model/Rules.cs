@@ -151,6 +151,10 @@ namespace QuoridorDelta.Model
             return possibleMoves.ToArray();
         }
 
-        public bool DidPlayerWin(PlayerType playerType) => throw new NotImplementedException();
+        public bool DidPlayerWin(PlayerType playerType)
+        {
+            // todo
+            return false;
+        }
     }
 }
