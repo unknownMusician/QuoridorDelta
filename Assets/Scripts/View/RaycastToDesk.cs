@@ -3,48 +3,74 @@ using QuoridorDelta.Model;
 
 namespace QuoridorDelta.View
 {
-    public class RaycastToDesk : MonoBehaviour
+    public sealed class RaycastToDesk
     {
-        [SerializeField] private LayerMask _layerForRaycast;
         private Camera _camera;
+        private LayerMask _layerForRaycast;
 
-        // use [RequireComponent(typeof(Camera))] attribute
-        private void Awake() => _camera = GetComponent<Camera>();
+        private Vector3 _deskStartPoint = new Vector3(-4.5f, 0, -4.5f);
+        private Vector3 _wallStartPoint = new Vector3(-4f, 0, -4f);
+        private int _deskSize = 9;
 
-        private void Update()
+        public RaycastToDesk(Camera camera, LayerMask layerMask)
         {
-            if (Input.GetMouseButton(0))
-            {
-                Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
-                Coords? coords = GetWallCoords(hit);
-                // needs null check or *
-                Debug.Log($"{coords.Value.X}:{coords.Value.Y}");
-            }
+            _camera = camera;
+            _layerForRaycast = layerMask;
         }
-        // * or do not use nullable
-        public Coords? GetPawnCoords(RaycastHit hit)
+
+        private Coords Vector3ToCoords(Vector3 hitPoint, Vector3 startPoint, int maxClampValue)
         {
-            if (hit.transform.gameObject.layer == _layerForRaycast.value &&
+            Vector3 point = hitPoint - startPoint;
+            return new Coords(
+                Mathf.Clamp((int)point.x, 0, maxClampValue), 
+                Mathf.Clamp((int)point.z, 0, maxClampValue));
+        }
+        private WallCoords Vector3ToWallCoords(Vector3 hitPoint, Vector3 startPoint, int maxClampValue)
+        {
+            Vector3 point = hitPoint - startPoint;
+            Vector3 pointInNewSystem = new Vector3(point.x - ((int)point.x + 0.5f), 0, point.z - ((int)point.z + 0.5f));
+            WallOrientation wallOrientation = GetWallOrientation(pointInNewSystem);
+
+            return new WallCoords(
+                Vector3ToCoords(hitPoint, startPoint, maxClampValue),
+                wallOrientation);
+        }
+        private WallOrientation GetWallOrientation(Vector3 coordsInOwnCoordSystem)
+        {
+            return (Mathf.Abs(coordsInOwnCoordSystem.z) < coordsInOwnCoordSystem.x || 
+                Mathf.Abs(coordsInOwnCoordSystem.z) < -coordsInOwnCoordSystem.x) ? 
+                WallOrientation.Horizontal : WallOrientation.Vertical;
+        }
+
+        public bool TryGetPawnMoveCoords(out Coords coords)
+        {
+            Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
+
+            if (hit.transform && 
+                hit.transform.gameObject.layer == _layerForRaycast.value && 
                 hit.normal == Vector3.up)
             {
-                Vector3 startPoint = Vector3.zero;
-                Vector3 point = startPoint + hit.point;
-                Coords coords = new Coords((int)point.x, (int)point.z);
-                return coords;
+                coords = Vector3ToCoords(hit.point, _deskStartPoint, _deskSize - 1);
+                //Debug.Log($"{coords.X}:{coords.Y}");
+                return true;
             }
-            return null;
+            coords = default;
+            return false;
         }
-        public Coords? GetWallCoords(RaycastHit hit)
+        public bool TryGetPlaceWallCoords(out WallCoords coords)
         {
-            if (hit.transform.gameObject.layer == _layerForRaycast.value &&
+            Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
+
+            if (hit.transform && 
+                hit.transform.gameObject.layer == _layerForRaycast.value && 
                 hit.normal == Vector3.up)
             {
-                Vector3 startPoint = new Vector3(1, 0, 1);
-                Vector3 point = hit.point - startPoint;
-                Coords coords = new Coords((int)point.x, (int)point.z);
-                return coords;
+                coords = Vector3ToWallCoords(hit.point, _wallStartPoint, _deskSize - 2);
+                //Debug.Log($"{coords.Coords.X}:{coords.Coords.Y}:{coords.Orientation}");
+                return true;
             }
-            return null;
+            coords = default;
+            return false;
         }
     }
 }
