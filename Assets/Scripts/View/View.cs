@@ -10,10 +10,15 @@ namespace QuoridorDelta.View
     public sealed class View : MonoBehaviour, ISyncView
     {
         [SerializeField] private UnityProxy _proxy;
-        [SerializeField] private GameObject _moveTypeChoiseMenu;
         [SerializeField] private UserInput _input;
         [SerializeField] private LayerMask _layerMask;
         [SerializeField] private GameObject _boardObject;
+        [Header("UI")]
+        [SerializeField] private GameObject _moveTypeChoiseMenu;
+        [SerializeField] private GameObject _gameTypeChoiseMenu;
+        [SerializeField] private GameObject _wrongMoveInfoMenu;
+        [SerializeField] private GameObject _winnerInfoMenu;
+        [SerializeField] private GameObject _restartBlock;
 
 
         public CoordsConverter CoordsConverter { get; set; }
@@ -25,6 +30,8 @@ namespace QuoridorDelta.View
         private Action<MoveType> _moveTypeHandler;
         private Action<Coords> _movePawnHandler;
         private Action<WallCoords> _placeWallHandler;
+        private Action<GameType> _getGameType;
+        private Action<bool> _shouldRestart;
 
         private void Start()
         {
@@ -111,28 +118,46 @@ namespace QuoridorDelta.View
             }
         }
 
-        public void GetGameType(Action<GameType> handler)
-        {
-            throw new NotImplementedException();
-        }
-
         public void MovePawn(PlayerType playerType, Coords newCoords) => _pawnBehaviour.MovePawn(playerType, newCoords);
 
         public void PlaceWall(PlayerType playerType, WallCoords newCoords) => _pawnBehaviour.PlaceWall(playerType, newCoords);
 
-        public void ShowWrongMove(PlayerType playerType, MoveType moveType)
+        public void GetGameType(Action<GameType> handler)
         {
-            throw new NotImplementedException();
+            _getGameType = handler;
+            _gameTypeChoiseMenu.SetActive(true);
         }
 
-        public void ShowWinner(PlayerType playerType)
-        {
-            throw new NotImplementedException();
-        }
-
+        public void ShowWrongMove(PlayerType playerType, MoveType moveType) => _wrongMoveInfoMenu.SetActive(true);
+        public void ShowWinner(PlayerType playerType) => _winnerInfoMenu.SetActive(true);
         public void ShouldRestart(Action<bool> handler)
         {
-            throw new NotImplementedException();
+            _shouldRestart = handler;
+            _restartBlock.SetActive(true);
+        }
+
+        public void SetGameTypePvP()
+        {
+            _getGameType(GameType.PlayerVersusPlayer);
+            _getGameType = null;
+        }
+        public void SetGameTypePvBot()
+        {
+            _getGameType(GameType.PlayerVersusBot);
+            _getGameType = null;
+        }
+
+        public void Restart()
+        {
+            _shouldRestart(true);
+            _shouldRestart = null;
+        }
+        public void Exit()
+        {
+            _shouldRestart(false);
+            _shouldRestart = null;
+
+            Application.Quit();
         }
     }
 }
