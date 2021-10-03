@@ -1,15 +1,17 @@
 ﻿using QuoridorDelta.Model;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuoridorDelta.View.Proxy
 {
-    public sealed class QuoridorProxy : IView, IDisposable
+    // todo
+    public sealed class QuoridorProxy //: IView, IDisposable
     {
         private readonly Task _task;
 
         internal Request<PlayerType, MoveType> MoveTypeRequest { get; private set; }
-        internal Request<PlayerType, Coords> MovePawnRequest { get; private set; }
+        internal Request<(PlayerType, IEnumerable<Coords>), Coords> MovePawnRequest { get; private set; }
         internal Request<PlayerType, WallCoords> PlaceWallRequest { get; private set; }
 
         public QuoridorProxy() => _task = Task.Run(Start);
@@ -17,12 +19,12 @@ namespace QuoridorDelta.View.Proxy
         private void Start()
         {
             // todo: create Quoridor Game
-            new FakeGame(this);
+            throw new NotImplementedException();
         }
 
-        private T WaitFor<T>(PlayerType playerType, Action<Request<PlayerType, T>> requestSetter)
+        private TOut WaitFor<TIn, TOut>(TIn input, Action<Request<TIn, TOut>> requestSetter)
         {
-            var request = new Request<PlayerType, T>(playerType);
+            var request = new Request<TIn, TOut>(input);
             requestSetter(request);
 
             while (!request.Initialized)
@@ -32,14 +34,22 @@ namespace QuoridorDelta.View.Proxy
 
                 Task.Delay(sleepTime);
             }
+
+            requestSetter(null);
             return request.Result;
         }
 
-        public MoveType GetMoveType(PlayerType playerType) => WaitFor<MoveType>(playerType, value => MoveTypeRequest = value);
+        public MoveType GetMoveType(PlayerType playerType) => WaitFor<PlayerType, MoveType>(playerType, value => MoveTypeRequest = value);
 
-        public Coords GetMovePawnCoords(PlayerType playerType) => WaitFor<Coords>(playerType, value => MovePawnRequest = value);
+        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves)
+        {
+            return WaitFor<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves), value => MovePawnRequest = value);
+        }
 
-        public WallCoords GetPlaceWallCoords(PlayerType playerType) => WaitFor<WallCoords>(playerType, value => PlaceWallRequest = value);
+        public WallCoords GetPlaceWallCoords(PlayerType playerType)
+        {
+            return WaitFor<PlayerType, WallCoords>(playerType, value => PlaceWallRequest = value);
+        }
 
         public void Dispose() => _task.Dispose();
     }
