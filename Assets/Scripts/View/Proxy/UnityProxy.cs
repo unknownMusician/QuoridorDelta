@@ -68,6 +68,8 @@ namespace QuoridorDelta.View.Proxy
                 case InputlessRequest<bool> shouldRestartRequest:
                     _view.ShouldRestart(shouldRestartRequest.StartInitializing());
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

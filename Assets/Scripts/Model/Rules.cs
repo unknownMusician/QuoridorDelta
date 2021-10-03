@@ -72,7 +72,7 @@ namespace QuoridorDelta.Model
                 WallCoords possibleWall1 = new WallCoords(minCoord - (1, 0), wallOrientation);
                 WallCoords possibleWall2 = new WallCoords(minCoord, wallOrientation);
 
-                return !field.Walls.Contains(possibleWall1) && !field.Walls.Contains(possibleWall2);
+                return field.Walls.Contains(possibleWall1) || field.Walls.Contains(possibleWall2);
             }
             else // if (difference.Y == 0)
             {
@@ -82,7 +82,7 @@ namespace QuoridorDelta.Model
                 WallCoords possibleWall1 = new WallCoords(minCoord - (0, 1), wallOrientation);
                 WallCoords possibleWall2 = new WallCoords(minCoord, wallOrientation);
 
-                return !field.Walls.Contains(possibleWall1) && !field.Walls.Contains(possibleWall2);
+                return field.Walls.Contains(possibleWall1) || field.Walls.Contains(possibleWall2);
             }
         }
 
