@@ -1,18 +1,17 @@
 ﻿using QuoridorDelta.Model;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuoridorDelta.View.Proxy
 {
     // todo
-    public sealed class QuoridorProxy //: IView, IDisposable
+    public sealed class QuoridorProxy : IView, IDisposable
     {
         private readonly Task _task;
 
-        internal Request<PlayerType, MoveType> MoveTypeRequest { get; private set; }
-        internal Request<(PlayerType, IEnumerable<Coords>), Coords> MovePawnRequest { get; private set; }
-        internal Request<PlayerType, WallCoords> PlaceWallRequest { get; private set; }
+        internal ConcurrentQueue<IRequest> Requests { get; } = new ConcurrentQueue<IRequest>();
 
         public QuoridorProxy() => _task = Task.Run(Start);
 
@@ -21,36 +20,35 @@ namespace QuoridorDelta.View.Proxy
             // todo: create Quoridor Game
             throw new NotImplementedException();
         }
-
-        private TOut WaitFor<TIn, TOut>(TIn input, Action<Request<TIn, TOut>> requestSetter)
+        private TOut WaitRequest<TOut>(IInitializableRequest<TOut> request)
         {
-            var request = new Request<TIn, TOut>(input);
-            requestSetter(request);
+            Requests.Enqueue(request);
 
             while (!request.Initialized)
             {
-                // todo: 100 is fast, 200 is ok, 500 is slow
-                const int sleepTime = 200;
+                // todo: 100 is fast, 200 is somewhere ok, 500 is slow
+                const int sleepTime = 100;
 
                 Task.Delay(sleepTime);
             }
 
-            requestSetter(null);
             return request.Result;
         }
-
-        public MoveType GetMoveType(PlayerType playerType) => WaitFor<PlayerType, MoveType>(playerType, value => MoveTypeRequest = value);
-
-        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves)
-        {
-            return WaitFor<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves), value => MovePawnRequest = value);
-        }
-
-        public WallCoords GetPlaceWallCoords(PlayerType playerType)
-        {
-            return WaitFor<PlayerType, WallCoords>(playerType, value => PlaceWallRequest = value);
-        }
+        private TOut Wait<TIn, TOut>(TIn input) => WaitRequest(new Request<TIn, TOut>(input));
+        private TOut Wait<TOut>() => WaitRequest(new InputlessRequest<TOut>());
+        private void Send<TIn>(TIn input) => Requests.Enqueue(new ActionRequest<TIn>(input));
 
         public void Dispose() => _task.Dispose();
+
+
+        public GameType GetGameType() => Wait<GameType>();
+        public MoveType GetMoveType(PlayerType playerType) => Wait<PlayerType, MoveType>(playerType);
+        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) => Wait<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves));
+        public WallCoords GetPlaceWallCoords(PlayerType playerType) => Wait<PlayerType, WallCoords>(playerType);
+        public void MovePawn(PlayerType playerType, Coords newCoords) => Send((playerType, newCoords));
+        public void PlaceWall(PlayerType playerType, WallCoords newCoords) => Send((playerType, newCoords));
+        public void ShowWrongMove(PlayerType playerType, MoveType moveType) => Send((playerType, moveType));
+        public void ShowWinner(PlayerType playerType) => Send(playerType);
+        public bool ShouldRestart() => Wait<bool>();
     }
 }
