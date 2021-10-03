@@ -77,7 +77,7 @@ namespace QuoridorDelta.Controller
             do
             {
                 MakeMove(currentPlayer);
-                doWeHaveWinner = _rules.DidPlayerWin(currentPlayer);
+                doWeHaveWinner = _rules.DidPlayerWin(currentPlayer,_gameData.GetPlayerByType(currentPlayer));
                 if (doWeHaveWinner)
                 {
                     _view1.ShowWinner(currentPlayer);
