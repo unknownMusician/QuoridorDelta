@@ -22,7 +22,7 @@ namespace QuoridorDelta.View
 
 
         public CoordsConverter CoordsConverter { get; set; }
-        private PawnsBehaviour _pawnBehaviour;
+        private PlayerBehaviour _pawnBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
 
@@ -38,7 +38,7 @@ namespace QuoridorDelta.View
             _proxy.StartGame(this);
             _camera = GetComponent<Camera>();
             _raycastToDesk = new RaycastToDesk(_camera, _layerMask, CoordsConverter);
-            _pawnBehaviour = GetComponent<PawnsBehaviour>();
+            _pawnBehaviour = GetComponent<PlayerBehaviour>();
             CoordsConverter = new CoordsConverter(_boardObject.transform.position);
         }
 
@@ -120,10 +120,7 @@ namespace QuoridorDelta.View
 
         public void MovePawn(PlayerType playerType, Coords newCoords) => _pawnBehaviour.MovePawn(playerType, newCoords);
 
-        public void PlaceWall(PlayerType playerType, WallCoords newCoords)
-        {
-            throw new NotImplementedException();
-        }
+        public void PlaceWall(PlayerType playerType, WallCoords newCoords) => _pawnBehaviour.PlaceWall(playerType, newCoords);
 
         public void GetGameType(Action<GameType> handler)
         {

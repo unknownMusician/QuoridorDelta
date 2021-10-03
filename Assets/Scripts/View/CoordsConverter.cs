@@ -9,11 +9,11 @@ namespace QuoridorDelta.View
         private Vector3 _boardStartPoint;
         private Vector3 _wallStartPoint;
         private const int _boardSize = 9;
-        private Vector3 _boardCenterPoint;
+        private const float _pawnHeightValue = 0.65f;
+        private const float _wallHeightValue = 0.9f;
 
         public CoordsConverter(Vector3 centerPoint)
         {
-            _boardCenterPoint = centerPoint;
             _boardStartPoint = new Vector3(centerPoint.x - 4.5f, 0, centerPoint.z - 4.5f);
             _wallStartPoint = new Vector3(centerPoint.x - 4f, 0, centerPoint.z - 4f);
         }
@@ -25,10 +25,6 @@ namespace QuoridorDelta.View
                 Mathf.Clamp((int)point.x, 0, maxClampValue),
                 Mathf.Clamp((int)point.z, 0, maxClampValue));
         }
-        //private Vector3 ToVector3(Coords coords)
-        //{
-        //    return new Vector3();
-        //}
         private WallOrientation GetWallOrientation(Vector3 coordsInOwnCoordSystem)
         {
             return (Mathf.Abs(coordsInOwnCoordSystem.z) < coordsInOwnCoordSystem.x ||
@@ -47,14 +43,20 @@ namespace QuoridorDelta.View
                 ToCoords(pointInWorld, _wallStartPoint, _boardSize - 2),
                 wallOrientation);
         }
-
         public Vector3 ToVector3(Coords coords)
         {
-            throw new NotImplementedException();
+            return new Vector3(
+                coords.X + _boardStartPoint.x, 
+                _pawnHeightValue, 
+                coords.Y + _boardStartPoint.z) + _boardStartPoint;
         }
         public Vector3 ToVector3(WallCoords wallCoords)
         {
-            throw new NotImplementedException();
+            return new Vector3(
+                wallCoords.Coords.X + _wallStartPoint.x, 
+                _wallHeightValue, 
+                wallCoords.Coords.Y + _wallStartPoint.z) 
+                + _wallStartPoint;
         }
     }
 }

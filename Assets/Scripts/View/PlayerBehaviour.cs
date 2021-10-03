@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace QuoridorDelta.Model
 {
-    public sealed class PawnsBehaviour : MonoBehaviour
+    public sealed class PlayerBehaviour : MonoBehaviour
     {
         [SerializeField] private GameObject _pawn1;
         [SerializeField] private GameObject _pawn2;
+        [SerializeField] private GameObject _wallPrefab;
+        [SerializeField] private GameObject _wallsParent;
         [SerializeField] private View.View _view;
 
         private CoordsConverter _coordsConverter;
@@ -34,6 +36,11 @@ namespace QuoridorDelta.Model
         {
             // todo: add animations
             GetPawn(playerType).transform.position = _coordsConverter.ToVector3(newCoords);
+        }
+        public void PlaceWall(PlayerType playerType, WallCoords newCoords)
+        {
+            // todo: add animations
+            Instantiate(_wallPrefab, _coordsConverter.ToVector3(newCoords), Quaternion.identity);
         }
     }
 }
