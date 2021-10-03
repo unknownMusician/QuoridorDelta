@@ -13,6 +13,11 @@ namespace QuoridorDelta.View
         [SerializeField] private GameObject _moveTypeChoiseMenu;
         [SerializeField] private UserInput _input;
         [SerializeField] private LayerMask _layerMask;
+        [SerializeField] private GameObject _boardObject;
+
+
+        public CoordsConverter CoordsConverter { get; set; }
+        private PawnsBehaviour _pawnBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
 
@@ -25,7 +30,9 @@ namespace QuoridorDelta.View
         {
             _proxy.StartGame(this);
             _camera = GetComponent<Camera>();
-            _raycastToDesk = new RaycastToDesk(_camera, _layerMask);
+            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, CoordsConverter);
+            _pawnBehaviour = GetComponent<PawnsBehaviour>();
+            CoordsConverter = new CoordsConverter(_boardObject.transform.position);
         }
 
         public void GetMoveType(PlayerType playerType, Action<MoveType> handler)
@@ -40,7 +47,7 @@ namespace QuoridorDelta.View
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
 
-        public void GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleMoves, Action<WallCoords> handler)
+        public void GetPlaceWallCoords(PlayerType playerType, Action<WallCoords> handler)
         {
             _placeWallHandler = handler;
             _input.OnLeftMouseButtonClicked += WallCoordsClickHandler;
@@ -102,6 +109,33 @@ namespace QuoridorDelta.View
                 _input.OnLeftMouseButtonClicked -= WallCoordsClickHandler;
                 SendPlaceWallCoords(coords);
             }
+        }
+
+        public void GetGameType(Action<GameType> handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MovePawn(PlayerType playerType, Coords newCoords) => _pawnBehaviour.MovePawn(playerType, newCoords);
+
+        public void PlaceWall(PlayerType playerType, WallCoords newCoords)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowWrongMove(PlayerType playerType, MoveType moveType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowWinner(PlayerType playerType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShouldRestart(Action<bool> handler)
+        {
+            throw new NotImplementedException();
         }
     }
 }
