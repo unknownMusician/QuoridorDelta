@@ -45,8 +45,8 @@ namespace QuoridorDelta.View.Proxy
         public MoveType GetMoveType(PlayerType playerType) => Wait<PlayerType, MoveType>(playerType);
         public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) => Wait<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves));
         public WallCoords GetPlaceWallCoords(PlayerType playerType) => Wait<PlayerType, WallCoords>(playerType);
-        public void MovePawn(PlayerType playerType, Coords newCoords) => Send((playerType, newCoords));
-        public void PlaceWall(PlayerType playerType, WallCoords newCoords) => Send((playerType, newCoords));
+        public void MovePlayerPawn(PlayerType playerType, Coords newCoords) => Send((playerType, newCoords));
+        public void PlacePlayerWall(PlayerType playerType, WallCoords newCoords) => Send((playerType, newCoords));
         public void ShowWrongMove(PlayerType playerType, MoveType moveType) => Send((playerType, moveType));
         public void ShowWinner(PlayerType playerType) => Send(playerType);
         public bool ShouldRestart() => Wait<bool>();
