@@ -136,7 +136,7 @@ namespace QuoridorDelta.View
             const float waitingTime = 2.0f;
 
             _wrongMoveInfoMenu.SetActive(true);
-            StartCoroutine(Waiting(waitingTime, () => _winnerInfoMenu.SetActive(false)));
+            StartCoroutine(Waiting(waitingTime, () => _wrongMoveInfoMenu.SetActive(false)));
         }
 
         public void ShowWinner(PlayerType playerType) => _winnerInfoMenu.SetActive(true);
