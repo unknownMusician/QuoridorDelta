@@ -24,13 +24,13 @@ namespace QuoridorDelta.Controller
     class GameController
     {
         private readonly GameData _gameData;
-        private readonly IView _view1;
+        private readonly IView _view;
         private readonly IView _view2;
         private readonly IRules _rules;
 
         public GameController(GameData gameData, IView view)
         {
-            _view1 = view;
+            _view = view;
             _rules = new Rules();
             _gameData = gameData;
         }
