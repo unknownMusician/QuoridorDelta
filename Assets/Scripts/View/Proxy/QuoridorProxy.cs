@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace QuoridorDelta.View.Proxy
 {
-    public sealed class QuoridorProxy : IView, IDisposable
+    // todo
+    public sealed class QuoridorProxy //: IView, IDisposable
     {
         private readonly Task _task;
 
@@ -18,7 +19,7 @@ namespace QuoridorDelta.View.Proxy
         private void Start()
         {
             // todo: create Quoridor Game
-            new FakeGame(this);
+            throw new NotImplementedException();
         }
 
         private TOut WaitFor<TIn, TOut>(TIn input, Action<Request<TIn, TOut>> requestSetter)
