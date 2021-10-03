@@ -38,14 +38,17 @@ namespace QuoridorDelta.View
         private Action<GameType> _getGameType;
         private Action<bool> _shouldRestart;
 
+        private void Awake()
+        {
+            CoordsConverter = new CoordsConverter(_boardObject.transform.position);
+            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
+            _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
+        }
         private void Start()
         {
             _proxy.StartGame(this);
             _camera = GetComponent<Camera>();
             _pawnBehaviour = GetComponent<PlayerBehaviour>();
-            CoordsConverter = new CoordsConverter(_boardObject.transform.position);
-            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
-            _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
         }
 
         public void GetMoveType(PlayerType playerType, Action<MoveType> handler)
