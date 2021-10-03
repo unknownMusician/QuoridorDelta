@@ -5,24 +5,61 @@ namespace QuoridorDelta.Model
 {
     public class GameData
     {
-
         private TestData _data;
-
 
         public GameData()
         {
-            _data.GenerateData();
+            ClearAndRegenerateData();
         }
 
-
-        public void ChangePawnCoords(PlayerType playerType,Coords newCoords)
+        public void ClearAndRegenerateData()
         {
-            _data.ChangePawnCoords(playerType, newCoords);
+            _data = new TestData();
         }
 
-        public void AddWallOnField(PlayerType playerType, WallCoords wallCoords)
+        public Player GetPlayerByType(PlayerType playerType)
         {
-            _data.AddWallOnField(playerType, wallCoords);
+
+            Player playerToReturn = null;
+            switch (playerType)
+            {
+                case PlayerType.First:
+                    playerToReturn = _data.Player1;
+                    break;
+                case PlayerType.Second:
+                    playerToReturn = _data.Player2;
+                    break;
+                default:
+                    break;
+            }
+            return playerToReturn;
+        }
+        
+        public Pawn GetPlayerPawn(PlayerType playerType)
+        {
+            Pawn playerPawnToReturn = null;
+            switch (playerType)
+            {
+                case PlayerType.First:
+                    playerPawnToReturn = GetField().Pawn1;
+                    break;
+                case PlayerType.Second:
+                    playerPawnToReturn = GetField().Pawn2;
+                    break;
+                default:                 
+                    break;
+            }
+            return playerPawnToReturn;
+        }
+
+        public void MovePlayerPawn(PlayerType playerType,Coords newCoords)
+        {
+            _data.ChangePlayerPawnCoords(playerType, newCoords);
+        }
+
+        public void PlacePlayerWall(PlayerType playerType, WallCoords wallCoords)
+        {
+            _data.AddPlayerWallOnField(playerType, wallCoords);
         }
 
         public Field GetField()
