@@ -1,6 +1,7 @@
 ﻿using QuoridorDelta.Model;
 using QuoridorDelta.View.Proxy;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace QuoridorDelta.View
@@ -33,13 +34,13 @@ namespace QuoridorDelta.View
             _moveTypeHandler = handler;
         }
 
-        public void GetMovePawnCoords(PlayerType playerType, Action<Coords> handler)
+        public void GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves, Action<Coords> handler)
         {
             _movePawnHandler = handler;
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
 
-        public void GetPlaceWallCoords(PlayerType playerType, Action<WallCoords> handler)
+        public void GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleMoves, Action<WallCoords> handler)
         {
             _placeWallHandler = handler;
             _input.OnLeftMouseButtonClicked += WallCoordsClickHandler;
