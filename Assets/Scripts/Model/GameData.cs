@@ -14,6 +14,11 @@ namespace QuoridorDelta.Model
             _data.GenerateData();
         }
 
+        public void ClearAndRegenerateData()
+        {
+            _data.GenerateData();
+        }
+
         public Player GetPlayerByType(PlayerType playerType)
         {
 
