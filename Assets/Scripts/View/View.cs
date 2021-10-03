@@ -41,9 +41,9 @@ namespace QuoridorDelta.View
         {
             _proxy.StartGame(this);
             _camera = GetComponent<Camera>();
-            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
             _pawnBehaviour = GetComponent<PlayerBehaviour>();
             CoordsConverter = new CoordsConverter(_boardObject.transform.position);
+            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
             _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
         }
 

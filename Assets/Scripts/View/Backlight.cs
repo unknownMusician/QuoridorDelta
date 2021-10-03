@@ -18,6 +18,7 @@ namespace QuoridorDelta.View
         {
             _coordsConverter = coordsConverter;
             _lightPrefab = lightPrefab;
+            _lightsParent = lightsParent;
             for (int i = 0; i < 4; i++)
             {
                 _lights.Add(GameObject.Instantiate(_lightPrefab, _lightsParent.transform).GetComponent<RectTransform>());
