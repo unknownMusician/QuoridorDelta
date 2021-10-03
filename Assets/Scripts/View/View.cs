@@ -40,11 +40,11 @@ namespace QuoridorDelta.View
 
         private void Awake()
         {
+            _camera = GetComponent<Camera>();
+            _pawnBehaviour = GetComponent<PlayerBehaviour>();
             CoordsConverter = new CoordsConverter(_boardObject.transform.position);
             _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
             _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
-            _camera = GetComponent<Camera>();
-            _pawnBehaviour = GetComponent<PlayerBehaviour>();
         }
         private void Start() => _proxy.StartGame(this);
 
@@ -73,7 +73,6 @@ namespace QuoridorDelta.View
                 _moveTypeHandler(MoveType.MovePawn);
                 _moveTypeHandler = null;
                 _moveTypeChoiseMenu.SetActive(false);
-                _backlight.TurnOffLights();
             }
         }
         public void PlaceWallButtonClick()
@@ -91,6 +90,7 @@ namespace QuoridorDelta.View
             {
                 _movePawnHandler(coords);
                 _movePawnHandler = null;
+                _backlight.TurnOffLights();
                 //Debug.Log($"MovePawn");
             }
         }
