@@ -1,18 +1,13 @@
-﻿using System;
+﻿using QuoridorDelta.Model;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace QuoridorDelta.View.Proxy
 {
     public sealed class UnityProxy : MonoBehaviour
     {
-        // todo
-        //[SerializeField] private FakeView _fakeView;
-
-        private bool _startedMoveTypeInitialization = false;
-        private bool _startedMovePawnInitialization = false;
-        private bool _startedPlaceWallInitialization = false;
-
         private bool _isAlive = true;
         private QuoridorProxy _proxy;
         private ISyncView _view;
@@ -27,8 +22,6 @@ namespace QuoridorDelta.View.Proxy
                 _proxy = null;
             }
         }
-        // todo
-        //private void Start() => StartGame(_fakeView);
 
         public void StartGame(ISyncView view)
         {
@@ -37,28 +30,61 @@ namespace QuoridorDelta.View.Proxy
             StartCoroutine(Listening());
         }
 
+        private void HandleRequest(IRequest request)
+        {
+            switch (request)
+            {
+                case InputlessRequest<GameType> gameTypeRequest:
+                    _view.GetGameType(gameTypeRequest.StartInitializing());
+                    break;
+                case Request<PlayerType, MoveType> moveTypeRequest:
+                    _view.GetMoveType(moveTypeRequest.Input, 
+                        moveTypeRequest.StartInitializing());
+                    break;
+                case Request<(PlayerType, IEnumerable<Coords>), Coords> movePawnCoordsRequest:
+                    _view.GetMovePawnCoords(movePawnCoordsRequest.Input.Item1,
+                        movePawnCoordsRequest.Input.Item2, 
+                        movePawnCoordsRequest.StartInitializing());
+                    break;
+                case Request<PlayerType, WallCoords> wallCoordsRequest:
+                    _view.GetPlaceWallCoords(wallCoordsRequest.Input,
+                        wallCoordsRequest.StartInitializing());
+                    break;
+                case ActionRequest<(PlayerType, Coords)> movePawnRequest:
+                    _view.MovePawn(movePawnRequest.Input.Item1,
+                        movePawnRequest.Input.Item2);
+                    break;
+                case ActionRequest<(PlayerType, WallCoords)> placeWallRequest:
+                    _view.PlaceWall(placeWallRequest.Input.Item1,
+                        placeWallRequest.Input.Item2);
+                    break;
+                case ActionRequest<(PlayerType, MoveType)> showWrongMoveRequest:
+                    _view.ShowWrongMove(showWrongMoveRequest.Input.Item1,
+                        showWrongMoveRequest.Input.Item2);
+                    break;
+                case ActionRequest<PlayerType> showWinnerRequest:
+                    _view.ShowWinner(showWinnerRequest.Input);
+                    break;
+                case InputlessRequest<bool> shouldRestartRequest:
+                    _view.ShouldRestart(shouldRestartRequest.StartInitializing());
+                    break;
+            }
+        }
+
         private IEnumerator Listening()
         {
             while (_isAlive)
             {
-                // todo
-                if (_proxy.MoveTypeRequest != null && !_proxy.MoveTypeRequest.Initialized && !_startedMoveTypeInitialization)
+                while (!_proxy.Requests.IsEmpty)
                 {
-                    _startedMoveTypeInitialization = true;
-                    _view.GetMoveType(_proxy.MoveTypeRequest.Input, handle => { _startedMoveTypeInitialization = false; _proxy.MoveTypeRequest.Initialize(handle); });
-                    Debug.Log($"Initialized MoveTypeRequest");
-                }
-                else if (_proxy.MovePawnRequest != null && !_proxy.MovePawnRequest.Initialized && !_startedMovePawnInitialization)
-                {
-                    _startedMovePawnInitialization = true;
-                    _view.GetMovePawnCoords(_proxy.MovePawnRequest.Input.Item1, _proxy.MovePawnRequest.Input.Item2, handle => { _startedMovePawnInitialization = false; _proxy.MovePawnRequest.Initialize(handle); });
-                    Debug.Log($"Initialized MovePawnRequest");
-                }
-                else if (_proxy.PlaceWallRequest != null && !_proxy.PlaceWallRequest.Initialized && !_startedPlaceWallInitialization)
-                {
-                    _startedMovePawnInitialization = true;
-                    _view.GetPlaceWallCoords(_proxy.PlaceWallRequest.Input, handle => { _startedMovePawnInitialization = false; _proxy.PlaceWallRequest.Initialize(handle); });
-                    Debug.Log($"Initialized PlaceWallRequest");
+                    if (_proxy.Requests.TryDequeue(out IRequest request))
+                    {
+                        HandleRequest(request);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
 
                 yield return null;
