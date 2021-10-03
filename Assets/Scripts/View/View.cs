@@ -10,9 +10,19 @@ namespace QuoridorDelta.View
     public sealed class View : MonoBehaviour, ISyncView
     {
         [SerializeField] private UnityProxy _proxy;
-        [SerializeField] private GameObject _moveTypeChoiseMenu;
         [SerializeField] private UserInput _input;
         [SerializeField] private LayerMask _layerMask;
+        [SerializeField] private GameObject _boardObject;
+        [Header("UI")]
+        [SerializeField] private GameObject _moveTypeChoiseMenu;
+        [SerializeField] private GameObject _gameTypeChoiseMenu;
+        [SerializeField] private GameObject _wrongMoveInfoMenu;
+        [SerializeField] private GameObject _winnerInfoMenu;
+        [SerializeField] private GameObject _restartBlock;
+
+
+        public CoordsConverter CoordsConverter { get; set; }
+        private PlayerBehaviour _pawnBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
 
@@ -20,12 +30,16 @@ namespace QuoridorDelta.View
         private Action<MoveType> _moveTypeHandler;
         private Action<Coords> _movePawnHandler;
         private Action<WallCoords> _placeWallHandler;
+        private Action<GameType> _getGameType;
+        private Action<bool> _shouldRestart;
 
         private void Start()
         {
             _proxy.StartGame(this);
             _camera = GetComponent<Camera>();
-            _raycastToDesk = new RaycastToDesk(_camera, _layerMask);
+            _raycastToDesk = new RaycastToDesk(_camera, _layerMask, CoordsConverter);
+            _pawnBehaviour = GetComponent<PlayerBehaviour>();
+            CoordsConverter = new CoordsConverter(_boardObject.transform.position);
         }
 
         public void GetMoveType(PlayerType playerType, Action<MoveType> handler)
@@ -40,7 +54,7 @@ namespace QuoridorDelta.View
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
 
-        public void GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleMoves, Action<WallCoords> handler)
+        public void GetPlaceWallCoords(PlayerType playerType, Action<WallCoords> handler)
         {
             _placeWallHandler = handler;
             _input.OnLeftMouseButtonClicked += WallCoordsClickHandler;
@@ -102,6 +116,48 @@ namespace QuoridorDelta.View
                 _input.OnLeftMouseButtonClicked -= WallCoordsClickHandler;
                 SendPlaceWallCoords(coords);
             }
+        }
+
+        public void MovePawn(PlayerType playerType, Coords newCoords) => _pawnBehaviour.MovePawn(playerType, newCoords);
+
+        public void PlaceWall(PlayerType playerType, WallCoords newCoords) => _pawnBehaviour.PlaceWall(playerType, newCoords);
+
+        public void GetGameType(Action<GameType> handler)
+        {
+            _getGameType = handler;
+            _gameTypeChoiseMenu.SetActive(true);
+        }
+
+        public void ShowWrongMove(PlayerType playerType, MoveType moveType) => _wrongMoveInfoMenu.SetActive(true);
+        public void ShowWinner(PlayerType playerType) => _winnerInfoMenu.SetActive(true);
+        public void ShouldRestart(Action<bool> handler)
+        {
+            _shouldRestart = handler;
+            _restartBlock.SetActive(true);
+        }
+
+        public void SetGameTypePvP()
+        {
+            _getGameType(GameType.PlayerVersusPlayer);
+            _getGameType = null;
+        }
+        public void SetGameTypePvBot()
+        {
+            _getGameType(GameType.PlayerVersusBot);
+            _getGameType = null;
+        }
+
+        public void Restart()
+        {
+            _shouldRestart(true);
+            _shouldRestart = null;
+        }
+        public void Exit()
+        {
+            _shouldRestart(false);
+            _shouldRestart = null;
+
+            Application.Quit();
         }
     }
 }
