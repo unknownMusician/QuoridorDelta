@@ -27,12 +27,12 @@ namespace QuoridorDelta.Data
             Field = new Field(firstPawn, secondPawn);
         }
 
-       public void ChangePawnCoords(PlayerType playerType, Coords newCoords)
+       public void ChangePlayerPawnCoords(PlayerType playerType, Coords newCoords)
         {
             ParsePlayerTypeToPlayer(playerType).Pawn.Coords = newCoords;
         }
         
-        public void AddWallOnField(PlayerType player,WallCoords wallCoords)
+        public void AddPlayerWallOnField(PlayerType player,WallCoords wallCoords)
         {
             Field.Walls.Add(wallCoords);
             DecremntPlayerWallCount(ParsePlayerTypeToPlayer(player));

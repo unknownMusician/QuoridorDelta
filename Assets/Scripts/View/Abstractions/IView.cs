@@ -11,8 +11,8 @@ namespace QuoridorDelta.View
         Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves);
         WallCoords GetPlaceWallCoords(PlayerType playerType);
 
-        void MovePawn(PlayerType playerType, Coords newCoords);
-        void PlaceWall(PlayerType playerType, Coords newCoords);
+        void MovePlayerPawn(PlayerType playerType, Coords newCoords);
+        void PlacePlayerWall(PlayerType playerType, Coords newCoords);
         void ShowWrongMove(PlayerType playerType, MoveType moveType);
 
         void ShowWinner(PlayerType playerType);
