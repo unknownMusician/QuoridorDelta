@@ -15,7 +15,7 @@ namespace QuoridorDelta.Model
             Walls = new List<WallCoords>();
         }
 
-        public void AddWall(WallCoords wall) => Walls.Add(wall);
+        
     }
 
 }

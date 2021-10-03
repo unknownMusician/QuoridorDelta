@@ -34,7 +34,7 @@ namespace QuoridorDelta.Data
         
         public void AddWallOnField(PlayerType player,WallCoords wallCoords)
         {
-            Field.AddWall(wallCoords);
+            Field.Walls.Add(wallCoords);
             DecremntPlayerWallCount(ParsePlayerTypeToPlayer(player));
         }
 

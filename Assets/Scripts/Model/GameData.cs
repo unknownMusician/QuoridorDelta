@@ -29,7 +29,5 @@ namespace QuoridorDelta.Model
         {
             return _data.Field;
         }
-
     }
-
 }
