@@ -151,12 +151,13 @@ namespace QuoridorDelta.Controller
 
         private void PlayerPlaceWall(PlayerType currentPlayer, Field field)
         {
-            bool didPlayerPlaceWall = false;
+            bool didPlayerPlaceWall;
             Player playerObject = _gameData.GetPlayerByType(currentPlayer);
-            while (!didPlayerPlaceWall)
+            do
             {
                 didPlayerPlaceWall = TryToPlaceWall(currentPlayer, playerObject, field);
             }
+            while (!didPlayerPlaceWall);
         }
 
         private bool TryToPlaceWall(PlayerType currentPlayer, Player playerObject, Field field)
