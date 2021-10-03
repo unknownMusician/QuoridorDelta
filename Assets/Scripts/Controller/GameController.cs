@@ -24,84 +24,75 @@ namespace QuoridorDelta.Controller
     class GameController
     {
         private readonly GameData _gameData;
-        private readonly IView _view;
-        private readonly IView _view2;
+        private readonly IView _view1;
+        private IView _view2;
         private readonly IRules _rules;
 
         public GameController(GameData gameData, IView view)
         {
-            _view = view;
+            _view1 = view;
             _rules = new Rules();
             _gameData = gameData;
         }
 
         private void InitializeViews(GameType gameType)
         {
-            IView view2 = gameType switch
+            _view2 = gameType switch
             {
                 GameType.PlayerVersusBot => new Bot(),
-                GameType.PlayerVersusPlayer => _view,
+                GameType.PlayerVersusPlayer => _view1,
                 _ => throw new System.ArgumentOutOfRangeException(),
             };
         }
 
+        private IView GetView(PlayerType playerType) => playerType switch
+        {
+            PlayerType.First => _view1,
+            PlayerType.Second => _view2,
+            _ => throw new System.ArgumentOutOfRangeException(),
+        };
+
         public void Run()
         {
-            bool doWePlay = true;
-            bool weHaveWinner = false;
-            GameType gameType = _view.GetGameType();
-
-
-
-            while (doWePlay)
+            InitializeViews(_view1.GetGameType());
+            bool doWePlay;
+            do
             {
-                while (!weHaveWinner)
-                {
+                PlayUntillWeHaveWinner();
 
-                    switch (gameType)
-                    {
-                        case GameType.PlayerVersusBot:
-                            break;
-                        case GameType.PlayerVersusPlayer:
-                            PlayUntillWeHaveWinner();
-                            weHaveWinner = true;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                doWePlay = _view.ShouldRestart();
+                doWePlay = _view1.ShouldRestart();
                 if (doWePlay)
                 {
                     _gameData.ClearAndRegenerateData();
                 }
             }
+            while (doWePlay);
         }
-
 
         private void PlayUntillWeHaveWinner()
         {
             PlayerType currentPlayer = PlayerType.First;
 
-            bool doWeHaveWinner = false;
-            while (!doWeHaveWinner)
+            bool doWeHaveWinner;
+            do
             {
                 MakeMove(currentPlayer);
                 doWeHaveWinner = _rules.DidPlayerWin(currentPlayer);
                 if (doWeHaveWinner)
                 {
-                    _view.ShowWinner(currentPlayer);
+                    _view1.ShowWinner(currentPlayer);
                 }
                 else
                 {
                     currentPlayer = ChangePlayers(currentPlayer);
                 }
             }
+            while (!doWeHaveWinner);
         }
 
         private void MakeMove(PlayerType currentPlayer)
         {
-            MoveType moveType = _view.GetMoveType(currentPlayer);
+            MoveType moveType = GetView(currentPlayer).GetMoveType(currentPlayer);
             Move(currentPlayer, moveType);
         }
 
@@ -111,32 +102,32 @@ namespace QuoridorDelta.Controller
             switch (moveType)
             {
                 case MoveType.MovePawn:
-                    PlayerMovePawn(currentPlayer, currentField, moveType);
+                    PlayerMovePawn(currentPlayer, currentField);
                     break;
                 case MoveType.PlaceWall:
-                    PlayerPlaceWall(currentPlayer, currentField, moveType);
+                    PlayerPlaceWall(currentPlayer, currentField);
                     break;
                 default:
                     break;
             }
         }
 
-        private void PlayerMovePawn(PlayerType currentPlayer, Field currentField, MoveType moveType)
+        private void PlayerMovePawn(PlayerType currentPlayer, Field currentField)
         {
             bool didMovePawn = false;
             Pawn pawnOfCurrentPlayer = _gameData.GetPlayerPawn(currentPlayer);
             Coords[] possbileMoves = _rules.GetPossibleMoves(pawnOfCurrentPlayer, currentField);
             while (!didMovePawn)
             {
-                didMovePawn = TryToMovePawn(currentPlayer, possbileMoves, currentField, pawnOfCurrentPlayer, moveType);
+                didMovePawn = TryToMovePawn(currentPlayer, possbileMoves, currentField, pawnOfCurrentPlayer);
             }
         }
 
 
-        private bool TryToMovePawn(PlayerType currentPlayer, Coords[] possibleMoves, Field currentField, Pawn pawnOfCurrentPlayer, MoveType moveType)
+        private bool TryToMovePawn(PlayerType currentPlayer, Coords[] possibleMoves, Field currentField, Pawn pawnOfCurrentPlayer)
         {
             bool didMovePawn = false;
-            Coords newPawnCoords = _view.GetMovePawnCoords(currentPlayer, possibleMoves);
+            Coords newPawnCoords = GetView(currentPlayer).GetMovePawnCoords(currentPlayer, possibleMoves);
             bool isMoveRight = _rules.CanMovePawn(pawnOfCurrentPlayer, currentField, newPawnCoords);
             if (isMoveRight)
             {
@@ -145,7 +136,7 @@ namespace QuoridorDelta.Controller
             }
             else
             {
-                _view.ShowWrongMove(currentPlayer, moveType);
+                _view1.ShowWrongMove(currentPlayer, MoveType.MovePawn);
             }
             return didMovePawn;
         }
@@ -155,23 +146,23 @@ namespace QuoridorDelta.Controller
         private void MovePawn(PlayerType currentPlayer, Coords newPawnCoords)
         {
             _gameData.MovePlayerPawn(currentPlayer, newPawnCoords);
-            _view.MovePlayerPawn(currentPlayer, newPawnCoords);
+            _view1.MovePlayerPawn(currentPlayer, newPawnCoords);
         }
 
-        private void PlayerPlaceWall(PlayerType currentPlayer, Field field, MoveType moveType)
+        private void PlayerPlaceWall(PlayerType currentPlayer, Field field)
         {
             bool didPlayerPlaceWall = false;
             Player playerObject = _gameData.GetPlayerByType(currentPlayer);
             while (!didPlayerPlaceWall)
             {
-                didPlayerPlaceWall = TryToPlaceWall(currentPlayer, playerObject, field, moveType);
+                didPlayerPlaceWall = TryToPlaceWall(currentPlayer, playerObject, field);
             }
         }
 
-        private bool TryToPlaceWall(PlayerType currentPlayer, Player playerObject, Field field, MoveType moveType)
+        private bool TryToPlaceWall(PlayerType currentPlayer, Player playerObject, Field field)
         {
             bool didPlayerPlaceWall = false;
-            WallCoords wallPlacementCoords = _view.GetPlaceWallCoords(currentPlayer);
+            WallCoords wallPlacementCoords = GetView(currentPlayer).GetPlaceWallCoords(currentPlayer);
             bool isMoveRight = _rules.CanPlaceWall(playerObject, field, wallPlacementCoords);
             if (isMoveRight)
             {
@@ -180,15 +171,14 @@ namespace QuoridorDelta.Controller
             }
             else
             {
-                _view.ShowWrongMove(currentPlayer, moveType);
+                _view1.ShowWrongMove(currentPlayer, MoveType.PlaceWall);
             }
             return didPlayerPlaceWall;
         }
         private void PlaceWall(PlayerType currentPlayer, WallCoords wallPlacementCoords)
         {
             _gameData.PlacePlayerWall(currentPlayer, wallPlacementCoords);
-            _view.PlacePlayerWall(currentPlayer, wallPlacementCoords);
-
+            _view1.PlacePlayerWall(currentPlayer, wallPlacementCoords);
         }
         private PlayerType ChangePlayers(PlayerType playerType)
         {

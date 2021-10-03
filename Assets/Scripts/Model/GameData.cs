@@ -5,18 +5,16 @@ namespace QuoridorDelta.Model
 {
     public class GameData
     {
-
         private TestData _data;
-
 
         public GameData()
         {
-            _data.GenerateData();
+            ClearAndRegenerateData();
         }
 
         public void ClearAndRegenerateData()
         {
-            _data.GenerateData();
+            _data = new TestData();
         }
 
         public Player GetPlayerByType(PlayerType playerType)

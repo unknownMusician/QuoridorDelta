@@ -14,7 +14,7 @@ namespace QuoridorDelta.Data
         public Player Player1 { get; private set; }
         public Player Player2 { get; private set; }
         
-        public void GenerateData()
+        public TestData()
         {
             const int playerWallCount = 10;
 

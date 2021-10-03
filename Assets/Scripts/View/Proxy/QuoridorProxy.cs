@@ -1,4 +1,5 @@
-﻿using QuoridorDelta.Model;
+﻿using QuoridorDelta.Controller;
+using QuoridorDelta.Model;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -17,9 +18,11 @@ namespace QuoridorDelta.View.Proxy
 
         private void Start()
         {
-            // todo: create Quoridor Game
-            throw new NotImplementedException();
+            var gameData = new GameData();
+            var gameController = new GameController(gameData, this);
+            gameController.Run();
         }
+
         private TOut WaitRequest<TOut>(IInitializableRequest<TOut> request)
         {
             Requests.Enqueue(request);

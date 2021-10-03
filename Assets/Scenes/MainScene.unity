@@ -1293,7 +1293,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 0
-  _boardObject: {fileID: 0}
+  _boardObject: {fileID: 2016655278}
   _moveTypeChoiseMenu: {fileID: 1577887155}
   _gameTypeChoiseMenu: {fileID: 443727445}
   _wrongMoveInfoMenu: {fileID: 6065471798305384214}
