@@ -1463,9 +1463,9 @@ MonoBehaviour:
     m_Bits: 64
   _boardObject: {fileID: 1331288343}
   _backlightCellPrefab: {fileID: 4077635577967588752, guid: 1c19d5fb65b85f34999a6e23d48cf6ad, type: 3}
-  _backlightsParent: {fileID: 1756430824}
-  _moveTypeChoiseMenu: {fileID: 1577887155}
-  _gameTypeChoiseMenu: {fileID: 443727445}
+  _backlightsParent: {fileID: 1756430829}
+  _moveTypeChoiceMenu: {fileID: 1577887155}
+  _gameTypeChoiceMenu: {fileID: 443727445}
   _wrongMoveInfoMenu: {fileID: 6065471798305384214}
   _winnerInfoMenu: {fileID: 4029876147323985302}
   _restartBlock: {fileID: 736158323}

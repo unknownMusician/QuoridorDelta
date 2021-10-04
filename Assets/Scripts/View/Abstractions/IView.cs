@@ -3,13 +3,9 @@ using System.Collections.Generic;
 
 namespace QuoridorDelta.View
 {
-    public interface IView
+    public interface IView : IInput
     {
         GameType GetGameType();
-
-        MoveType GetMoveType(PlayerType playerType);
-        Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves);
-        WallCoords GetPlaceWallCoords(PlayerType playerType);
 
         void MovePlayerPawn(PlayerType playerType, Coords newCoords);
         void PlacePlayerWall(PlayerType playerType, WallCoords newCoords);
@@ -19,7 +15,7 @@ namespace QuoridorDelta.View
         bool ShouldRestart();
     }
 
-    public sealed class Bot : IView
+    public sealed class Bot : IInput
     {
         public Bot() { }
 
@@ -35,17 +31,5 @@ namespace QuoridorDelta.View
 
         public MoveType GetMoveType(PlayerType playerType) => throw new System.NotImplementedException();
         public WallCoords GetPlaceWallCoords(PlayerType playerType) => throw new System.NotImplementedException();
-
-        public void MovePlayerPawn(PlayerType playerType, Coords newCoords) =>
-            throw new System.NotImplementedException();
-
-        public void PlacePlayerWall(PlayerType playerType, WallCoords newCoords) =>
-            throw new System.NotImplementedException();
-
-        public bool ShouldRestart() => throw new System.NotImplementedException();
-        public void ShowWinner(PlayerType playerType) => throw new System.NotImplementedException();
-
-        public void ShowWrongMove(PlayerType playerType, MoveType moveType) =>
-            throw new System.NotImplementedException();
     }
 }
