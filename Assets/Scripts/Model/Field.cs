@@ -8,11 +8,11 @@ namespace QuoridorDelta.Model
         public readonly Pawn Pawn2;
         public readonly List<WallCoords> Walls;
 
-        public Field(Pawn pawn1, Pawn pawn2)
+        public Field(Pawn pawn1, Pawn pawn2, List<WallCoords> wallCoords)
         {
             Pawn1 = pawn1;
             Pawn2 = pawn2;
-            Walls = new List<WallCoords>();
+            Walls = wallCoords;
         }
     }
 }
