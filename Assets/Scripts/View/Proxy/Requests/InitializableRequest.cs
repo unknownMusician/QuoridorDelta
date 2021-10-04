@@ -5,10 +5,11 @@ namespace QuoridorDelta.View.Proxy
 {
     internal abstract class InitializableRequest<TOutput> : IRequest
     {
-        public TOutput Result { get; protected set; } = default;
-        public bool StartedInitializing { get; private set; } = false;
-        public bool Initialized { get; private set; } = false;
-        protected void Initialize(TOutput result)
+        public TOutput Result { get; private set; }
+        private bool StartedInitializing { get; set; }
+        public bool Initialized { get; private set; }
+
+        private void Initialize(TOutput result)
         {
             if (!Initialized)
             {
@@ -28,6 +29,7 @@ namespace QuoridorDelta.View.Proxy
             {
                 StartedInitializing = true;
                 Debug.Log($"{this.GetType().Name} Started Initializing");
+
                 return Initialize;
             }
             else

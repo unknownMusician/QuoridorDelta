@@ -1,5 +1,4 @@
-﻿
-namespace QuoridorDelta.Model
+﻿namespace QuoridorDelta.Model
 {
     public class Pawn
     {
@@ -8,4 +7,3 @@ namespace QuoridorDelta.Model
         public Pawn(Coords coords) => Coords = coords;
     };
 }
-

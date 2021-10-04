@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace QuoridorDelta.View.Proxy
+﻿namespace QuoridorDelta.View.Proxy
 {
     // todo
     internal sealed class InputlessRequest<TOutput> : InitializableRequest<TOutput> { }

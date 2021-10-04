@@ -21,23 +21,31 @@ namespace QuoridorDelta.View
 
     public sealed class Bot : IView
     {
-        public Bot()
-        {
+        public Bot() { }
 
-        }
         public GameType GetGameType()
         {
             var random = new System.Random();
-            return (GameType)random.Next(0, 1);
+
+            return (GameType) random.Next(0, 1);
         }
 
-        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) => throw new System.NotImplementedException();
+        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) =>
+            throw new System.NotImplementedException();
+
         public MoveType GetMoveType(PlayerType playerType) => throw new System.NotImplementedException();
         public WallCoords GetPlaceWallCoords(PlayerType playerType) => throw new System.NotImplementedException();
-        public void MovePlayerPawn(PlayerType playerType, Coords newCoords) => throw new System.NotImplementedException();
-        public void PlacePlayerWall(PlayerType playerType, WallCoords newCoords) => throw new System.NotImplementedException();
+
+        public void MovePlayerPawn(PlayerType playerType, Coords newCoords) =>
+            throw new System.NotImplementedException();
+
+        public void PlacePlayerWall(PlayerType playerType, WallCoords newCoords) =>
+            throw new System.NotImplementedException();
+
         public bool ShouldRestart() => throw new System.NotImplementedException();
         public void ShowWinner(PlayerType playerType) => throw new System.NotImplementedException();
-        public void ShowWrongMove(PlayerType playerType, MoveType moveType) => throw new System.NotImplementedException();
+
+        public void ShowWrongMove(PlayerType playerType, MoveType moveType) =>
+            throw new System.NotImplementedException();
     }
 }

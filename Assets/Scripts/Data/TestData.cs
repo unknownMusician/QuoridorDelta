@@ -1,64 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Data
 {
     public class TestData
     {
+        public Field Field { get; }
+        private readonly Player _player1;
+        private readonly Player _player2;
 
-        public Field Field { get; private set; }
-        public Player Player1 { get; private set; }
-        public Player Player2 { get; private set; }
-        
         public TestData()
         {
             const int playerWallCount = 10;
 
-            Pawn firstPawn = new Pawn((4, 0));
-            Pawn secondPawn = new Pawn((4, 8));
+            var firstPawn = new Pawn((4, 0));
+            var secondPawn = new Pawn((4, 8));
 
-            Player1 = new Player(firstPawn, playerWallCount);
-            Player2 = new Player(secondPawn, playerWallCount);
+            _player1 = new Player(firstPawn, playerWallCount);
+            _player2 = new Player(secondPawn, playerWallCount);
 
             Field = new Field(firstPawn, secondPawn);
         }
 
-       public void ChangePlayerPawnCoords(PlayerType playerType, Coords newCoords)
-        {
-            ParsePlayerTypeToPlayer(playerType).Pawn.Coords = newCoords;
-        }
-        
-        public void AddPlayerWallOnField(PlayerType player,WallCoords wallCoords)
+        public void ChangePlayerPawnCoords(PlayerType playerType, Coords newCoords)
+            => ParsePlayerTypeToPlayer(playerType).Pawn.Coords = newCoords;
+
+        public void AddPlayerWallOnField(PlayerType player, WallCoords wallCoords)
         {
             Field.Walls.Add(wallCoords);
-            DecremntPlayerWallCount(ParsePlayerTypeToPlayer(player));
+            DecrementPlayerWallCount(ParsePlayerTypeToPlayer(player));
         }
 
-        public Player ParsePlayerTypeToPlayer(PlayerType playerType)
+        public Player ParsePlayerTypeToPlayer(PlayerType playerType) => playerType switch
         {
-            Player playerToReturn;
-            switch (playerType)
-            {
-                case PlayerType.First:
-                    playerToReturn = Player1;
-                    break;
-                case PlayerType.Second:
-                    playerToReturn = Player2;
-                    break;
-                default:
-                    playerToReturn = null; // Maybe throw exception
-                    break;
+            PlayerType.First => _player1,
+            PlayerType.Second => _player2,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
 
-            }
-            return playerToReturn;
-
-        }
-
-        public void DecremntPlayerWallCount(Player player)
+        private static void DecrementPlayerWallCount(Player player)
         {
             if (player.WallCount > 0)
             {
@@ -66,9 +46,8 @@ namespace QuoridorDelta.Data
             }
             else
             {
-                throw new System.InvalidOperationException();
+                throw new InvalidOperationException();
             }
         }
-
     }
 }

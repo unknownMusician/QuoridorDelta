@@ -15,17 +15,16 @@ namespace QuoridorDelta.View
         [SerializeField] private LayerMask _layerMask;
         [SerializeField] private GameObject _boardObject;
         [SerializeField] private GameObject _backlightCellPrefab;
-        [SerializeField] private GameObject _backlightsParent;
+        [SerializeField] private Transform _backlightsParent;
 
-        [Header("UI")]
-        [SerializeField] private GameObject _moveTypeChoiseMenu;
-        [SerializeField] private GameObject _gameTypeChoiseMenu;
+        [Header("UI")] [SerializeField] private GameObject _moveTypeChoiceMenu;
+        [SerializeField] private GameObject _gameTypeChoiceMenu;
         [SerializeField] private GameObject _wrongMoveInfoMenu;
         [SerializeField] private GameObject _winnerInfoMenu;
         [SerializeField] private GameObject _restartBlock;
 
 
-        public CoordsConverter CoordsConverter { get; set; }
+        public CoordsConverter CoordsConverter { get; private set; }
         private PlayerBehaviour _pawnBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
@@ -46,11 +45,12 @@ namespace QuoridorDelta.View
             _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
             _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
         }
+
         private void Start() => _proxy.StartGame(this);
 
         public void GetMoveType(PlayerType playerType, Action<MoveType> handler)
         {
-            _moveTypeChoiseMenu.SetActive(true);
+            _moveTypeChoiceMenu.SetActive(true);
             _moveTypeHandler = handler;
         }
 
@@ -60,6 +60,7 @@ namespace QuoridorDelta.View
             _backlight.TurnOnLightOnCells(possibleMoves);
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
+
         public void GetPlaceWallCoords(PlayerType playerType, Action<WallCoords> handler)
         {
             _placeWallHandler = handler;
@@ -72,18 +73,20 @@ namespace QuoridorDelta.View
             {
                 _moveTypeHandler(MoveType.MovePawn);
                 _moveTypeHandler = null;
-                _moveTypeChoiseMenu.SetActive(false);
+                _moveTypeChoiceMenu.SetActive(false);
             }
         }
+
         public void PlaceWallButtonClick()
         {
             if (_moveTypeHandler != null)
             {
                 _moveTypeHandler(MoveType.PlaceWall);
                 _moveTypeHandler = null;
-                _moveTypeChoiseMenu.SetActive(false);
+                _moveTypeChoiceMenu.SetActive(false);
             }
         }
+
         private void SendMovePawnCoords(Coords coords)
         {
             if (_movePawnHandler != null)
@@ -94,6 +97,7 @@ namespace QuoridorDelta.View
                 //Debug.Log($"MovePawn");
             }
         }
+
         private void SendPlaceWallCoords(WallCoords coords)
         {
             if (_placeWallHandler != null)
@@ -112,6 +116,7 @@ namespace QuoridorDelta.View
                 SendMovePawnCoords(coords);
             }
         }
+
         private void WallCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
@@ -123,12 +128,13 @@ namespace QuoridorDelta.View
 
         public void MovePawn(PlayerType playerType, Coords newCoords) => _pawnBehaviour.MovePawn(playerType, newCoords);
 
-        public void PlaceWall(PlayerType playerType, WallCoords newCoords) => _pawnBehaviour.PlaceWall(playerType, newCoords);
+        public void PlaceWall(PlayerType playerType, WallCoords newCoords) =>
+            _pawnBehaviour.PlaceWall(playerType, newCoords);
 
         public void GetGameType(Action<GameType> handler)
         {
             _getGameType = handler;
-            _gameTypeChoiseMenu.SetActive(true);
+            _gameTypeChoiceMenu.SetActive(true);
         }
 
         public void ShowWrongMove(PlayerType playerType, MoveType moveType)
@@ -152,6 +158,7 @@ namespace QuoridorDelta.View
             _getGameType(GameType.PlayerVersusPlayer);
             _getGameType = null;
         }
+
         public void SetGameTypePvBot()
         {
             _getGameType(GameType.PlayerVersusBot);
@@ -163,6 +170,7 @@ namespace QuoridorDelta.View
             _shouldRestart(true);
             _shouldRestart = null;
         }
+
         public void Exit()
         {
             _shouldRestart(false);
@@ -174,11 +182,14 @@ namespace QuoridorDelta.View
         private IEnumerator Waiting(float time, Action onFin)
         {
             float t = 0.0f;
+
             while (t < 1.0f)
             {
                 t += Time.deltaTime / time;
+
                 yield return null;
             }
+
             onFin.Invoke();
         }
     }

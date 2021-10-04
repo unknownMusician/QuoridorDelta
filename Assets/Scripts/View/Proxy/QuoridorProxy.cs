@@ -4,7 +4,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace QuoridorDelta.View.Proxy
 {
@@ -16,16 +15,11 @@ namespace QuoridorDelta.View.Proxy
 
         public QuoridorProxy()
         {
-            _thread = new Thread(Start) { Name = "QuoridorThread" };
+            _thread = new Thread(Start) {Name = "QuoridorThread"};
             _thread.Start();
         }
 
-        private void Start()
-        {
-            var gameData = new GameData();
-            var gameController = new GameController(gameData, this);
-            gameController.Run();
-        }
+        private void Start() => new GameController(new GameData(), this).Run();
 
         private TOut WaitRequest<TOut>(InitializableRequest<TOut> request)
         {
@@ -38,10 +32,9 @@ namespace QuoridorDelta.View.Proxy
                 Thread.Sleep(sleepTime);
             }
 
-            Debug.Log($"{request.GetType().Name} Initialization received");
-
             return request.Result;
         }
+
         private TOut Wait<TIn, TOut>(TIn input) => WaitRequest(new Request<TIn, TOut>(input));
         private TOut Wait<TOut>() => WaitRequest(new InputlessRequest<TOut>());
         private void Send<TIn>(TIn input) => Requests.Enqueue(new ActionRequest<TIn>(input));
@@ -50,7 +43,10 @@ namespace QuoridorDelta.View.Proxy
 
         public GameType GetGameType() => Wait<GameType>();
         public MoveType GetMoveType(PlayerType playerType) => Wait<PlayerType, MoveType>(playerType);
-        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) => Wait<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves));
+
+        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) =>
+            Wait<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves));
+
         public WallCoords GetPlaceWallCoords(PlayerType playerType) => Wait<PlayerType, WallCoords>(playerType);
         public void MovePlayerPawn(PlayerType playerType, Coords newCoords) => Send((playerType, newCoords));
         public void PlacePlayerWall(PlayerType playerType, WallCoords newCoords) => Send((playerType, newCoords));

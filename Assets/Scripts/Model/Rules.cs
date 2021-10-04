@@ -6,6 +6,11 @@ namespace QuoridorDelta.Model
 {
     public class Rules : IRules
     {
+        private const int MinCoords = 0;
+        private const int MinWallCoords = MinCoords;
+        private const int MaxCoords = 8;
+        private const int MaxWallCoords = 7;
+
         private Pawn GetOtherPawn(Pawn pawn, Field field)
         {
             if (pawn == field.Pawn1)
@@ -21,18 +26,18 @@ namespace QuoridorDelta.Model
                 throw new ArgumentOutOfRangeException();
             }
         }
+
         private int GetDistance(Coords c1, Coords c2) => Math.Abs(c1.X - c2.X) + Math.Abs(c1.Y - c2.Y);
-        private bool IsThereEnemyNearby(Pawn pawn, Field field) => GetDistance(pawn.Coords, GetOtherPawn(pawn, field).Coords) == 1;
+
+        private bool IsThereEnemyNearby(Pawn pawn, Field field) =>
+            GetDistance(pawn.Coords, GetOtherPawn(pawn, field).Coords) == 1;
 
         private bool IsWithinFieldRange(Coords coords)
         {
             float x = coords.X;
             float y = coords.Y;
 
-            const int Min = 0;
-            const int Max = 8;
-
-            return (x >= Min) && (x <= Max) && (y >= Min) && (y <= Max);
+            return (x >= MinCoords) && (x <= MaxCoords) && (y >= MinCoords) && (y <= MaxCoords);
         }
 
         private bool IsWithinFieldRange(WallCoords coords)
@@ -40,94 +45,111 @@ namespace QuoridorDelta.Model
             float x = coords.Coords.X;
             float y = coords.Coords.Y;
 
-            const int Min = 0;
-            const int Max = 7;
-
-            return (x >= Min) && (x <= Max) && (y >= Min) && (y <= Max);
+            return (x >= MinWallCoords) && (x <= MaxWallCoords) && (y >= MinWallCoords) && (y <= MaxWallCoords);
         }
 
         private bool CanJump2StepsOverCloseEnemy(Coords pawnCoords, Coords enemyCoords, Coords newCoords)
         {
-            if (pawnCoords.X == enemyCoords.X)
+            int coordsIndex;
+
+            if (pawnCoords[0] == enemyCoords[0])
             {
-                return Math.Sign(enemyCoords.Y - pawnCoords.Y) == Math.Sign(newCoords.Y - pawnCoords.Y);
+                coordsIndex = 1;
             }
-            else if (pawnCoords.Y == enemyCoords.Y)
+            else if (pawnCoords[1] == enemyCoords[1])
             {
-                return Math.Sign(enemyCoords.X - pawnCoords.X) == Math.Sign(newCoords.X - pawnCoords.X);
+                coordsIndex = 0;
             }
-            return false;
+            else
+            {
+                return false;
+            }
+
+            return Math.Sign(enemyCoords[coordsIndex] - pawnCoords[coordsIndex]) ==
+                   Math.Sign(newCoords[coordsIndex] - pawnCoords[coordsIndex]);
         }
 
-        private bool IsThereWallBetweenNeighbors(Coords c1, Coords c2, Field field)
+        private static bool IsThereWallBetweenNeighbors(Coords c1, Coords c2, Field field)
         {
             Coords minCoord;
-            Coords difference = c2 - c1;
-            if (difference.X == 0)
+            (int x, int y) = c2 - c1;
+            WallCoords possibleWall1;
+            WallOrientation wallOrientation;
+
+            if (x == 0)
             {
-                minCoord = difference.Y > 0 ? c1 : c2;
+                minCoord = y > 0 ? c1 : c2;
 
-                const WallOrientation wallOrientation = WallOrientation.Horizontal;
-                WallCoords possibleWall1 = new WallCoords(minCoord - (1, 0), wallOrientation);
-                WallCoords possibleWall2 = new WallCoords(minCoord, wallOrientation);
-
-                return field.Walls.Contains(possibleWall1) || field.Walls.Contains(possibleWall2);
+                wallOrientation = WallOrientation.Horizontal;
+                possibleWall1 = new WallCoords(minCoord - (1, 0), wallOrientation);
             }
-            else // if (difference.Y == 0)
+            else if (y == 0)
             {
-                minCoord = difference.X > 0 ? c1 : c2;
+                minCoord = x > 0 ? c1 : c2;
 
-                const WallOrientation wallOrientation = WallOrientation.Vertical;
-                WallCoords possibleWall1 = new WallCoords(minCoord - (0, 1), wallOrientation);
-                WallCoords possibleWall2 = new WallCoords(minCoord, wallOrientation);
-
-                return field.Walls.Contains(possibleWall1) || field.Walls.Contains(possibleWall2);
+                wallOrientation = WallOrientation.Vertical;
+                possibleWall1 = new WallCoords(minCoord - (0, 1), wallOrientation);
             }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+
+            var possibleWall2 = new WallCoords(minCoord, wallOrientation);
+
+            return field.Walls.Contains(possibleWall1) || field.Walls.Contains(possibleWall2);
         }
 
-        private bool HasBadNeighbors(WallCoords wallCoords, Field field) => wallCoords.Orientation switch
+        private static bool HasBadNeighbors(WallCoords wallCoords, Field field)
         {
-            WallOrientation.Horizontal => field.Walls.Contains((wallCoords.Coords + (1, 0), wallCoords.Orientation))
-            || field.Walls.Contains((wallCoords.Coords - (1, 0), wallCoords.Orientation)),
+            (Coords coords, WallOrientation orientation) = wallCoords;
 
-            WallOrientation.Vertical => field.Walls.Contains((wallCoords.Coords + (0, 1), wallCoords.Orientation))
-            || field.Walls.Contains((wallCoords.Coords - (0, 1), wallCoords.Orientation)),
+            Coords deltaWallCoords = orientation switch
+            {
+                WallOrientation.Horizontal => (1, 0),
+                WallOrientation.Vertical => (0, 1),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
 
-            _ => throw new ArgumentOutOfRangeException(),
-        };
+            return field.Walls.Contains((coords + deltaWallCoords, orientation))
+                || field.Walls.Contains((coords - deltaWallCoords, orientation));
+        }
 
         public bool CanMovePawn(Pawn pawn, Field field, Coords newCoords)
         {
             int moveDistance = GetDistance(pawn.Coords, newCoords);
+            Coords otherPawnCoords = GetOtherPawn(pawn, field).Coords;
 
             if ((newCoords == pawn.Coords)
-                || (!IsWithinFieldRange(newCoords))
-                || (moveDistance > 2)
-                || (GetOtherPawn(pawn, field).Coords == newCoords)
-                || (!IsThereEnemyNearby(pawn, field) && moveDistance > 1)
-                || (moveDistance > 1 && !CanJump2StepsOverCloseEnemy(pawn.Coords, GetOtherPawn(pawn, field).Coords, newCoords)))
+             || (!IsWithinFieldRange(newCoords))
+             || (moveDistance > 2)
+             || (otherPawnCoords == newCoords)
+             || (!IsThereEnemyNearby(pawn, field) && moveDistance > 1)
+             || (moveDistance > 1 && !CanJump2StepsOverCloseEnemy(pawn.Coords, otherPawnCoords, newCoords)))
             {
                 return false;
             }
 
             if (moveDistance == 2)
             {
-                return !IsThereWallBetweenNeighbors(pawn.Coords, GetOtherPawn(pawn, field).Coords, field)
-                    && !IsThereWallBetweenNeighbors(GetOtherPawn(pawn, field).Coords, newCoords, field);
+                return !IsThereWallBetweenNeighbors(pawn.Coords, otherPawnCoords, field)
+                    && !IsThereWallBetweenNeighbors(otherPawnCoords, newCoords, field);
             }
-            else // if(moveDistance == 1)
+            else if (moveDistance == 1)
             {
                 return !IsThereWallBetweenNeighbors(pawn.Coords, newCoords, field);
             }
+            else
+            {
+                throw new InvalidProgramException();
+            }
         }
 
-        public bool CanPlaceWall(Player player, Field field, WallCoords newWallCoords)
-        {
-            return (player.WallCount > 0)
-                && (!field.Walls.Any(wall => wall.Coords == newWallCoords.Coords))
-                && (IsWithinFieldRange(newWallCoords))
-                && (!HasBadNeighbors(newWallCoords, field));
-        }
+        public bool CanPlaceWall(Player player, Field field, WallCoords newWallCoords) =>
+            (player.WallCount > 0)
+         && (field.Walls.All(wall => wall.Coords != newWallCoords.Coords))
+         && (IsWithinFieldRange(newWallCoords))
+         && (!HasBadNeighbors(newWallCoords, field));
 
         public Coords[] GetPossibleMoves(Pawn pawn, Field field)
         {
@@ -140,7 +162,8 @@ namespace QuoridorDelta.Model
                 for (int y = pawnCoords.Y - 2; y <= pawnCoords.Y + 2; y++)
                 {
                     Coords newCoords = (x, y);
-                    if (CanMovePawn(pawn, field, newCoords))
+
+                    if (GetDistance(pawnCoords, newCoords) <= 2 && CanMovePawn(pawn, field, newCoords))
                     {
                         possibleMoves.Add(newCoords);
                     }
@@ -152,15 +175,12 @@ namespace QuoridorDelta.Model
 
         public bool DidPlayerWin(PlayerType playerType, Player player)
         {
-            const int MaxFieldYValue = 8;
-            const int MinFieldYValue = 0;
-
             int coordsY = player.Pawn.Coords.Y;
 
             return playerType switch
             {
-                PlayerType.First => coordsY == MaxFieldYValue,
-                PlayerType.Second => coordsY == MinFieldYValue,
+                PlayerType.First => coordsY == MaxCoords,
+                PlayerType.Second => coordsY == MinCoords,
                 _ => throw new ArgumentOutOfRangeException(),
             };
         }

@@ -1,17 +1,16 @@
 ﻿using QuoridorDelta.Model;
-using System;
 using UnityEngine;
 
 namespace QuoridorDelta.View
 {
     public class CoordsConverter
     {
-        private Vector3 _boardStartPoint;
-        private Vector3 _wallStartPoint;
-        private const int _boardSize = 9;
-        private const float _pawnHeightValue = 0.652f;
-        private const float _wallHeightValue = 0.9f;
-        private Vector3 _centerPoint;
+        private readonly Vector3 _boardStartPoint;
+        private readonly Vector3 _wallStartPoint;
+        private readonly Vector3 _centerPoint;
+        private const int BoardSize = 9;
+        private const float PawnHeightValue = 0.652f;
+        private const float WallHeightValue = 0.9f;
 
         public CoordsConverter(Vector3 centerPoint)
         {
@@ -19,46 +18,63 @@ namespace QuoridorDelta.View
             _boardStartPoint = new Vector3(centerPoint.x - 4.5f, 0, centerPoint.z - 4.5f);
             _wallStartPoint = new Vector3(centerPoint.x - 4f, 0, centerPoint.z - 4f);
         }
-        
-        private Coords ToCoords(Vector3 pointInWorld, Vector3 startPoint, int maxClampValue)
+
+        private static Coords ToCoords(Vector3 pointInWorld, Vector3 startPoint, int maxClampValue)
         {
             Vector3 point = pointInWorld - startPoint;
+
             return new Coords(
-                Mathf.Clamp((int)point.x, 0, maxClampValue),
-                Mathf.Clamp((int)point.z, 0, maxClampValue));
-        }
-        private WallOrientation GetWallOrientation(Vector3 coordsInOwnCoordSystem)
-        {
-            return (Mathf.Abs(coordsInOwnCoordSystem.z) < coordsInOwnCoordSystem.x ||
-                Mathf.Abs(coordsInOwnCoordSystem.z) < -coordsInOwnCoordSystem.x) ?
-                WallOrientation.Horizontal : WallOrientation.Vertical;
+                Mathf.Clamp(Mathf.FloorToInt(point.x), 0, maxClampValue),
+                Mathf.Clamp(Mathf.FloorToInt(point.z), 0, maxClampValue));
         }
 
-        public Coords ToCoords(Vector3 pointInWorld) => ToCoords(pointInWorld, _boardStartPoint, _boardSize - 1);
+        private static WallOrientation GetWallOrientation(Vector3 coordsInOwnCoordSystem)
+        {
+            float absCoordsInOwnCoordSystemZ = Mathf.Abs(coordsInOwnCoordSystem.z);
+
+            return (absCoordsInOwnCoordSystemZ < coordsInOwnCoordSystem.x ||
+                    absCoordsInOwnCoordSystemZ < -coordsInOwnCoordSystem.x)
+                ? WallOrientation.Horizontal
+                : WallOrientation.Vertical;
+        }
+
+        public Coords ToCoords(Vector3 pointInWorld) => ToCoords(pointInWorld, _boardStartPoint, BoardSize - 1);
+
         public WallCoords ToWallCoords(Vector3 pointInWorld)
         {
             Vector3 point = pointInWorld - _wallStartPoint;
-            Vector3 pointInNewSystem = new Vector3(point.x - ((int)point.x + 0.5f), 0, point.z - ((int)point.z + 0.5f));
+
+            var pointInNewSystem = new Vector3(
+                point.x - (Mathf.FloorToInt(point.x) + 0.5f),
+                0,
+                point.z - (Mathf.FloorToInt(point.z) + 0.5f));
+
             WallOrientation wallOrientation = GetWallOrientation(pointInNewSystem);
 
             return new WallCoords(
-                ToCoords(pointInWorld, _wallStartPoint, _boardSize - 2),
+                ToCoords(pointInWorld, _wallStartPoint, BoardSize - 2),
                 wallOrientation);
         }
+
         public Vector3 ToVector3(Coords coords)
         {
+            (int x, int y) = coords;
+
             return new Vector3(
-                coords.X + _centerPoint.x + 0.5f, 
-                _pawnHeightValue, 
-                coords.Y + _centerPoint.z + 0.5f) + _boardStartPoint;
+                x + _centerPoint.x + 0.5f,
+                PawnHeightValue,
+                y + _centerPoint.z + 0.5f) + _boardStartPoint;
         }
+
         public Vector3 ToVector3(WallCoords wallCoords)
         {
+            (int x, int y) = wallCoords.Coords;
+
             return new Vector3(
-                wallCoords.Coords.X + _centerPoint.x + 0.5f, 
-                _wallHeightValue, 
-                wallCoords.Coords.Y + _centerPoint.z + 0.5f) 
-                + _wallStartPoint;
+                       x + _centerPoint.x + 0.5f,
+                       WallHeightValue,
+                       y + _centerPoint.z + 0.5f)
+                 + _wallStartPoint;
         }
     }
 }
