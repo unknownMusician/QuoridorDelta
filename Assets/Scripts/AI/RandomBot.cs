@@ -1,25 +1,22 @@
 ﻿using QuoridorDelta.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QuoridorDelta.View
 {
     public sealed class RandomBot : IBot
     {
-        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves)
-        {
-            return GetRandomWallCoords(possibleMoves);
-        }
+        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) 
+            => GetRandomPawnCoords(possibleMoves.ToArray());
 
         public MoveType GetMoveType(PlayerType playerType) // Should be removed
         {
             throw new System.NotImplementedException();
         }
 
-        public WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements)
-        {
-            return GetRandomWallCoords(possibleWallPlacements);
-        }
+        public WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements) 
+            => GetRandomWallCoords(possibleWallPlacements.ToArray());
 
         public Coords GetRandomPawnCoords(Coords[] possibleCoords)
         {
@@ -31,7 +28,7 @@ namespace QuoridorDelta.View
         public WallCoords GetRandomWallCoords(WallCoords[] possibleWallPlacementCoords)
         {
             Random random = new Random();
-            int rInt = random.Next(0, possibleWallPlacementCoords.Length);
+            int rInt = random.Next(0, possibleWallPlacementCoords.Count());
             return possibleWallPlacementCoords[rInt];
         }
     }

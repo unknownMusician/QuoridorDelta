@@ -25,7 +25,7 @@ namespace QuoridorDelta.Controller
 
             _input2 = gameType switch
             {
-                GameType.PlayerVersusBot => new Bot(),
+                GameType.PlayerVersusBot => new RandomBot(),
                 GameType.PlayerVersusPlayer => _view,
                 _ => throw new ArgumentOutOfRangeException(),
             };
