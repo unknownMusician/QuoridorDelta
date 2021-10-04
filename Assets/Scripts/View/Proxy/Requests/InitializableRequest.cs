@@ -11,31 +11,24 @@ namespace QuoridorDelta.View.Proxy
 
         private void Initialize(TOutput result)
         {
-            if (!Initialized)
-            {
-                Result = result;
-                Initialized = true;
-                Debug.Log($"{this.GetType().Name} Initialized");
-            }
-            else
+            if (Initialized)
             {
                 throw new InvalidOperationException();
             }
+
+            Result = result;
+            Initialized = true;
         }
 
         public Action<TOutput> StartInitializing()
         {
-            if (!StartedInitializing)
-            {
-                StartedInitializing = true;
-                Debug.Log($"{this.GetType().Name} Started Initializing");
-
-                return Initialize;
-            }
-            else
+            if (StartedInitializing)
             {
                 throw new InvalidOperationException();
             }
+            
+            StartedInitializing = true;
+            return Initialize;
         }
     }
 }
