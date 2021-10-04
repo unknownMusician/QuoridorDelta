@@ -1682,7 +1682,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756430824}
   m_Enabled: 1
-  m_Alpha: 0.4
+  m_Alpha: 0.7
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1822,7 +1822,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.9339623, g: 0.82841945, b: 0.36565503, a: 1}
+  m_Color: {r: 0.9811321, g: 0.8900187, b: 0.49519405, a: 1}
   m_Intensity: 402.7
   m_Range: 29.9
   m_SpotAngle: 93.75259
