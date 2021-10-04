@@ -185,7 +185,7 @@ namespace QuoridorDelta.Model
             };
         }
 
-        public WallCoords[] GetPossibleWallPlacements(IEnumerable<WallCoords> placedWallCoords) 
-            => throw new NotImplementedException();
+        public WallCoords[] GetPossibleWallPlacements(IEnumerable<WallCoords> placedWallCoords)
+            => placedWallCoords.ToArray();
     }
 }

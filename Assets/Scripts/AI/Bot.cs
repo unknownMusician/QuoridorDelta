@@ -18,6 +18,10 @@ namespace QuoridorDelta.View
             throw new System.NotImplementedException();
 
         public MoveType GetMoveType(PlayerType playerType) => throw new System.NotImplementedException();
-        public WallCoords GetPlaceWallCoords(PlayerType playerType) => throw new System.NotImplementedException();
+
+        public WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
