@@ -188,4 +188,7 @@ namespace QuoridorDelta.Model
         public WallCoords[] GetPossibleWallPlacements(IEnumerable<WallCoords> placedWallCoords)
             => placedWallCoords.ToArray();
     }
+
+
+
 }
