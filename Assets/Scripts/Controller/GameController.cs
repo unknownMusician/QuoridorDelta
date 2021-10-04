@@ -84,8 +84,13 @@ namespace QuoridorDelta.Controller
 
         private void MakeMove(PlayerType currentPlayer)
         {
-            // todo 
-            MoveType moveType = GetInput(currentPlayer).GetMoveType(currentPlayer);
+
+            Player player = _gameData.GetPlayerByType(currentPlayer);
+            MoveType moveType = MoveType.MovePawn;
+            if (player.WallCount > 0)
+            {
+                moveType = GetInput(currentPlayer).GetMoveType(currentPlayer);
+            }
             Move(currentPlayer, moveType);
         }
 
