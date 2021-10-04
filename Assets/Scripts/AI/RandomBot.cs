@@ -1,38 +1,23 @@
 ﻿using QuoridorDelta.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QuoridorDelta.View
 {
-    public sealed class RandomBot : IBot
+    public sealed class RandomBot : IInput
     {
-        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves)
-        {
-            return GetRandomWallCoords(possibleMoves);
-        }
+        private readonly Random _random = new Random();
 
-        public MoveType GetMoveType(PlayerType playerType) // Should be removed
-        {
-            throw new System.NotImplementedException();
-        }
+        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves)
+            => GetRandom(possibleMoves.ToArray());
+
+        public MoveType GetMoveType(PlayerType playerType) => (MoveType) _random.Next(0, 2);
 
         public WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements)
-        {
-            return GetRandomWallCoords(possibleWallPlacements);
-        }
+            => GetRandom(possibleWallPlacements.ToArray());
 
-        public Coords GetRandomPawnCoords(Coords[] possibleCoords)
-        {
-            Random random = new Random();
-            int rInt = random.Next(0, possibleCoords.Length);
-            return possibleCoords[rInt];
-        }
-
-        public WallCoords GetRandomWallCoords(WallCoords[] possibleWallPlacementCoords)
-        {
-            Random random = new Random();
-            int rInt = random.Next(0, possibleWallPlacementCoords.Length);
-            return possibleWallPlacementCoords[rInt];
-        }
+        private T GetRandom<T>(IReadOnlyList<T> possibleCoords)
+            => possibleCoords[_random.Next(0, possibleCoords.Count)];
     }
 }

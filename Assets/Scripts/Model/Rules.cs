@@ -12,7 +12,7 @@ namespace QuoridorDelta.Model
         private const int MaxCoords = 8;
         private const int MaxWallCoords = 7;
 
-        private Pawn GetOtherPawn(Pawn pawn, Field field)
+        private static Pawn GetOtherPawn(Pawn pawn, Field field)
         {
             if (pawn == field.Pawn1)
             {
@@ -28,28 +28,26 @@ namespace QuoridorDelta.Model
             }
         }
 
-        private int GetDistance(Coords c1, Coords c2) => Math.Abs(c1.X - c2.X) + Math.Abs(c1.Y - c2.Y);
+        private static int GetDistance(Coords c1, Coords c2) => Math.Abs(c1.X - c2.X) + Math.Abs(c1.Y - c2.Y);
 
         private bool IsThereEnemyNearby(Pawn pawn, Field field) =>
             GetDistance(pawn.Coords, GetOtherPawn(pawn, field).Coords) == 1;
 
-        private bool IsWithinFieldRange(Coords coords)
+        private static bool IsWithinFieldRange(Coords coords)
         {
-            float x = coords.X;
-            float y = coords.Y;
+            (int x, int y) = coords;
 
             return (x >= MinCoords) && (x <= MaxCoords) && (y >= MinCoords) && (y <= MaxCoords);
         }
 
-        private bool IsWithinFieldRange(WallCoords coords)
+        private static bool IsWithinFieldRange(WallCoords coords)
         {
-            float x = coords.Coords.X;
-            float y = coords.Coords.Y;
+            ((int x, int y), _) = coords;
 
             return (x >= MinWallCoords) && (x <= MaxWallCoords) && (y >= MinWallCoords) && (y <= MaxWallCoords);
         }
 
-        private bool CanJump2StepsOverCloseEnemy(Coords pawnCoords, Coords enemyCoords, Coords newCoords)
+        private static bool CanJump2StepsOverCloseEnemy(Coords pawnCoords, Coords enemyCoords, Coords newCoords)
         {
             int coordsIndex;
 
@@ -101,7 +99,7 @@ namespace QuoridorDelta.Model
             return field.Walls.Contains(possibleWall1) || field.Walls.Contains(possibleWall2);
         }
 
-        private static bool HasBadNeighbors(WallCoords wallCoords, Field field)
+        private static bool HasBadNeighbors(WallCoords wallCoords, ICollection<WallCoords> walls)
         {
             (Coords coords, WallOrientation orientation) = wallCoords;
 
@@ -112,8 +110,8 @@ namespace QuoridorDelta.Model
                 _ => throw new ArgumentOutOfRangeException(),
             };
 
-            return field.Walls.Contains((coords + deltaWallCoords, orientation))
-                || field.Walls.Contains((coords - deltaWallCoords, orientation));
+            return walls.Contains((coords + deltaWallCoords, orientation))
+                || walls.Contains((coords - deltaWallCoords, orientation));
         }
 
         public bool CanMovePawn(Pawn pawn, Field field, Coords newCoords)
@@ -146,11 +144,14 @@ namespace QuoridorDelta.Model
             }
         }
 
-        public bool CanPlaceWall(Player player, Field field, WallCoords newWallCoords) =>
-            (player.WallCount > 0)
-         && (field.Walls.All(wall => wall.Coords != newWallCoords.Coords))
+        private bool CanPlaceWallWallCountUnchecked(ICollection<WallCoords> walls, WallCoords newWallCoords) =>
+            (walls.All(wall => wall.Coords != newWallCoords.Coords))
          && (IsWithinFieldRange(newWallCoords))
-         && (!HasBadNeighbors(newWallCoords, field));
+         && (!HasBadNeighbors(newWallCoords, walls));
+
+        public bool CanPlaceWall(Player player, ICollection<WallCoords> walls, WallCoords newWallCoords) =>
+            (player.WallCount > 0)
+         && CanPlaceWallWallCountUnchecked(walls, newWallCoords);
 
         public Coords[] GetPossibleMoves(Pawn pawn, Field field)
         {
@@ -263,6 +264,25 @@ namespace QuoridorDelta.Model
         }
     }
 
+            for (int y = 0; y < MaxWallCoords; y++)
+            {
+                for (int x = 0; x < MaxWallCoords; x++)
+                {
+                    for (var o = WallOrientation.Horizontal;
+                         o != WallOrientation.Vertical;
+                         o = WallOrientation.Vertical)
+                    {
+                        WallCoords wallCoords = ((x, y), o);
 
+                        if (CanPlaceWallWallCountUnchecked(placedWallCoords, wallCoords))
+                        {
+                            possibleCoords.Add(wallCoords);
+                        }
+                    }
+                }
+            }
 
+            return possibleCoords.ToArray();
+        }
+    }
 }

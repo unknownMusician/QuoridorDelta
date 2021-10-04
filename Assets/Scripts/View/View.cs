@@ -29,6 +29,7 @@ namespace QuoridorDelta.View
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
         private Backlight _backlight;
+        private const int _maxWallCount = 10;
 
 
         private Action<MoveType> _moveTypeHandler;

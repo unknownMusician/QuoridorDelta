@@ -22,9 +22,10 @@ namespace QuoridorDelta.Controller
         private void InitializeInputs(GameType gameType)
         {
             _input1 = _view;
+
             _input2 = gameType switch
             {
-                GameType.PlayerVersusBot => new Bot(),
+                GameType.PlayerVersusBot => new RandomBot(),
                 GameType.PlayerVersusPlayer => _view,
                 _ => throw new ArgumentOutOfRangeException(),
             };
@@ -162,9 +163,12 @@ namespace QuoridorDelta.Controller
 
         private bool TryToPlaceWall(PlayerType currentPlayer, Player playerObject, Field field)
         {
-            WallCoords[] possbileWallPlacements = _rules.GetPossibleWallPlacements(field.Walls);
-            WallCoords wallPlacementCoords = GetInput(currentPlayer).GetPlaceWallCoords(currentPlayer,possbileWallPlacements);
-            bool isMoveRight = _rules.CanPlaceWall(playerObject, field, wallPlacementCoords);
+            WallCoords[] possibleWallPlacements = _rules.GetPossibleWallPlacements(field.Walls);
+
+            WallCoords wallPlacementCoords =
+                GetInput(currentPlayer).GetPlaceWallCoords(currentPlayer, possibleWallPlacements);
+
+            bool isMoveRight = _rules.CanPlaceWall(playerObject, field.Walls, wallPlacementCoords);
 
             if (isMoveRight)
             {
