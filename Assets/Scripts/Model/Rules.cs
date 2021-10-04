@@ -262,8 +262,10 @@ namespace QuoridorDelta.Model
 
 
         }
-    }
 
+        public WallCoords[] GetPossibleWallPlacements(ICollection<WallCoords> placedWallCoords)
+        {
+            List<WallCoords> possibleCoords = new List<WallCoords>();
             for (int y = 0; y < MaxWallCoords; y++)
             {
                 for (int x = 0; x < MaxWallCoords; x++)
@@ -286,3 +288,4 @@ namespace QuoridorDelta.Model
         }
     }
 }
+  
