@@ -32,7 +32,6 @@ namespace QuoridorDelta.View
         public void MovePawn(PlayerType playerType, Coords newCoords)
         {
             // todo: add animations
-            Debug.Log($"{newCoords.X}:{newCoords.Y}");
             GetPawn(playerType).transform.position = _coordsConverter.ToVector3(newCoords);
         }
         public void PlaceWall(PlayerType playerType, WallCoords newCoords)
