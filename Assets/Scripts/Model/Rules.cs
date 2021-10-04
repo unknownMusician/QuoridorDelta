@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace QuoridorDelta.Model
 {
-    public class Rules : IRules
+    public sealed class Rules : IRules
     {
         private const int MinCoords = 0;
         private const int MinWallCoords = MinCoords;
@@ -184,5 +184,8 @@ namespace QuoridorDelta.Model
                 _ => throw new ArgumentOutOfRangeException(),
             };
         }
+
+        public WallCoords[] GetPossibleWallPlacements(IEnumerable<WallCoords> placedWallCoords) 
+            => throw new NotImplementedException();
     }
 }

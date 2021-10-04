@@ -49,8 +49,9 @@ namespace QuoridorDelta.View.Proxy
                                             movePawnCoordsRequest.StartInitializing());
 
                     break;
-                case Request<PlayerType, WallCoords> wallCoordsRequest:
-                    _view.GetPlaceWallCoords(wallCoordsRequest.Input,
+                case Request<(PlayerType, IEnumerable<WallCoords>), WallCoords> wallCoordsRequest:
+                    _view.GetPlaceWallCoords(wallCoordsRequest.Input.Item1,
+                                             wallCoordsRequest.Input.Item2,
                                              wallCoordsRequest.StartInitializing());
 
                     break;
