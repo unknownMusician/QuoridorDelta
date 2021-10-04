@@ -1,197 +1,194 @@
-﻿using QuoridorDelta.Model;
+﻿using System;
+using QuoridorDelta.Model;
 using QuoridorDelta.View;
 
 namespace QuoridorDelta.Controller
 {
-    /** 
-     *Basic Logic of Controller
-     *
-     *
-     * 
-       
-       Start Loop1
-      Play duo or with bot
-
-    start Loop2 -> what is a moveType, what coords, tryToMove -> (try again,move), moved
-    Next player -> what is a moveType, what coords, tryToMove -> (try again,move), moved
-    While flag won == true
-    Winner is -> end Loop2
-
-    Do you want to play again 
-     If yes Loop1 doesn`t end, If no Loop1 ends */
-
-
-    class GameController
+    public class GameController
     {
         private readonly GameData _gameData;
-        private readonly IView _view1;
-        private IView _view2;
+        private readonly IView _view;
+        private IInput _input1;
+        private IInput _input2;
         private readonly IRules _rules;
 
         public GameController(GameData gameData, IView view)
         {
-            _view1 = view;
+            _view = view;
             _rules = new Rules();
             _gameData = gameData;
         }
 
-        private void InitializeViews(GameType gameType)
+        private void InitializeInputs(GameType gameType)
         {
-            _view2 = gameType switch
+            _input1 = _view;
+            _input2 = gameType switch
             {
                 GameType.PlayerVersusBot => new Bot(),
-                GameType.PlayerVersusPlayer => _view1,
-                _ => throw new System.ArgumentOutOfRangeException(),
+                GameType.PlayerVersusPlayer => _view,
+                _ => throw new ArgumentOutOfRangeException(),
             };
         }
 
-        private IView GetView(PlayerType playerType) => playerType switch
+        private IInput GetInput(PlayerType playerType) => playerType switch
         {
-            PlayerType.First => _view1,
-            PlayerType.Second => _view2,
-            _ => throw new System.ArgumentOutOfRangeException(),
+            PlayerType.First => _input1,
+            PlayerType.Second => _input2,
+            _ => throw new ArgumentOutOfRangeException(),
         };
 
         public void Run()
         {
-            InitializeViews(_view1.GetGameType());
+            InitializeInputs(_view.GetGameType());
             bool doWePlay;
+
             do
             {
-                PlayUntillWeHaveWinner();
+                PlayUntilWeHaveWinner();
 
-                doWePlay = _view1.ShouldRestart();
-                if (doWePlay)
+                doWePlay = _view.ShouldRestart();
+
+                if (!doWePlay)
                 {
-                    _gameData.ClearAndRegenerateData();
+                    continue;
                 }
-            }
-            while (doWePlay);
+
+                _gameData.ClearAndRegenerateData();
+                _view.MovePlayerPawn(PlayerType.First, _gameData.GetPlayerByType(PlayerType.First).Pawn.Coords);
+                _view.MovePlayerPawn(PlayerType.Second, _gameData.GetPlayerByType(PlayerType.Second).Pawn.Coords);
+            } while (doWePlay);
         }
 
-        private void PlayUntillWeHaveWinner()
+        private void PlayUntilWeHaveWinner()
         {
-            PlayerType currentPlayer = PlayerType.First;
+            var currentPlayer = PlayerType.First;
 
             bool doWeHaveWinner;
+
             do
             {
                 MakeMove(currentPlayer);
-                doWeHaveWinner = _rules.DidPlayerWin(currentPlayer);
+                doWeHaveWinner = _rules.DidPlayerWin(currentPlayer, _gameData.GetPlayerByType(currentPlayer));
+
                 if (doWeHaveWinner)
                 {
-                    _view1.ShowWinner(currentPlayer);
+                    _view.ShowWinner(currentPlayer);
                 }
                 else
                 {
-                    currentPlayer = ChangePlayers(currentPlayer);
+                    SwapPlayers(ref currentPlayer);
                 }
-            }
-            while (!doWeHaveWinner);
+            } while (!doWeHaveWinner);
         }
 
         private void MakeMove(PlayerType currentPlayer)
         {
-            MoveType moveType = GetView(currentPlayer).GetMoveType(currentPlayer);
+
+            Player player = _gameData.GetPlayerByType(currentPlayer);
+            MoveType moveType = MoveType.MovePawn;
+            if (player.WallCount > 0)
+            {
+                moveType = GetInput(currentPlayer).GetMoveType(currentPlayer);
+            }
             Move(currentPlayer, moveType);
         }
 
         private void Move(PlayerType currentPlayer, MoveType moveType)
         {
-            Field currentField = _gameData.GetField();
+            Field currentField = _gameData.Field;
+
             switch (moveType)
             {
                 case MoveType.MovePawn:
                     PlayerMovePawn(currentPlayer, currentField);
+
                     break;
                 case MoveType.PlaceWall:
                     PlayerPlaceWall(currentPlayer, currentField);
+
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         private void PlayerMovePawn(PlayerType currentPlayer, Field currentField)
         {
-            bool didMovePawn = false;
             Pawn pawnOfCurrentPlayer = _gameData.GetPlayerPawn(currentPlayer);
-            Coords[] possbileMoves = _rules.GetPossibleMoves(pawnOfCurrentPlayer, currentField);
-            while (!didMovePawn)
+            Coords[] possibleMoves = _rules.GetPossibleMoves(pawnOfCurrentPlayer, currentField);
+            bool didMovePawn;
+
+            do
             {
-                didMovePawn = TryToMovePawn(currentPlayer, possbileMoves, currentField, pawnOfCurrentPlayer);
-            }
+                didMovePawn = TryToMovePawn(currentPlayer, possibleMoves, currentField, pawnOfCurrentPlayer);
+            } while (!didMovePawn);
         }
 
 
-        private bool TryToMovePawn(PlayerType currentPlayer, Coords[] possibleMoves, Field currentField, Pawn pawnOfCurrentPlayer)
+        private bool TryToMovePawn(PlayerType currentPlayer, Coords[] possibleMoves, Field currentField,
+                                   Pawn pawnOfCurrentPlayer)
         {
-            bool didMovePawn = false;
-            Coords newPawnCoords = GetView(currentPlayer).GetMovePawnCoords(currentPlayer, possibleMoves);
+            Coords newPawnCoords = GetInput(currentPlayer).GetMovePawnCoords(currentPlayer, possibleMoves);
             bool isMoveRight = _rules.CanMovePawn(pawnOfCurrentPlayer, currentField, newPawnCoords);
+
             if (isMoveRight)
             {
                 MovePawn(currentPlayer, newPawnCoords);
-                didMovePawn = true;
             }
             else
             {
-                _view1.ShowWrongMove(currentPlayer, MoveType.MovePawn);
+                _view.ShowWrongMove(currentPlayer, MoveType.MovePawn);
             }
-            return didMovePawn;
+
+            return isMoveRight;
         }
-
-
 
         private void MovePawn(PlayerType currentPlayer, Coords newPawnCoords)
         {
             _gameData.MovePlayerPawn(currentPlayer, newPawnCoords);
-            _view1.MovePlayerPawn(currentPlayer, newPawnCoords);
+            _view.MovePlayerPawn(currentPlayer, newPawnCoords);
         }
 
         private void PlayerPlaceWall(PlayerType currentPlayer, Field field)
         {
-            bool didPlayerPlaceWall = false;
             Player playerObject = _gameData.GetPlayerByType(currentPlayer);
-            while (!didPlayerPlaceWall)
+            bool didPlayerPlaceWall;
+
+            do
             {
                 didPlayerPlaceWall = TryToPlaceWall(currentPlayer, playerObject, field);
-            }
+            } while (!didPlayerPlaceWall);
         }
 
         private bool TryToPlaceWall(PlayerType currentPlayer, Player playerObject, Field field)
         {
-            bool didPlayerPlaceWall = false;
-            WallCoords wallPlacementCoords = GetView(currentPlayer).GetPlaceWallCoords(currentPlayer);
+            WallCoords[] possbileWallPlacements = _rules.GetPossibleWallPlacements(field.Walls);
+            WallCoords wallPlacementCoords = GetInput(currentPlayer).GetPlaceWallCoords(currentPlayer,possbileWallPlacements);
             bool isMoveRight = _rules.CanPlaceWall(playerObject, field, wallPlacementCoords);
+
             if (isMoveRight)
             {
                 PlaceWall(currentPlayer, wallPlacementCoords);
-                didPlayerPlaceWall = true;
             }
             else
             {
-                _view1.ShowWrongMove(currentPlayer, MoveType.PlaceWall);
+                _view.ShowWrongMove(currentPlayer, MoveType.PlaceWall);
             }
-            return didPlayerPlaceWall;
+
+            return isMoveRight;
         }
+
         private void PlaceWall(PlayerType currentPlayer, WallCoords wallPlacementCoords)
         {
             _gameData.PlacePlayerWall(currentPlayer, wallPlacementCoords);
-            _view1.PlacePlayerWall(currentPlayer, wallPlacementCoords);
+            _view.PlacePlayerWall(currentPlayer, wallPlacementCoords);
         }
-        private PlayerType ChangePlayers(PlayerType playerType)
+
+        private void SwapPlayers(ref PlayerType playerType) => playerType = playerType switch
         {
-            PlayerType playerTypeToReturn = PlayerType.First;
-            if (playerType == PlayerType.First)
-            {
-                playerTypeToReturn = PlayerType.Second;
-            }
-
-            return playerTypeToReturn;
-        }
-
+            PlayerType.First => PlayerType.Second,
+            PlayerType.Second => PlayerType.First,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
-
-
 }

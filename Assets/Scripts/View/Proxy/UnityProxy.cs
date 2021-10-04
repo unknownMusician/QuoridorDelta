@@ -36,37 +36,47 @@ namespace QuoridorDelta.View.Proxy
             {
                 case InputlessRequest<GameType> gameTypeRequest:
                     _view.GetGameType(gameTypeRequest.StartInitializing());
+
                     break;
                 case Request<PlayerType, MoveType> moveTypeRequest:
-                    _view.GetMoveType(moveTypeRequest.Input, 
-                        moveTypeRequest.StartInitializing());
+                    _view.GetMoveType(moveTypeRequest.Input,
+                                      moveTypeRequest.StartInitializing());
+
                     break;
                 case Request<(PlayerType, IEnumerable<Coords>), Coords> movePawnCoordsRequest:
                     _view.GetMovePawnCoords(movePawnCoordsRequest.Input.Item1,
-                        movePawnCoordsRequest.Input.Item2, 
-                        movePawnCoordsRequest.StartInitializing());
+                                            movePawnCoordsRequest.Input.Item2,
+                                            movePawnCoordsRequest.StartInitializing());
+
                     break;
-                case Request<PlayerType, WallCoords> wallCoordsRequest:
-                    _view.GetPlaceWallCoords(wallCoordsRequest.Input,
-                        wallCoordsRequest.StartInitializing());
+                case Request<(PlayerType, IEnumerable<WallCoords>), WallCoords> wallCoordsRequest:
+                    _view.GetPlaceWallCoords(wallCoordsRequest.Input.Item1,
+                                             wallCoordsRequest.Input.Item2,
+                                             wallCoordsRequest.StartInitializing());
+
                     break;
                 case ActionRequest<(PlayerType, Coords)> movePawnRequest:
                     _view.MovePawn(movePawnRequest.Input.Item1,
-                        movePawnRequest.Input.Item2);
+                                   movePawnRequest.Input.Item2);
+
                     break;
                 case ActionRequest<(PlayerType, WallCoords)> placeWallRequest:
                     _view.PlaceWall(placeWallRequest.Input.Item1,
-                        placeWallRequest.Input.Item2);
+                                    placeWallRequest.Input.Item2);
+
                     break;
                 case ActionRequest<(PlayerType, MoveType)> showWrongMoveRequest:
                     _view.ShowWrongMove(showWrongMoveRequest.Input.Item1,
-                        showWrongMoveRequest.Input.Item2);
+                                        showWrongMoveRequest.Input.Item2);
+
                     break;
                 case ActionRequest<PlayerType> showWinnerRequest:
                     _view.ShowWinner(showWinnerRequest.Input);
+
                     break;
                 case InputlessRequest<bool> shouldRestartRequest:
                     _view.ShouldRestart(shouldRestartRequest.StartInitializing());
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

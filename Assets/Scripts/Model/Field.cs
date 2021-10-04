@@ -14,8 +14,5 @@ namespace QuoridorDelta.Model
             Pawn2 = pawn2;
             Walls = new List<WallCoords>();
         }
-
-        
     }
-
 }

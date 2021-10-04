@@ -1,5 +1,4 @@
-﻿
-namespace QuoridorDelta.Model
+﻿namespace QuoridorDelta.Model
 {
     public enum WallOrientation
     {

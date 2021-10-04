@@ -16,39 +16,29 @@ namespace QuoridorDelta.View
 
         public void Start() => _coordsConverter = _view.CoordsConverter;
 
-        private GameObject GetPawn(PlayerType playerType)
+        private GameObject GetPawn(PlayerType playerType) => playerType switch
         {
-            switch (playerType)
-            {
-                case PlayerType.First:
-                    return _pawn1;
-                case PlayerType.Second:
-                    return _pawn2;
-                default:
-                    throw new Exception("Pawn with this type is not defined");
-            }
-        }
+            PlayerType.First => _pawn1,
+            PlayerType.Second => _pawn2,
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
         public void MovePawn(PlayerType playerType, Coords newCoords)
         {
             // todo: add animations
-            Debug.Log($"{newCoords.X}:{newCoords.Y}");
             GetPawn(playerType).transform.position = _coordsConverter.ToVector3(newCoords);
         }
+
         public void PlaceWall(PlayerType playerType, WallCoords newCoords)
         {
             // todo: add animations
-            Quaternion quaternion = Quaternion.identity;
-            switch (newCoords.Orientation)
+            Quaternion quaternion = newCoords.Orientation switch
             {
-                case WallOrientation.Horizontal:
-                    quaternion = Quaternion.AngleAxis(90f, Vector3.up);
-                    break;
-                case WallOrientation.Vertical:
-                    break;
-                default:
-                    break;
-            }
+                WallOrientation.Horizontal => Quaternion.AngleAxis(90f, Vector3.up),
+                WallOrientation.Vertical => Quaternion.identity,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
             Instantiate(_wallPrefab, _coordsConverter.ToVector3(newCoords), quaternion, _wallsParent.transform);
         }
     }

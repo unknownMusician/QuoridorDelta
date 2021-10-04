@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using QuoridorDelta.Model;
 
@@ -7,27 +6,26 @@ namespace QuoridorDelta.View
 {
     public sealed class Backlight
     {
-        private GameObject _lightPrefab;
-        private CoordsConverter _coordsConverter;
-        private GameObject _lightsParent;
+        private const int MaxPossibleLightsCount = 6;
+        private readonly CoordsConverter _coordsConverter;
 
-        private List<RectTransform> _lights = new List<RectTransform>();
+        private readonly List<RectTransform> _lights = new List<RectTransform>();
 
 
-        public Backlight(CoordsConverter coordsConverter, GameObject lightPrefab, GameObject lightsParent)
+        public Backlight(CoordsConverter coordsConverter, GameObject lightPrefab, Transform lightsParent)
         {
             _coordsConverter = coordsConverter;
-            _lightPrefab = lightPrefab;
-            _lightsParent = lightsParent;
-            for (int i = 0; i < 4; i++)
+
+            for (int i = 0; i < MaxPossibleLightsCount; i++)
             {
-                _lights.Add(GameObject.Instantiate(_lightPrefab, _lightsParent.transform).GetComponent<RectTransform>());
+                _lights.Add(Object.Instantiate(lightPrefab, lightsParent).GetComponent<RectTransform>());
             }
         }
 
         public void TurnOnLightOnCells(IEnumerable<Coords> possibleMoves)
         {
             int currentLightObjectIndex = 0;
+
             foreach (Coords coords in possibleMoves)
             {
                 _lights[currentLightObjectIndex].position = _coordsConverter.ToVector3(coords);
@@ -35,6 +33,7 @@ namespace QuoridorDelta.View
                 currentLightObjectIndex++;
             }
         }
+
         public void TurnOffLights()
         {
             foreach (RectTransform lightObject in _lights)

@@ -3,66 +3,52 @@ using QuoridorDelta.Model;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
+using System.Threading;
 
 namespace QuoridorDelta.View.Proxy
 {
-    // todo
     public sealed class QuoridorProxy : IView, IDisposable
     {
-        private volatile bool _isAlive = true;
-        private readonly Task _task;
+        private readonly Thread _thread;
 
         internal ConcurrentQueue<IRequest> Requests { get; } = new ConcurrentQueue<IRequest>();
 
-        public QuoridorProxy() => _task = Task.Run(Start);
-
-        private void Start()
+        public QuoridorProxy()
         {
-            var gameData = new GameData();
-            var gameController = new GameController(gameData, this);
-            gameController.Run();
+            _thread = new Thread(Start) {Name = "QuoridorThread"};
+            _thread.Start();
         }
 
-        private TOut WaitRequest<TOut>(IInitializableRequest<TOut> request)
+        private void Start() => new GameController(new GameData(), this).Run();
+
+        private TOut WaitRequest<TOut>(InitializableRequest<TOut> request)
         {
             Requests.Enqueue(request);
 
             while (!request.Initialized)
             {
-                if (!_isAlive)
-                {
-                    // todo
-                    throw new TaskCanceledException();
-                }
-                // todo: 100 is fast, 200 is somewhere ok, 500 is slow
                 const int sleepTime = 100;
 
-                Task.Delay(sleepTime);
+                Thread.Sleep(sleepTime);
             }
 
             return request.Result;
         }
+
         private TOut Wait<TIn, TOut>(TIn input) => WaitRequest(new Request<TIn, TOut>(input));
         private TOut Wait<TOut>() => WaitRequest(new InputlessRequest<TOut>());
         private void Send<TIn>(TIn input) => Requests.Enqueue(new ActionRequest<TIn>(input));
 
-        public void Dispose()
-        {
-            _isAlive = false;
-            try
-            {
-                _task.Wait();
-            }
-            catch (AggregateException) { }
-            _task.Dispose();
-        }
+        public void Dispose() => _thread.Abort();
 
         public GameType GetGameType() => Wait<GameType>();
         public MoveType GetMoveType(PlayerType playerType) => Wait<PlayerType, MoveType>(playerType);
-        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) => Wait<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves));
-        public WallCoords GetPlaceWallCoords(PlayerType playerType) => Wait<PlayerType, WallCoords>(playerType);
+
+        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) 
+            => Wait<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves));
+
+        public WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements) 
+            => Wait<(PlayerType, IEnumerable<WallCoords>), WallCoords>((playerType, possibleWallPlacements));
         public void MovePlayerPawn(PlayerType playerType, Coords newCoords) => Send((playerType, newCoords));
         public void PlacePlayerWall(PlayerType playerType, WallCoords newCoords) => Send((playerType, newCoords));
         public void ShowWrongMove(PlayerType playerType, MoveType moveType) => Send((playerType, moveType));

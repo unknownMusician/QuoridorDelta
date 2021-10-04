@@ -1,5 +1,4 @@
-﻿
-namespace QuoridorDelta.Model
+﻿namespace QuoridorDelta.Model
 {
     public readonly struct Coords : System.IEquatable<Coords>
     {
@@ -22,7 +21,7 @@ namespace QuoridorDelta.Model
 
         public bool Equals(Coords other) => other.X == X && other.Y == Y;
 
-        public override bool Equals(object obj) => base.Equals(obj);
+        public override bool Equals(object obj) => obj is Coords other && Equals(other);
         public override int GetHashCode() => base.GetHashCode();
         public override string ToString() => $"Coords ({X}, {Y})";
 
@@ -31,5 +30,12 @@ namespace QuoridorDelta.Model
 
         public static Coords operator +(Coords c1, Coords c2) => (c1.X + c2.X, c1.Y + c2.Y);
         public static Coords operator -(Coords c1, Coords c2) => (c1.X - c2.X, c1.Y - c2.Y);
+
+        public int this[int index] => index switch
+        {
+            0 => X,
+            1 => Y,
+            _ => throw new System.ArgumentOutOfRangeException()
+        };
     }
 }
