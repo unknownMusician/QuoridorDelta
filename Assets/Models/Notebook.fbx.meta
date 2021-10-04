@@ -3,7 +3,22 @@ guid: 899c5ae54aabb8e4187dc4877c41792c
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cover
+    second: {fileID: 2100000, guid: 4b1439beb9af1ef48b1b65ffbf2efc5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Locker
+    second: {fileID: 2100000, guid: 90f1643f8e0e00742b8f4322de534545, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Paper
+    second: {fileID: 2100000, guid: 9ff8672e336a08d4c8c49a04a794b056, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
