@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -187,6 +188,79 @@ namespace QuoridorDelta.Model
 
         public WallCoords[] GetPossibleWallPlacements(IEnumerable<WallCoords> placedWallCoords)
             => placedWallCoords.ToArray();
+
+        private bool DoWeHavePathToWin(Pawn pawn, Field field, PlayerType playerType)
+        {
+            Coords currentCoords = pawn.Coords;
+            Rules rules = new Rules();
+            int winY = 0;
+            if(playerType == PlayerType.First)
+            {
+                winY = 8;
+            }
+            SortedSet<Coords> closed = new SortedSet<Coords>();
+            bool haveAPath = false;
+            List<Coords> next = new List<Coords>();
+            int j = 0;
+
+            while (!haveAPath) {    
+                List <Coords> neighbours = GetNeighbours(currentCoords);
+                List<Coords> neighboursToCheck = new List<Coords>();
+
+                for(int i = 0; i < neighbours.Count; i++)
+                {
+                    if (!closed.Contains(neighbours[i]))
+                    {
+                        neighboursToCheck.Add(neighbours[i]);
+                    }
+                }
+
+
+                for (int i = 0; i < neighboursToCheck.Count; i++)
+                {
+                    if (rules.CanMovePawn(new Pawn(currentCoords), field, neighbours[i]))
+                    {
+                        if(neighbours[i].Y == winY)
+                        {
+                            haveAPath = true;
+                        }
+                        next.Add(neighbours[i]);
+                    }                  
+                }
+                closed.Add(currentCoords);
+                currentCoords = next[j];
+                j++;
+                if(next.Count == j)
+                {
+                    break;
+                }
+            }
+            return haveAPath;
+        }
+
+        private List<Coords> GetNeighbours(Coords coords)
+        {
+            List<Coords> neighbours = new List<Coords>();
+            if(coords.X - 1 >= 0)
+            {
+                neighbours.Add(new Coords(coords.X-1,coords.Y));
+            }
+            if(coords.X + 1 <= 8)
+            {
+                neighbours.Add(new Coords(coords.X + 1, coords.Y));
+            }
+            if(coords.Y - 1 >= 0)
+            {
+                neighbours.Add(new Coords(coords.X, coords.Y - 1));
+            }
+            if(coords.Y + 1 <= 8)
+            {
+                neighbours.Add(new Coords(coords.X, coords.Y + 1));
+            }
+            return neighbours;
+
+
+        }
     }
 
 
