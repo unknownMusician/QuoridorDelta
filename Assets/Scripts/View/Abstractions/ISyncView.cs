@@ -10,7 +10,7 @@ namespace QuoridorDelta.View
 
         void GetMoveType(PlayerType playerType, Action<MoveType> handler);
         void GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves, Action<Coords> handler);
-        void GetPlaceWallCoords(PlayerType playerType, Action<WallCoords> handler);
+        void GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements, Action<WallCoords> handler);
 
         void MovePawn(PlayerType playerType, Coords newCoords);
         void PlaceWall(PlayerType playerType, WallCoords newCoords);

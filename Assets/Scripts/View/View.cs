@@ -61,7 +61,7 @@ namespace QuoridorDelta.View
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
 
-        public void GetPlaceWallCoords(PlayerType playerType, Action<WallCoords> handler)
+        public void GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleMoves, Action<WallCoords> handler)
         {
             _placeWallHandler = handler;
             _input.OnLeftMouseButtonClicked += WallCoordsClickHandler;
