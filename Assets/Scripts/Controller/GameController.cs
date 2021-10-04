@@ -157,7 +157,8 @@ namespace QuoridorDelta.Controller
 
         private bool TryToPlaceWall(PlayerType currentPlayer, Player playerObject, Field field)
         {
-            WallCoords wallPlacementCoords = GetInput(currentPlayer).GetPlaceWallCoords(currentPlayer);
+            WallCoords[] possbileWallPlacements = _rules.GetPossibleWallPlacements(field.Walls);
+            WallCoords wallPlacementCoords = GetInput(currentPlayer).GetPlaceWallCoords(currentPlayer,possbileWallPlacements);
             bool isMoveRight = _rules.CanPlaceWall(playerObject, field, wallPlacementCoords);
 
             if (isMoveRight)
