@@ -4,7 +4,12 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b64d4d9-dbbe-42cf-bb49-231f3d57d2c2" name="Changes" comment="" />
+    <list default="true" id="4b64d4d9-dbbe-42cf-bb49-231f3d57d2c2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.QuoridorDelta/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.QuoridorDelta/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cup/Cup.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Cup/Cup.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/IInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/IInput.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,9 +27,15 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b6a0e6615ee04ea7ad535b38f9316104568788/fe/6a2a1bc0/IReadOnlyCollection`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/51c9fc2d1be048cfa2dd679deaa7d4f717a300/95/a4afaf76/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b6a0e6615ee04ea7ad535b38f9316104568788/9b/c12f5adb/ValueTuple`2.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b6a0e6615ee04ea7ad535b38f9316104568788/76/9d0ae9e1/IReadOnlyList`1.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1z21vsVDPPBjyE9zMahuElU8O3o" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -78,6 +89,7 @@
       <updated>1633331611399</updated>
       <workItem from="1633331620371" duration="4056000" />
       <workItem from="1633336936109" duration="9352000" />
+      <workItem from="1633361952538" duration="32276000" />
     </task>
     <servers />
   </component>
@@ -87,6 +99,17 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

@@ -7,6 +7,6 @@ namespace QuoridorDelta.View
     {
         MoveType GetMoveType(PlayerType playerType);
         Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves);
-        WallCoords GetPlaceWallCoords(PlayerType playerType,IEnumerable<WallCoords> possibleWallPlacements);
+        WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements);
     }
 }
