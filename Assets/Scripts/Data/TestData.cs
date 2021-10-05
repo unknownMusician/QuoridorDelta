@@ -19,7 +19,9 @@ namespace QuoridorDelta.Data
             _player1 = new Player(firstPawn, playerWallCount);
             _player2 = new Player(secondPawn, playerWallCount);
 
-            Field = new Field(firstPawn, secondPawn);
+
+
+            Field = new Field(firstPawn, secondPawn,new System.Collections.Generic.List<WallCoords>());
         }
 
         public void ChangePlayerPawnCoords(PlayerType playerType, Coords newCoords)
