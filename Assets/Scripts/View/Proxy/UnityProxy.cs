@@ -1,7 +1,8 @@
-﻿using QuoridorDelta.Model;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using QuoridorDelta.Controller;
+using QuoridorDelta.Model;
 using UnityEngine;
 
 namespace QuoridorDelta.View.Proxy
@@ -11,6 +12,7 @@ namespace QuoridorDelta.View.Proxy
         private bool _isAlive = true;
         private QuoridorProxy _proxy;
         private ISyncView _view;
+        private ISyncInput _input;
 
         private void OnDestroy()
         {
@@ -23,9 +25,10 @@ namespace QuoridorDelta.View.Proxy
             }
         }
 
-        public void StartGame(ISyncView view)
+        public void StartGame(ISyncView view, ISyncInput input)
         {
             _view = view;
+            _input = input;
             _proxy = new QuoridorProxy();
             StartCoroutine(Listening());
         }
@@ -35,47 +38,55 @@ namespace QuoridorDelta.View.Proxy
             switch (request)
             {
                 case InputlessRequest<GameType> gameTypeRequest:
-                    _view.GetGameType(gameTypeRequest.StartInitializing());
+                    _input.GetGameType(gameTypeRequest.StartInitializing());
 
                     break;
-                case Request<PlayerType, MoveType> moveTypeRequest:
-                    _view.GetMoveType(moveTypeRequest.Input,
-                                      moveTypeRequest.StartInitializing());
+                case Request<PlayerNumber, MoveType> moveTypeRequest:
+                    _input.GetMoveType(moveTypeRequest.Input,
+                                       moveTypeRequest.StartInitializing());
 
                     break;
-                case Request<(PlayerType, IEnumerable<Coords>), Coords> movePawnCoordsRequest:
-                    _view.GetMovePawnCoords(movePawnCoordsRequest.Input.Item1,
-                                            movePawnCoordsRequest.Input.Item2,
-                                            movePawnCoordsRequest.StartInitializing());
+                case Request<(PlayerNumber, IEnumerable<Coords>), Coords> movePawnCoordsRequest:
+                    _input.GetMovePawnCoords(movePawnCoordsRequest.Input.Item1,
+                                             movePawnCoordsRequest.Input.Item2,
+                                             movePawnCoordsRequest.StartInitializing());
 
                     break;
-                case Request<(PlayerType, IEnumerable<WallCoords>), WallCoords> wallCoordsRequest:
-                    _view.GetPlaceWallCoords(wallCoordsRequest.Input.Item1,
-                                             wallCoordsRequest.Input.Item2,
-                                             wallCoordsRequest.StartInitializing());
+                case Request<(PlayerNumber, IEnumerable<WallCoords>), WallCoords> wallCoordsRequest:
+                    _input.GetPlaceWallCoords(wallCoordsRequest.Input.Item1,
+                                              wallCoordsRequest.Input.Item2,
+                                              wallCoordsRequest.StartInitializing());
 
                     break;
-                case ActionRequest<(PlayerType, Coords)> movePawnRequest:
-                    _view.MovePawn(movePawnRequest.Input.Item1,
-                                   movePawnRequest.Input.Item2);
-
-                    break;
-                case ActionRequest<(PlayerType, WallCoords)> placeWallRequest:
-                    _view.PlaceWall(placeWallRequest.Input.Item1,
-                                    placeWallRequest.Input.Item2);
-
-                    break;
-                case ActionRequest<(PlayerType, MoveType)> showWrongMoveRequest:
-                    _view.ShowWrongMove(showWrongMoveRequest.Input.Item1,
-                                        showWrongMoveRequest.Input.Item2);
-
-                    break;
-                case ActionRequest<PlayerType> showWinnerRequest:
+                case ActionRequest<PlayerNumber> showWinnerRequest:
                     _view.ShowWinner(showWinnerRequest.Input);
 
                     break;
+                case ActionRequest<MoveType> showWrongMoveRequest:
+                    _view.ShowWrongMove(showWrongMoveRequest.Input);
+
+                    break;
                 case InputlessRequest<bool> shouldRestartRequest:
-                    _view.ShouldRestart(shouldRestartRequest.StartInitializing());
+                    _input.ShouldRestart(shouldRestartRequest.StartInitializing());
+
+                    break;
+                case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>)> fieldInitRequest:
+                    _view.InitializeField(fieldInitRequest.Input.Item1,
+                                          fieldInitRequest.Input.Item2);
+
+                    break;
+                case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>, PlayerNumber, Coords)> movePawnRequest:
+                    _view.MovePawn(movePawnRequest.Input.Item1,
+                                   movePawnRequest.Input.Item2,
+                                   movePawnRequest.Input.Item3,
+                                   movePawnRequest.Input.Item4);
+
+                    break;
+                case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>, PlayerNumber, WallCoords)> placeWallRequest:
+                    _view.PlaceWall(placeWallRequest.Input.Item1,
+                                    placeWallRequest.Input.Item2,
+                                    placeWallRequest.Input.Item3,
+                                    placeWallRequest.Input.Item4);
 
                     break;
                 default:

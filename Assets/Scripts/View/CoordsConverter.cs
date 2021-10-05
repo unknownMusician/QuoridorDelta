@@ -28,14 +28,14 @@ namespace QuoridorDelta.View
                 Mathf.Clamp(Mathf.FloorToInt(point.z), 0, maxClampValue));
         }
 
-        private static WallOrientation GetWallOrientation(Vector3 coordsInOwnCoordSystem)
+        private static WallRotation GetWallOrientation(Vector3 coordsInOwnCoordSystem)
         {
             float absCoordsInOwnCoordSystemZ = Mathf.Abs(coordsInOwnCoordSystem.z);
 
             return (absCoordsInOwnCoordSystemZ < coordsInOwnCoordSystem.x ||
                     absCoordsInOwnCoordSystemZ < -coordsInOwnCoordSystem.x)
-                ? WallOrientation.Horizontal
-                : WallOrientation.Vertical;
+                ? WallRotation.Horizontal
+                : WallRotation.Vertical;
         }
 
         public Coords ToCoords(Vector3 pointInWorld) => ToCoords(pointInWorld, _boardStartPoint, BoardSize - 1);
@@ -49,7 +49,7 @@ namespace QuoridorDelta.View
                 0,
                 point.z - (Mathf.FloorToInt(point.z) + 0.5f));
 
-            WallOrientation wallOrientation = GetWallOrientation(pointInNewSystem);
+            WallRotation wallOrientation = GetWallOrientation(pointInNewSystem);
 
             return new WallCoords(
                 ToCoords(pointInWorld, _wallStartPoint, BoardSize - 2),
@@ -58,7 +58,10 @@ namespace QuoridorDelta.View
 
         public Vector3 ToVector3(Coords coords)
         {
-            (int x, int y) = coords;
+            // todo
+            //(int x, int y) = coords;
+            int x = coords.X;
+            int y = coords.Y;
 
             return new Vector3(
                 x + _centerPoint.x + 0.5f,
@@ -68,7 +71,10 @@ namespace QuoridorDelta.View
 
         public Vector3 ToVector3(WallCoords wallCoords)
         {
-            (int x, int y) = wallCoords.Coords;
+            // todo
+            //(int x, int y) = wallCoords.Coords;
+            int x = wallCoords.Coords.X;
+            int y = wallCoords.Coords.Y;
 
             return new Vector3(
                        x + _centerPoint.x + 0.5f,

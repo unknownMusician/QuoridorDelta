@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using QuoridorDelta.Model;
+using UnityEngine;
 
 namespace QuoridorDelta.View
 {

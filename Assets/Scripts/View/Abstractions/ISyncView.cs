@@ -1,22 +1,16 @@
-﻿using QuoridorDelta.Model;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using QuoridorDelta.Controller;
+using QuoridorDelta.Model;
 
 namespace QuoridorDelta.View
 {
     public interface ISyncView
     {
-        void GetGameType(Action<GameType> handler);
+        void ShowWinner(PlayerNumber playerNumber);
+        void ShowWrongMove(MoveType moveType);
 
-        void GetMoveType(PlayerType playerType, Action<MoveType> handler);
-        void GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves, Action<Coords> handler);
-        void GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements, Action<WallCoords> handler);
-
-        void MovePawn(PlayerType playerType, Coords newCoords);
-        void PlaceWall(PlayerType playerType, WallCoords newCoords);
-        void ShowWrongMove(PlayerType playerType, MoveType moveType);
-
-        void ShowWinner(PlayerType playerType);
-        void ShouldRestart(Action<bool> handler);
+        void InitializeField(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords);
+        void MovePawn(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords, PlayerNumber playerNumber, Coords newCoords);
+        void PlaceWall(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords, PlayerNumber playerNumber, WallCoords newCoords);
     }
 }

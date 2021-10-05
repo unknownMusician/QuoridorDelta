@@ -1,58 +1,65 @@
-﻿using QuoridorDelta.Controller;
-using QuoridorDelta.Model;
-using System;
-using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using QuoridorDelta.Controller;
+using QuoridorDelta.Controller.Abstractions.View;
+using QuoridorDelta.DataBaseManagementSystem;
+using QuoridorDelta.Model;
 
 namespace QuoridorDelta.View.Proxy
 {
-    public sealed class QuoridorProxy : IView, IDisposable
+    public class QuoridorProxy : GameProxy, IGameInput, IGameView
     {
-        private readonly Thread _thread;
-
-        internal ConcurrentQueue<IRequest> Requests { get; } = new ConcurrentQueue<IRequest>();
+        private readonly UnityProxy _proxy;
 
         public QuoridorProxy()
         {
-            _thread = new Thread(Start) {Name = "QuoridorThread"};
-            _thread.Start();
+            Start(() => new Game().Start(this, this));
         }
 
-        private void Start() => new GameController(new GameData(), this).Run();
+        public GameType ChooseGameType()
+            => Wait<GameType>();
 
-        private TOut WaitRequest<TOut>(InitializableRequest<TOut> request)
+        public MoveType ChooseMoveType(PlayerNumber playerNumber)
+            => Wait<PlayerNumber, MoveType>(playerNumber);
+
+        public Coords MovePawn(PlayerNumber playerNumber, IEnumerable<Coords> possibleMoves)
+            => Wait<(PlayerNumber, IEnumerable<Coords>), Coords>((playerNumber, possibleMoves));
+
+        public WallCoords PlaceWall(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves)
+            => Wait<(PlayerNumber, IEnumerable<WallCoords>), WallCoords>((playerNumber, possibleMoves));
+
+        public void ShowWinner(PlayerNumber winner)
+            => Send(winner);
+
+        public void ShowWrongMove(MoveType moveType) 
+            => Send(moveType);
+
+        public bool ShouldRestart()
+            => Wait<bool>();
+
+        public void HandleChange(GameState gameState, IDBChangeInfo changeInfo)
         {
-            Requests.Enqueue(request);
-
-            while (!request.Initialized)
+            switch (changeInfo)
             {
-                const int sleepTime = 100;
-
-                Thread.Sleep(sleepTime);
+                case DBInitializedInfo _:
+                    Send((gameState.PlayerInfos, 
+                         gameState.Walls));
+                    break;
+                case DBPawnMovedInfo dbPawnMovedInfo:
+                    Send((gameState.PlayerInfos, 
+                         gameState.Walls,
+                         dbPawnMovedInfo.PlayerNumber,
+                         dbPawnMovedInfo.NewCoords));
+                    break;
+                case DBWallPlacedInfo dbWallPlacedInfo:
+                    Send((gameState.PlayerInfos, 
+                         gameState.Walls, 
+                         dbWallPlacedInfo.PlayerNumber,
+                         dbWallPlacedInfo.NewCoords));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-
-            return request.Result;
         }
-
-        private TOut Wait<TIn, TOut>(TIn input) => WaitRequest(new Request<TIn, TOut>(input));
-        private TOut Wait<TOut>() => WaitRequest(new InputlessRequest<TOut>());
-        private void Send<TIn>(TIn input) => Requests.Enqueue(new ActionRequest<TIn>(input));
-
-        public void Dispose() => _thread.Abort();
-
-        public GameType GetGameType() => Wait<GameType>();
-        public MoveType GetMoveType(PlayerType playerType) => Wait<PlayerType, MoveType>(playerType);
-
-        public Coords GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves) 
-            => Wait<(PlayerType, IEnumerable<Coords>), Coords>((playerType, possibleMoves));
-
-        public WallCoords GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleWallPlacements) 
-            => Wait<(PlayerType, IEnumerable<WallCoords>), WallCoords>((playerType, possibleWallPlacements));
-        public void MovePlayerPawn(PlayerType playerType, Coords newCoords) => Send((playerType, newCoords));
-        public void PlacePlayerWall(PlayerType playerType, WallCoords newCoords) => Send((playerType, newCoords));
-        public void ShowWrongMove(PlayerType playerType, MoveType moveType) => Send((playerType, moveType));
-        public void ShowWinner(PlayerType playerType) => Send(playerType);
-        public bool ShouldRestart() => Wait<bool>();
     }
 }

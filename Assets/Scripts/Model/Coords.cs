@@ -1,4 +1,6 @@
-﻿namespace QuoridorDelta.Model
+﻿using System.Collections.Generic;
+
+namespace QuoridorDelta.Model
 {
     public readonly struct Coords : System.IEquatable<Coords>
     {

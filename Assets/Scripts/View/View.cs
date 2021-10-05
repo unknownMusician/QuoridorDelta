@@ -1,14 +1,15 @@
-﻿using QuoridorDelta.Model;
-using QuoridorDelta.View.Proxy;
+﻿using QuoridorDelta.View.Proxy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using QuoridorDelta.Controller;
+using QuoridorDelta.Model;
 using UnityEngine;
 
 namespace QuoridorDelta.View
 {
     [RequireComponent(typeof(Camera))]
-    public sealed class View : MonoBehaviour, ISyncView
+    public sealed class View : MonoBehaviour, ISyncView, ISyncInput
     {
         [SerializeField] private UnityProxy _proxy;
         [SerializeField] private UserInput _input;
@@ -29,7 +30,6 @@ namespace QuoridorDelta.View
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
         private Backlight _backlight;
-        private const int _maxWallCount = 10;
 
 
         private Action<MoveType> _moveTypeHandler;
@@ -47,22 +47,22 @@ namespace QuoridorDelta.View
             _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
         }
 
-        private void Start() => _proxy.StartGame(this);
+        private void Start() => _proxy.StartGame(this, this);
 
-        public void GetMoveType(PlayerType playerType, Action<MoveType> handler)
+        public void GetMoveType(PlayerNumber playerNumber, Action<MoveType> handler)
         {
             _moveTypeChoiceMenu.SetActive(true);
             _moveTypeHandler = handler;
         }
 
-        public void GetMovePawnCoords(PlayerType playerType, IEnumerable<Coords> possibleMoves, Action<Coords> handler)
+        public void GetMovePawnCoords(PlayerNumber playerNumber, IEnumerable<Coords> possibleMoves, Action<Coords> handler)
         {
             _movePawnHandler = handler;
             _backlight.TurnOnLightOnCells(possibleMoves);
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
 
-        public void GetPlaceWallCoords(PlayerType playerType, IEnumerable<WallCoords> possibleMoves, Action<WallCoords> handler)
+        public void GetPlaceWallCoords(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves, Action<WallCoords> handler)
         {
             _placeWallHandler = handler;
             _input.OnLeftMouseButtonClicked += WallCoordsClickHandler;
@@ -127,10 +127,11 @@ namespace QuoridorDelta.View
             }
         }
 
-        public void MovePawn(PlayerType playerType, Coords newCoords) => _pawnBehaviour.MovePawn(playerType, newCoords);
+        public void MovePawn(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords, PlayerNumber playerNumber, Coords newCoords) 
+            => _pawnBehaviour.MovePawn(playerNumber, newCoords);
 
-        public void PlaceWall(PlayerType playerType, WallCoords newCoords) =>
-            _pawnBehaviour.PlaceWall(playerType, newCoords);
+        public void PlaceWall(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords, PlayerNumber playerNumber, WallCoords newCoords) =>
+            _pawnBehaviour.PlaceWall(playerNumber, newCoords);
 
         public void GetGameType(Action<GameType> handler)
         {
@@ -138,7 +139,7 @@ namespace QuoridorDelta.View
             _gameTypeChoiceMenu.SetActive(true);
         }
 
-        public void ShowWrongMove(PlayerType playerType, MoveType moveType)
+        public void ShowWrongMove(MoveType moveType)
         {
             const float waitingTime = 2.0f;
 
@@ -146,7 +147,7 @@ namespace QuoridorDelta.View
             StartCoroutine(Waiting(waitingTime, () => _wrongMoveInfoMenu.SetActive(false)));
         }
 
-        public void ShowWinner(PlayerType playerType) => _winnerInfoMenu.SetActive(true);
+        public void ShowWinner(PlayerNumber playerNumber) => _winnerInfoMenu.SetActive(true);
 
         public void ShouldRestart(Action<bool> handler)
         {
@@ -154,15 +155,18 @@ namespace QuoridorDelta.View
             _restartBlock.SetActive(true);
         }
 
+        // todo
+        public void InitializeField(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords) { }
+
         public void SetGameTypePvP()
         {
-            _getGameType(GameType.PlayerVersusPlayer);
+            _getGameType(GameType.VersusPlayer);
             _getGameType = null;
         }
 
         public void SetGameTypePvBot()
         {
-            _getGameType(GameType.PlayerVersusBot);
+            _getGameType(GameType.VersusBot);
             _getGameType = null;
         }
 

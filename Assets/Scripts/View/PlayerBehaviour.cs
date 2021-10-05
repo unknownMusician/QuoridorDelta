@@ -1,5 +1,5 @@
-﻿using QuoridorDelta.Model;
-using System;
+﻿using System;
+using QuoridorDelta.Model;
 using UnityEngine;
 
 namespace QuoridorDelta.View
@@ -16,26 +16,26 @@ namespace QuoridorDelta.View
 
         public void Start() => _coordsConverter = _view.CoordsConverter;
 
-        private GameObject GetPawn(PlayerType playerType) => playerType switch
+        private GameObject GetPawn(PlayerNumber playerNumber) => playerNumber switch
         {
-            PlayerType.First => _pawn1,
-            PlayerType.Second => _pawn2,
+            PlayerNumber.First => _pawn1,
+            PlayerNumber.Second => _pawn2,
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        public void MovePawn(PlayerType playerType, Coords newCoords)
+        public void MovePawn(PlayerNumber playerNumber, Coords newCoords)
         {
             // todo: add animations
-            GetPawn(playerType).transform.position = _coordsConverter.ToVector3(newCoords);
+            GetPawn(playerNumber).transform.position = _coordsConverter.ToVector3(newCoords);
         }
 
-        public void PlaceWall(PlayerType playerType, WallCoords newCoords)
+        public void PlaceWall(PlayerNumber playerNumber, WallCoords newCoords)
         {
             // todo: add animations
-            Quaternion quaternion = newCoords.Orientation switch
+            Quaternion quaternion = newCoords.Rotation switch
             {
-                WallOrientation.Horizontal => Quaternion.AngleAxis(90f, Vector3.up),
-                WallOrientation.Vertical => Quaternion.identity,
+                WallRotation.Horizontal => Quaternion.AngleAxis(90f, Vector3.up),
+                WallRotation.Vertical => Quaternion.identity,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
