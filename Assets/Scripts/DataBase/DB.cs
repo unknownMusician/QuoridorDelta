@@ -3,7 +3,7 @@ using QuoridorDelta.Model;
 
 namespace QuoridorDelta.DataBase
 {
-    public class DB
+    public sealed class DB
     {
         public PlayerInfos PlayerInfos { get; set; }
         public List<WallCoords> Walls { get; set; }

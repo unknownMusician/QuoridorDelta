@@ -29,7 +29,7 @@ namespace QuoridorDelta.Controller
         ) => gameType switch
         {
             GameType.VersusPlayer => new HumanPlayer(input),
-            GameType.VersusBot => new BotPlayer(new RandomBot(), ref onDBChange),
+            GameType.VersusBot => new RandomBot(ref onDBChange),
             _ => throw new ArgumentOutOfRangeException(nameof(gameType), gameType, null)
         };
     }

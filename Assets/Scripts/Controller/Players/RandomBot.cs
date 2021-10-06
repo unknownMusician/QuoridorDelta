@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using QuoridorDelta.DataBaseManagementSystem;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller
@@ -9,6 +10,8 @@ namespace QuoridorDelta.Controller
     public sealed class RandomBot : Bot
     {
         private readonly Random _random = new Random();
+        
+        public RandomBot(ref Action<GameState, IDBChangeInfo> onDBChange) => onDBChange += HandleChange;
 
         public override MoveType ChooseMoveType(PlayerNumber playerNumber) => (MoveType)_random.Next(0, 2);
 

@@ -15,6 +15,8 @@ namespace QuoridorDelta.View.Proxy
         private ISyncView _view;
         private ISyncInput _input;
 
+        private bool _isWaitingForAnimationEnd = false;
+
         private void OnDestroy()
         {
             _isAlive = false;
@@ -34,8 +36,12 @@ namespace QuoridorDelta.View.Proxy
             StartCoroutine(Listening());
         }
 
+        public void HandleAnimationEnded() => _isWaitingForAnimationEnd = false;
+
         private void HandleRequest([NotNull] IRequest request)
         {
+            _isWaitingForAnimationEnd = true;
+
             switch (request)
             {
                 case InputlessRequest<GameType> gameTypeRequest:
@@ -96,7 +102,7 @@ namespace QuoridorDelta.View.Proxy
         {
             while (_isAlive)
             {
-                while (!_proxy.Requests.IsEmpty)
+                if (!_proxy.Requests.IsEmpty && !_isWaitingForAnimationEnd)
                 {
                     if (_proxy.Requests.TryDequeue(out IRequest request))
                     {
