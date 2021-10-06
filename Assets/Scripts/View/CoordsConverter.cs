@@ -7,14 +7,14 @@ namespace QuoridorDelta.View
     {
         private readonly Vector3 _boardStartPoint;
         private readonly Vector3 _wallStartPoint;
-        private readonly Vector3 _centerPoint;
+        public readonly Vector3 CenterPoint;
         private const int BoardSize = 9;
         private const float PawnHeightValue = 0.652f;
         private const float WallHeightValue = 0.9f;
 
         public CoordsConverter(Vector3 centerPoint)
         {
-            _centerPoint = centerPoint;
+            CenterPoint = centerPoint;
             _boardStartPoint = new Vector3(centerPoint.x - 4.5f, 0, centerPoint.z - 4.5f);
             _wallStartPoint = new Vector3(centerPoint.x - 4f, 0, centerPoint.z - 4f);
         }
@@ -56,7 +56,7 @@ namespace QuoridorDelta.View
         {
             (int x, int y) = coords;
 
-            return new Vector3(x + _centerPoint.x + 0.5f, PawnHeightValue, y + _centerPoint.z + 0.5f)
+            return new Vector3(x + CenterPoint.x + 0.5f, PawnHeightValue, y + CenterPoint.z + 0.5f)
                  + _boardStartPoint;
         }
 
@@ -64,7 +64,7 @@ namespace QuoridorDelta.View
         {
             (int x, int y) = wallCoords.Coords;
 
-            return new Vector3(x + _centerPoint.x + 0.5f, WallHeightValue, y + _centerPoint.z + 0.5f) + _wallStartPoint;
+            return new Vector3(x + CenterPoint.x + 0.5f, WallHeightValue, y + CenterPoint.z + 0.5f) + _wallStartPoint;
         }
     }
 }

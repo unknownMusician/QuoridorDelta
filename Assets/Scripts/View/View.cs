@@ -26,7 +26,7 @@ namespace QuoridorDelta.View
 
 
         public CoordsConverter CoordsConverter { get; private set; }
-        private PlayerBehaviour _pawnBehaviour;
+        private PlayerBehaviour _playerBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
         private Backlight _backlight;
@@ -41,7 +41,7 @@ namespace QuoridorDelta.View
         private void Awake()
         {
             _camera = GetComponent<Camera>();
-            _pawnBehaviour = GetComponent<PlayerBehaviour>();
+            _playerBehaviour = GetComponent<PlayerBehaviour>();
             CoordsConverter = new CoordsConverter(_boardObject.transform.position);
             _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
             _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
@@ -139,14 +139,14 @@ namespace QuoridorDelta.View
             PlayerNumber playerNumber,
             Coords newCoords
         )
-            => _pawnBehaviour.MovePawn(playerNumber, newCoords);
+            => _playerBehaviour.MovePawn(playerNumber, newCoords);
 
         public void PlaceWall(
             PlayerInfos playerInfos,
             IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
             WallCoords newCoords
-        ) => _pawnBehaviour.PlaceWall(playerNumber, newCoords);
+        ) => _playerBehaviour.PlaceWall(playerInfos, playerNumber, newCoords);
 
         public void GetGameType(Action<GameType> handler)
         {
@@ -170,8 +170,12 @@ namespace QuoridorDelta.View
             _restartBlock.SetActive(true);
         }
 
-        // todo
-        public void InitializeField(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords) { }
+        public void InitializeField(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords) 
+        {
+            _playerBehaviour.ResetWallsPosition(playerInfos);
+            MovePawn(playerInfos, wallCoords, PlayerNumber.First, playerInfos.First.PawnCoords);
+            MovePawn(playerInfos, wallCoords, PlayerNumber.Second, playerInfos.Second.PawnCoords);
+        }
 
         public void SetGameTypePvP()
         {
