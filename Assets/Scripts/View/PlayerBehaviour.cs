@@ -20,14 +20,14 @@ namespace QuoridorDelta.View
         private int _lastFreeWallIndexInFirst = 0;
         private int _lastFreeWallIndexInSecond = 0;
         private bool IsInitialized = false;
-        private Highlitable _pawn1HighLight;
-        private Highlitable _pawn2HighLight;
+        private Highlightable _pawn1HighLight;
+        private Highlightable _pawn2HighLight;
 
         public void Start()
         {
             _coordsConverter = _view.CoordsConverter;
-            _pawn1HighLight = _pawn1.GetComponent<Highlitable>();
-            _pawn2HighLight = _pawn2.GetComponent<Highlitable>();
+            _pawn1HighLight = _pawn1.GetComponent<Highlightable>();
+            _pawn2HighLight = _pawn2.GetComponent<Highlightable>();
         }
 
         private void InitializePlayerWalls(PlayerInfos playerInfos)
@@ -61,7 +61,6 @@ namespace QuoridorDelta.View
 
                 _playerWallsList[PlayerNumber.Second].Add(wall);
             }
-
         }
 
         private GameObject GetPawn(PlayerNumber playerNumber) => playerNumber switch
@@ -70,7 +69,8 @@ namespace QuoridorDelta.View
             PlayerNumber.Second => _pawn2,
             _ => throw new ArgumentOutOfRangeException()
         };
-        private Highlitable GetPawnHighlight(PlayerNumber playerNumber) => playerNumber switch
+
+        private Highlightable GetPawnHighlight(PlayerNumber playerNumber) => playerNumber switch
         {
             PlayerNumber.First => _pawn1HighLight,
             PlayerNumber.Second => _pawn2HighLight,
@@ -133,11 +133,12 @@ namespace QuoridorDelta.View
             {
                 wall.ResetToStartPosition();
             }
+
             _lastFreeWallIndexInFirst = 0;
             _lastFreeWallIndexInSecond = 0;
         }
+
         public void TurnOnPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(true);
         public void TurnOffPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(false);
-
     }
 }
