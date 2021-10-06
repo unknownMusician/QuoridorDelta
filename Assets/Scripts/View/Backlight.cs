@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using QuoridorDelta.Model;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace QuoridorDelta.View
             }
         }
 
-        public void TurnOnLightOnCells(IEnumerable<Coords> possibleMoves)
+        public void TurnOnLightOnCells([NotNull] IEnumerable<Coords> possibleMoves)
         {
             int currentLightObjectIndex = 0;
 

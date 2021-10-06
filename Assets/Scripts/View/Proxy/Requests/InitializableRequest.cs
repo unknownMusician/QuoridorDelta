@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace QuoridorDelta.View.Proxy
@@ -20,14 +21,16 @@ namespace QuoridorDelta.View.Proxy
             Initialized = true;
         }
 
+        [NotNull]
         public Action<TOutput> StartInitializing()
         {
             if (StartedInitializing)
             {
                 throw new InvalidOperationException();
             }
-            
+
             StartedInitializing = true;
+
             return Initialize;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller
@@ -7,8 +8,13 @@ namespace QuoridorDelta.Controller
     {
         public abstract bool CanMovePawn(PlayerNumber playerNumber, Coords newCoords);
         public abstract bool CanPlaceWall(PlayerNumber playerNumber, WallCoords newCoords);
+
+        [NotNull]
         public abstract IEnumerable<Coords> GetPossiblePawnMoves(PlayerNumber playerNumber);
+
+        [NotNull]
         public abstract IEnumerable<WallCoords> GetPossibleWallPlacements(PlayerNumber playerNumber);
+
         public abstract bool IsWinner(PlayerNumber playerNumber);
     }
 }

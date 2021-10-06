@@ -17,8 +17,8 @@
             rotation = Rotation;
         }
 
-        public static implicit operator WallCoords((Coords coords, WallRotation orientation) tuple) =>
-            new WallCoords(tuple.coords, tuple.orientation);
+        public static implicit operator WallCoords((Coords coords, WallRotation orientation) tuple)
+            => new WallCoords(tuple.coords, tuple.orientation);
 
         public override bool Equals(object obj) => obj is WallCoords other && Equals(other);
         public bool Equals(WallCoords other) => other.Coords == Coords && other.Rotation == Rotation;

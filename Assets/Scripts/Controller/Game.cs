@@ -26,11 +26,12 @@ namespace QuoridorDelta.Controller
             {
                 Action<GameState, IDBChangeInfo> onChange = _rules.HandleChange;
                 _players = PlayersFactory.CreatePlayers(input.ChooseGameType(), input, view, ref onChange);
-                _dataBase = new DBMS(InitialRules.PlayerInfos, onChange);
+                _dataBase = new Dbms(InitialRules.PlayerInfos, onChange);
 
                 Loop(out PlayerNumber winner);
                 view.ShowWinner(winner);
-            } while (input.ShouldRestart());
+            }
+            while (input.ShouldRestart());
         }
 
         private void Loop(out PlayerNumber winner)
@@ -39,9 +40,9 @@ namespace QuoridorDelta.Controller
             {
                 winner.Change();
 
-                MoveType moveType = _dataBase.PlayerInfos[winner].WallCount > 0
-                    ? _players[winner].ChooseMoveType(winner)
-                    : MoveType.MovePawn;
+                MoveType moveType = _dataBase.PlayerInfos[winner].WallCount > 0 ?
+                    _players[winner].ChooseMoveType(winner) :
+                    MoveType.MovePawn;
 
                 MakeMove(moveType, winner);
             }
@@ -59,8 +60,7 @@ namespace QuoridorDelta.Controller
                     PlaceWall(playerNumber);
 
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -70,8 +70,7 @@ namespace QuoridorDelta.Controller
 
             while (true)
             {
-                chosenCoords = _players[playerNumber]
-                    .MovePawn(playerNumber, _rules.GetPossiblePawnMoves(playerNumber));
+                chosenCoords = _players[playerNumber].MovePawn(playerNumber, _rules.GetPossiblePawnMoves(playerNumber));
 
                 if (_rules.CanMovePawn(playerNumber, chosenCoords))
                 {

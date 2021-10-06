@@ -8,10 +8,12 @@ namespace QuoridorDelta.Controller
     public static class PlayersFactory
     {
         [NotNull]
-        public static Players CreatePlayers(GameType gameType,
-                                            [NotNull] IGameInput input,
-                                            [NotNull] INotifiable view,
-                                            ref Action<GameState, IDBChangeInfo> onDBChange)
+        public static Players CreatePlayers(
+            GameType gameType,
+            [NotNull] IGameInput input,
+            [NotNull] INotifiable view,
+            ref Action<GameState, IDBChangeInfo> onDBChange
+        )
         {
             IPlayerInput player1 = new HumanPlayer(input, view, ref onDBChange);
             IPlayerInput player2 = CreateSecondPlayer(gameType, input, ref onDBChange);
@@ -20,9 +22,10 @@ namespace QuoridorDelta.Controller
         }
 
         [NotNull]
-        private static IPlayerInput CreateSecondPlayer(GameType gameType,
-                                                       [NotNull] IGameInput input,
-                                                       ref Action<GameState, IDBChangeInfo> onDBChange
+        private static IPlayerInput CreateSecondPlayer(
+            GameType gameType,
+            [NotNull] IGameInput input,
+            ref Action<GameState, IDBChangeInfo> onDBChange
         ) => gameType switch
         {
             GameType.VersusPlayer => new HumanPlayer(input),

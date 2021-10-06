@@ -55,14 +55,22 @@ namespace QuoridorDelta.View
             _moveTypeHandler = handler;
         }
 
-        public void GetMovePawnCoords(PlayerNumber playerNumber, IEnumerable<Coords> possibleMoves, Action<Coords> handler)
+        public void GetMovePawnCoords(
+            PlayerNumber playerNumber,
+            IEnumerable<Coords> possibleMoves,
+            Action<Coords> handler
+        )
         {
             _movePawnHandler = handler;
             _backlight.TurnOnLightOnCells(possibleMoves);
             _input.OnLeftMouseButtonClicked += PawnCoordsClickHandler;
         }
 
-        public void GetPlaceWallCoords(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves, Action<WallCoords> handler)
+        public void GetPlaceWallCoords(
+            PlayerNumber playerNumber,
+            IEnumerable<WallCoords> possibleMoves,
+            Action<WallCoords> handler
+        )
         {
             _placeWallHandler = handler;
             _input.OnLeftMouseButtonClicked += WallCoordsClickHandler;
@@ -127,11 +135,20 @@ namespace QuoridorDelta.View
             }
         }
 
-        public void MovePawn(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords, PlayerNumber playerNumber, Coords newCoords) 
+        public void MovePawn(
+            PlayerInfos playerInfos,
+            IEnumerable<WallCoords> wallCoords,
+            PlayerNumber playerNumber,
+            Coords newCoords
+        )
             => _pawnBehaviour.MovePawn(playerNumber, newCoords);
 
-        public void PlaceWall(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords, PlayerNumber playerNumber, WallCoords newCoords) =>
-            _pawnBehaviour.PlaceWall(playerNumber, newCoords);
+        public void PlaceWall(
+            PlayerInfos playerInfos,
+            IEnumerable<WallCoords> wallCoords,
+            PlayerNumber playerNumber,
+            WallCoords newCoords
+        ) => _pawnBehaviour.PlaceWall(playerNumber, newCoords);
 
         public void GetGameType(Action<GameType> handler)
         {

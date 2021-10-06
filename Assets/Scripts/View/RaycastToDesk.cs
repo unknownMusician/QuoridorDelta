@@ -20,9 +20,11 @@ namespace QuoridorDelta.View
 
         public bool TryGetPawnMoveCoords(out Coords coords)
         {
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _maxDistance,
-                                _layerForRaycast) &&
-                hit.normal == Vector3.up)
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition),
+                                out RaycastHit hit,
+                                _maxDistance,
+                                _layerForRaycast)
+             && hit.normal == Vector3.up)
             {
                 coords = _coordsConverter.ToCoords(hit.point);
 
@@ -37,9 +39,11 @@ namespace QuoridorDelta.View
 
         public bool TryGetPlaceWallCoords(out WallCoords coords)
         {
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _maxDistance,
-                                _layerForRaycast) &&
-                hit.normal == Vector3.up)
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition),
+                                out RaycastHit hit,
+                                _maxDistance,
+                                _layerForRaycast)
+             && hit.normal == Vector3.up)
             {
                 coords = _coordsConverter.ToWallCoords(hit.point);
 

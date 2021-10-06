@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Controller.Abstractions.View;
 using QuoridorDelta.DataBaseManagementSystem;
@@ -7,14 +8,9 @@ using QuoridorDelta.Model;
 
 namespace QuoridorDelta.View.Proxy
 {
-    public class QuoridorProxy : GameProxy, IGameInput, IGameView
+    public sealed class QuoridorProxy : GameProxy, IGameInput, IGameView
     {
-        private readonly UnityProxy _proxy;
-
-        public QuoridorProxy()
-        {
-            Start(() => new Game().Start(this, this));
-        }
+        public QuoridorProxy() => Start(() => new Game().Start(this, this));
 
         public GameType ChooseGameType()
             => Wait<GameType>();
@@ -31,34 +27,31 @@ namespace QuoridorDelta.View.Proxy
         public void ShowWinner(PlayerNumber winner)
             => Send(winner);
 
-        public void ShowWrongMove(MoveType moveType) 
+        public void ShowWrongMove(MoveType moveType)
             => Send(moveType);
 
         public bool ShouldRestart()
             => Wait<bool>();
 
-        public void HandleChange(GameState gameState, IDBChangeInfo changeInfo)
+        public void HandleChange(GameState gameState, [NotNull] IDBChangeInfo changeInfo)
         {
             switch (changeInfo)
             {
                 case DBInitializedInfo _:
-                    Send((gameState.PlayerInfos, 
-                         gameState.Walls));
+                    Send((gameState.PlayerInfos, gameState.Walls));
+
                     break;
                 case DBPawnMovedInfo dbPawnMovedInfo:
-                    Send((gameState.PlayerInfos, 
-                         gameState.Walls,
-                         dbPawnMovedInfo.PlayerNumber,
-                         dbPawnMovedInfo.NewCoords));
+                    Send((gameState.PlayerInfos, gameState.Walls, dbPawnMovedInfo.PlayerNumber,
+                          dbPawnMovedInfo.NewCoords));
+
                     break;
                 case DBWallPlacedInfo dbWallPlacedInfo:
-                    Send((gameState.PlayerInfos, 
-                         gameState.Walls, 
-                         dbWallPlacedInfo.PlayerNumber,
-                         dbWallPlacedInfo.NewCoords));
+                    Send((gameState.PlayerInfos, gameState.Walls, dbWallPlacedInfo.PlayerNumber,
+                          dbWallPlacedInfo.NewCoords));
+
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException();
             }
         }
     }

@@ -4,7 +4,7 @@ using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller
 {
-    public class Players
+    public sealed class Players
     {
         [NotNull] public readonly IPlayerInput First;
         [NotNull] public readonly IPlayerInput Second;

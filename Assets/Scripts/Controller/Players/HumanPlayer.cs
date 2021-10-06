@@ -11,10 +11,12 @@ namespace QuoridorDelta.Controller
     {
         [NotNull] private readonly IGameInput _input;
 
-        public HumanPlayer([NotNull] IGameInput input,
-                           [NotNull] INotifiable view,
-                           ref Action<GameState, IDBChangeInfo> onDBChange)
-            : this(input) => onDBChange += view.HandleChange;
+        public HumanPlayer(
+            [NotNull] IGameInput input,
+            [NotNull] INotifiable view,
+            ref Action<GameState, IDBChangeInfo> onDBChange
+        ) : this(input)
+            => onDBChange += view.HandleChange;
 
         public HumanPlayer([NotNull] IGameInput input) => _input = input;
 

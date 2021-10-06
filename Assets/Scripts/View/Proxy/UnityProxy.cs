@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 using UnityEngine;
@@ -33,7 +34,7 @@ namespace QuoridorDelta.View.Proxy
             StartCoroutine(Listening());
         }
 
-        private void HandleRequest(IRequest request)
+        private void HandleRequest([NotNull] IRequest request)
         {
             switch (request)
             {
@@ -42,8 +43,7 @@ namespace QuoridorDelta.View.Proxy
 
                     break;
                 case Request<PlayerNumber, MoveType> moveTypeRequest:
-                    _input.GetMoveType(moveTypeRequest.Input,
-                                       moveTypeRequest.StartInitializing());
+                    _input.GetMoveType(moveTypeRequest.Input, moveTypeRequest.StartInitializing());
 
                     break;
                 case Request<(PlayerNumber, IEnumerable<Coords>), Coords> movePawnCoordsRequest:
@@ -71,8 +71,7 @@ namespace QuoridorDelta.View.Proxy
 
                     break;
                 case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>)> fieldInitRequest:
-                    _view.InitializeField(fieldInitRequest.Input.Item1,
-                                          fieldInitRequest.Input.Item2);
+                    _view.InitializeField(fieldInitRequest.Input.Item1, fieldInitRequest.Input.Item2);
 
                     break;
                 case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>, PlayerNumber, Coords)> movePawnRequest:
@@ -89,8 +88,7 @@ namespace QuoridorDelta.View.Proxy
                                     placeWallRequest.Input.Item4);
 
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 

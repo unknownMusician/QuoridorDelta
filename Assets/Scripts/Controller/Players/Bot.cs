@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller

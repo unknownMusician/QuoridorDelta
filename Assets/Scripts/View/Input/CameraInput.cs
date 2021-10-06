@@ -2,12 +2,12 @@
 
 namespace QuoridorDelta.View
 {
-    public class CameraInput : MonoBehaviour
+    public sealed class CameraInput : MonoBehaviour
     {
         private const int RightMouseButtonIndex = 1;
         [SerializeField] private float _speed = 0.1f;
         [SerializeField] private float _minEulerX = -55.0f;
-        [SerializeField] private float _maxEulerX = 0.0f;
+        [SerializeField] private float _maxEulerX = 1.0f;
         [SerializeField] private float _slerp = 0.1f;
 
         private Vector2 _lastMouseClickPosition;
@@ -21,12 +21,11 @@ namespace QuoridorDelta.View
                 _lastMouseClickPosition = Input.mousePosition;
             }
 
-            Vector2 mousePosition = ((Vector2) Input.mousePosition - _lastMouseClickPosition) * _speed;
+            Vector2 mousePosition = ((Vector2)Input.mousePosition - _lastMouseClickPosition) * _speed;
 
-            Vector2 newEuler =
-                ClampX(new Vector2(_cameraEuler.x - mousePosition.y, _cameraEuler.y + mousePosition.x),
-                       _minEulerX,
-                       _maxEulerX);
+            Vector2 newEuler = ClampX(new Vector2(_cameraEuler.x - mousePosition.y, _cameraEuler.y + mousePosition.x),
+                                      _minEulerX,
+                                      _maxEulerX);
 
             if (Input.GetMouseButton(RightMouseButtonIndex))
             {

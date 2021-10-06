@@ -6,9 +6,6 @@ namespace QuoridorDelta.DataBaseManagementSystem
     {
         public readonly PlayerInfos PlayerInfos;
 
-        public DBInitializedInfo(PlayerInfos playerInfos)
-        {
-            PlayerInfos = playerInfos;
-        }
+        public DBInitializedInfo(PlayerInfos playerInfos) => PlayerInfos = playerInfos;
     }
 }

@@ -5,146 +5,58 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b64d4d9-dbbe-42cf-bb49-231f3d57d2c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/IPlayerInput.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Bot.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/RandomBot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.QuoridorDelta/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.QuoridorDelta/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Pawns/Pawn 1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Pawns/Pawn 1.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Pawns/Pawn 2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Pawns/Pawn 2.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Wall/Wall.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Wall/Wall.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Wall.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Wall.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AI.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AI/RandomBot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AI/RandomBot.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/GameController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/GameController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/TestData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/TestData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/Data/IDataBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/Data/IDataBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/INotifiable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/INotifiable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/IPlayerInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/IPlayerInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/DisposableStartHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/DisposableStartHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/GameStateRememberer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/GameStateRememberer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/InitialRules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/InitialRules.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/GameType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/GameType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/MoveType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/MoveType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/PlayerNumberExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/PlayerNumberExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Bot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Bot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/BotPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/BotPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/HumanPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/HumanPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Players.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Players.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/PlayersFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/PlayersFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/RandomBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/RandomBot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/AllowingRules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/AllowingRules.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/OldRules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/OldRules.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/Rules.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataBase/DB.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBase/DB.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/DBMS.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/DBMS.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBInitializedInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBInitializedInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBPawnMovedInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBPawnMovedInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBWallPlacedInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBWallPlacedInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/GameState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/IDBChangeInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/IDBChangeInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Coords.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/Coords.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Coords.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/Coords.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Field.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Field.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/GameData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/GameData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/GameType.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/GameType.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/IRules.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/IRules.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/MoveType.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/MoveType.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Pawn.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Pawn.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Player.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Player.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerType.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerType.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/OldRules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/Rules.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/OldRules.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfos.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerNumber.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerNumber.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/WallCoords.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/WallCoords.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/WallCoords.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/WallCoords.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/WallOrientation.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/WallOrientation.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IDataBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/Data/IDataBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IDataBase.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/Data/IDataBase.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IGameInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IGameInput.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameInput.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IGameView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IGameView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/View/IGameView.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/INotifiable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/INotifiable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/INotifiable.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/INotifiable.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IPlayerInput.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Abstractions/IPlayerInput.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Abstractions/IPlayerInput.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/DisposableStartHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/DisposableStartHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/DisposableStartHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/DisposableStartHandler.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Game.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Game.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/GameStateRememberer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/GameStateRememberer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/GameStateRememberer.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/GameStateRememberer.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/InitialRules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/InitialRules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/InitialRules.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/InitialRules.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/MicroModel.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/MicroModel/GameType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/GameType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/MicroModel/GameType.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/GameType.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/MicroModel/MoveType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/MoveType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/MicroModel/MoveType.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/MicroModel/MoveType.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/PlayerNumberExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/PlayerNumberExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/PlayerNumberExtension.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/PlayerNumberExtension.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/Bot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/Bot.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Bot.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/BotPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/BotPlayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/BotPlayer.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/BotPlayer.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/HumanPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/HumanPlayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/HumanPlayer.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/HumanPlayer.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/Players.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Players.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/Players.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/Players.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/PlayersFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/PlayersFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Players/PlayersFactory.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Players/PlayersFactory.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/RandomBot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/RandomBot.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/RandomBot.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Rules.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Rules/AllowingRules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/AllowingRules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Rules/AllowingRules.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/AllowingRules.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Rules/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/Rules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Controller/Rules/Rules.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controller/Rules/Rules.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBase.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBase.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBase/DB.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBase/DB.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBase/DB.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBase/DB.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/DBMS.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/DBMS.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/DBMS.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/DBMS.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/DBInitializedInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBInitializedInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/DBInitializedInfo.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBInitializedInfo.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/DBPlayerMovedInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBPawnMovedInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/DBPlayerMovedInfo.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBPawnMovedInfo.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/DBWallPlacedInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBWallPlacedInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/DBWallPlacedInfo.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/DBWallPlacedInfo.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/GameState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/GameState.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/GameState.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/IDBChangeInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/IDBChangeInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/DataBaseManagementSystem/MicroModel/IDBChangeInfo.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataBaseManagementSystem/MicroModel/IDBChangeInfo.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/Coords.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/Coords.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/PlayerInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/PlayerInfo.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfo.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/PlayerInfos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfos.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/PlayerInfos.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerInfos.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/PlayerNumber.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerNumber.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/PlayerNumber.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/PlayerNumber.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/WallCoords.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/WallCoords.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/WallRotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/WallRotation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/Model/WallRotation.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/WallRotation.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/View.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/View/QuoridorProxy.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PossibleRefactor/View/QuoridorProxy.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/IInput.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/IInput.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/WallRotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Model/WallRotation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/ISyncInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/ISyncInput.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/ISyncView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/ISyncView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/IView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Abstractions/IView.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Backlight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Backlight.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/CoordsConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/CoordsConverter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Input/CameraInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Input/CameraInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Input/UserInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Input/UserInput.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/PlayerBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/PlayerBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/GameProxy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/GameProxy.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/QuoridorProxy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/QuoridorProxy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/QuoridorProxy.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/QuoridorProxy.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/ActionRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/ActionRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/IRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/IRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/InitializableRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/InitializableRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/InputlessRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/InputlessRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/Request.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/Requests/Request.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/UnityProxy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/Proxy/UnityProxy.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/RaycastToDesk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/RaycastToDesk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/View.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/View/View.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/Lighting Settings.lighting" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Lighting Settings.lighting" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRP-HighQuality.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRP-HighQuality.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/VolumeProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/VolumeProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +99,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="CodeLensConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor &amp; Play">
@@ -231,7 +143,7 @@
       <workItem from="1633331620371" duration="4056000" />
       <workItem from="1633336936109" duration="9352000" />
       <workItem from="1633361952538" duration="47469000" />
-      <workItem from="1633462142793" duration="6493000" />
+      <workItem from="1633462142793" duration="11796000" />
     </task>
     <servers />
   </component>
@@ -261,13 +173,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/View/Proxy/UnityProxy.cs</url>
-          <line>92</line>
+          <line>90</line>
           <properties documentPath="D:\Projects\Unity projects\QuoridorDelta\Assets\Scripts\View\Proxy\UnityProxy.cs" initialLine="92" containingFunctionPresentation="method 'HandleRequest'">
             <startOffsets>
-              <option value="3703" />
+              <option value="3641" />
             </startOffsets>
             <endOffsets>
-              <option value="3743" />
+              <option value="3681" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="1" />

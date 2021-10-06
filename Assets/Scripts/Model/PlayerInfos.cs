@@ -2,11 +2,11 @@
 
 namespace QuoridorDelta.Model
 {
-    public readonly struct PlayerInfos : System.IEquatable<PlayerInfos>
+    public readonly struct PlayerInfos : IEquatable<PlayerInfos>
     {
         public readonly PlayerInfo First;
         public readonly PlayerInfo Second;
-        
+
         public PlayerInfos(PlayerInfo first, PlayerInfo second)
         {
             First = first;
