@@ -246,33 +246,25 @@ namespace QuoridorDelta.Controller
             return false;
         }
 
-        // todo
         [NotNull]
         private static List<Coords> GetNeighbors(Coords coords)
         {
             var neighbours = new List<Coords>();
 
-            if (coords.X - 1 >= 0)
-            {
-                neighbours.Add(new Coords(coords.X - 1, coords.Y));
-            }
-
-            if (coords.X + 1 <= 8)
-            {
-                neighbours.Add(new Coords(coords.X + 1, coords.Y));
-            }
-
-            if (coords.Y - 1 >= 0)
-            {
-                neighbours.Add(new Coords(coords.X, coords.Y - 1));
-            }
-
-            if (coords.Y + 1 <= 8)
-            {
-                neighbours.Add(new Coords(coords.X, coords.Y + 1));
-            }
+            AddIfWithinFieldRange((coords.X - 1, coords.Y), neighbours);
+            AddIfWithinFieldRange((coords.X + 1, coords.Y), neighbours);
+            AddIfWithinFieldRange((coords.X, coords.Y - 1), neighbours);
+            AddIfWithinFieldRange((coords.X, coords.Y + 1), neighbours);
 
             return neighbours;
+        }
+
+        private static void AddIfWithinFieldRange(Coords coords, [NotNull] ICollection<Coords> list)
+        {
+            if (IsWithinFieldRange(coords))
+            {
+                list.Add(coords);
+            }
         }
 
         public override IEnumerable<WallCoords> GetPossibleWallPlacements(PlayerNumber playerNumber)

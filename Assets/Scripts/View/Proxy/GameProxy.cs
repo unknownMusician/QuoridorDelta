@@ -31,7 +31,7 @@ namespace QuoridorDelta.View.Proxy
         }
 
         private protected TOut Wait<TIn, TOut>(TIn input) => WaitRequest(new Request<TIn, TOut>(input));
-        private protected TOut Wait<TOut>() => WaitRequest(new InputlessRequest<TOut>());
+        private protected TOut Wait<TOut>() => WaitRequest(new InitializableRequest<TOut>());
 
         private protected void Send<TIn>(TIn input) => Requests.Enqueue(new ActionRequest<TIn>(input));
 

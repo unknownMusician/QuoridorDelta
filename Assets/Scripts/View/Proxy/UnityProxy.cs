@@ -44,7 +44,7 @@ namespace QuoridorDelta.View.Proxy
 
             switch (request)
             {
-                case InputlessRequest<GameType> gameTypeRequest:
+                case InitializableRequest<GameType> gameTypeRequest:
                     _input.GetGameType(gameTypeRequest.StartInitializing());
 
                     break;
@@ -72,7 +72,7 @@ namespace QuoridorDelta.View.Proxy
                     _view.ShowWrongMove(showWrongMoveRequest.Input);
 
                     break;
-                case InputlessRequest<bool> shouldRestartRequest:
+                case InitializableRequest<bool> shouldRestartRequest:
                     _input.ShouldRestart(shouldRestartRequest.StartInitializing());
 
                     break;
@@ -110,7 +110,7 @@ namespace QuoridorDelta.View.Proxy
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        throw new InvalidProgramException();
                     }
                 }
 

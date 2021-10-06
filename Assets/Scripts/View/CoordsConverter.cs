@@ -54,10 +54,7 @@ namespace QuoridorDelta.View
 
         public Vector3 ToVector3(Coords coords)
         {
-            // todo
-            //(int x, int y) = coords;
-            int x = coords.X;
-            int y = coords.Y;
+            (int x, int y) = coords;
 
             return new Vector3(x + _centerPoint.x + 0.5f, PawnHeightValue, y + _centerPoint.z + 0.5f)
                  + _boardStartPoint;
@@ -65,10 +62,7 @@ namespace QuoridorDelta.View
 
         public Vector3 ToVector3(WallCoords wallCoords)
         {
-            // todo
-            //(int x, int y) = wallCoords.Coords;
-            int x = wallCoords.Coords.X;
-            int y = wallCoords.Coords.Y;
+            (int x, int y) = wallCoords.Coords;
 
             return new Vector3(x + _centerPoint.x + 0.5f, WallHeightValue, y + _centerPoint.z + 0.5f) + _wallStartPoint;
         }

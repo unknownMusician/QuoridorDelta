@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace QuoridorDelta.View.Proxy
 {
-    internal abstract class InitializableRequest<TOutput> : IRequest
+    internal class InitializableRequest<TOutput> : IRequest
     {
         public TOutput Result { get; private set; }
         private bool StartedInitializing { get; set; }
