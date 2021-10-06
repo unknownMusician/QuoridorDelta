@@ -103,7 +103,6 @@ namespace QuoridorDelta.View
                 _movePawnHandler(coords);
                 _movePawnHandler = null;
                 _backlight.TurnOffLights();
-                //Debug.Log($"MovePawn");
             }
         }
 
@@ -113,7 +112,6 @@ namespace QuoridorDelta.View
             {
                 _placeWallHandler(coords);
                 _placeWallHandler = null;
-                //Debug.Log($"PlaceWall");
             }
         }
 
