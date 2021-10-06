@@ -139,7 +139,11 @@ namespace QuoridorDelta.View
             PlayerNumber playerNumber,
             Coords newCoords
         )
+<<<<<<< HEAD
             => _playerBehaviour.MovePawn(playerNumber, newCoords);
+=======
+            => _pawnBehaviour.MovePawn(playerNumber, newCoords, _proxy.HandleAnimationEnded);
+>>>>>>> 43b2059e33688bb65dfb4b6dfc51ff028b677ed0
 
         public void PlaceWall(
             PlayerInfos playerInfos,

@@ -1,5 +1,9 @@
 ﻿using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
+=======
+using JetBrains.Annotations;
+>>>>>>> 43b2059e33688bb65dfb4b6dfc51ff028b677ed0
 using QuoridorDelta.Model;
 using UnityEngine;
 
@@ -12,6 +16,7 @@ namespace QuoridorDelta.View
         [SerializeField] private GameObject _wallPrefab;
         [SerializeField] private GameObject _wallsParent;
         [SerializeField] private View _view;
+        [SerializeField] private Animations _animations;
 
 
         private CoordsConverter _coordsConverter;
@@ -58,10 +63,15 @@ namespace QuoridorDelta.View
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        public void MovePawn(PlayerNumber playerNumber, Coords newCoords)
+        public void MovePawn(PlayerNumber playerNumber, Coords newCoords, [NotNull] Action finHandler)
         {
             // todo: add animations
-            GetPawn(playerNumber).transform.position = _coordsConverter.ToVector3(newCoords);
+            Transform pawnTransform = GetPawn(playerNumber).transform;
+            
+            _animations.Move(pawnTransform, 
+                             pawnTransform.position,
+                             _coordsConverter.ToVector3(newCoords),
+                             finHandler);
         }
         public void PlaceWall(PlayerInfos playerInfos, PlayerNumber playerNumber, WallCoords newCoords)
         {
