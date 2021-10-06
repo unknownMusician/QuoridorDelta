@@ -15,28 +15,26 @@ namespace QuoridorDelta.View
         [SerializeField] private View _view;
         [SerializeField] private Animations _animations;
 
-
         private CoordsConverter _coordsConverter;
-
-        private Dictionary<PlayerInfo, List<WallGameObject>> _playerWallsList;
-        //private readonly Vector3 _firstWall = new Vector3(-4.5f, 0.915f, -5.5f);
-
+        private Dictionary<PlayerNumber, List<WallGameObject>> _playerWallsList;
         private int _lastFreeWallIndexInFirst = 0;
         private int _lastFreeWallIndexInSecond = 0;
-
         private bool IsInitialized = false;
+        private Highlitable _pawn1HighLight;
+        private Highlitable _pawn2HighLight;
 
         public void Start()
         {
             _coordsConverter = _view.CoordsConverter;
+            _pawn1HighLight = _pawn1.GetComponent<Highlitable>();
+            _pawn2HighLight = _pawn2.GetComponent<Highlitable>();
         }
-
 
         private void InitializePlayerWalls(PlayerInfos playerInfos)
         {
-            _playerWallsList = new Dictionary<PlayerInfo, List<WallGameObject>>();
-            _playerWallsList[playerInfos.First] = new List<WallGameObject>();
-            _playerWallsList[playerInfos.Second] = new List<WallGameObject>();
+            _playerWallsList = new Dictionary<PlayerNumber, List<WallGameObject>>();
+            _playerWallsList.Add(PlayerNumber.First, new List<WallGameObject>());
+            _playerWallsList.Add(PlayerNumber.Second, new List<WallGameObject>());
 
             for (int i = 0; i < playerInfos.First.WallCount; i++)
             {
@@ -48,7 +46,7 @@ namespace QuoridorDelta.View
                     new WallGameObject(Instantiate(_wallPrefab, coords, Quaternion.identity, _wallsParent.transform),
                                        coords);
 
-                _playerWallsList[playerInfos.First].Add(wall);
+                _playerWallsList[PlayerNumber.First].Add(wall);
             }
 
             for (int i = 0; i < playerInfos.Second.WallCount; i++)
@@ -61,16 +59,21 @@ namespace QuoridorDelta.View
                     new WallGameObject(Instantiate(_wallPrefab, coords, Quaternion.identity, _wallsParent.transform),
                                        coords);
 
-                _playerWallsList[playerInfos.Second].Add(wall);
+                _playerWallsList[PlayerNumber.Second].Add(wall);
             }
 
-            IsInitialized = true;
         }
 
         private GameObject GetPawn(PlayerNumber playerNumber) => playerNumber switch
         {
             PlayerNumber.First => _pawn1,
             PlayerNumber.Second => _pawn2,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        private Highlitable GetPawnHighlight(PlayerNumber playerNumber) => playerNumber switch
+        {
+            PlayerNumber.First => _pawn1HighLight,
+            PlayerNumber.Second => _pawn2HighLight,
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -109,7 +112,7 @@ namespace QuoridorDelta.View
                 default: throw new ArgumentOutOfRangeException();
             }
 
-            _playerWallsList[playerInfo][lastFreeWallIndex]
+            _playerWallsList[playerNumber][lastFreeWallIndex]
                 .PlaceWallGameObject(_coordsConverter.ToVector3(newCoords), quaternion);
         }
 
@@ -118,17 +121,23 @@ namespace QuoridorDelta.View
             if (IsInitialized == false)
             {
                 InitializePlayerWalls(playerInfos);
+                IsInitialized = true;
             }
 
-            foreach (WallGameObject wall in _playerWallsList[playerInfos.First])
+            foreach (WallGameObject wall in _playerWallsList[PlayerNumber.First])
             {
                 wall.ResetToStartPosition();
             }
 
-            foreach (WallGameObject wall in _playerWallsList[playerInfos.Second])
+            foreach (WallGameObject wall in _playerWallsList[PlayerNumber.Second])
             {
                 wall.ResetToStartPosition();
             }
+            _lastFreeWallIndexInFirst = 0;
+            _lastFreeWallIndexInSecond = 0;
         }
+        public void TurnOnPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(true);
+        public void TurnOffPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(false);
+
     }
 }
