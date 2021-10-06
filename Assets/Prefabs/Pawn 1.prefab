@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7752593467272305497}
   - component: {fileID: 3534430923413901604}
   - component: {fileID: 540545633461283225}
+  - component: {fileID: -4104068556911737753}
   m_Layer: 0
   m_Name: Pawn 1
   m_TagString: Untagged
@@ -95,3 +96,17 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4104068556911737753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542299893086392943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d97d15e40c34722b43ac289f30256a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 3534430923413901604}
+  _chosenMaterial: {fileID: 2100000, guid: 0cdfcdfaa2d923740bcbfb3e6325c672, type: 2}
