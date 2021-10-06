@@ -8,7 +8,7 @@ namespace QuoridorDelta.View
         public GameObject GameObject { get; private set; }
         public readonly Vector3 StartPosition;
         public readonly PlayerNumber PlayerNumber;
-        public readonly Highlitable Highlightable;
+        public readonly Highlightable Highlightable;
         public bool AtStartPosition { get; set; } = true;
 
         public WallGameObject(GameObject gameObject, Vector3 startPosition, PlayerNumber playerNumber)
@@ -16,7 +16,7 @@ namespace QuoridorDelta.View
             GameObject = gameObject;
             StartPosition = startPosition;
             PlayerNumber = playerNumber;
-            Highlightable = GameObject.GetComponent<Highlitable>();
+            Highlightable = GameObject.GetComponent<Highlightable>();
         }
         public void ResetToStartPosition()
         {

@@ -54,9 +54,19 @@ namespace QuoridorDelta.View
             return false;
         }
         // remove
-        public bool TryRaycastToCollider(Collider collider) =>
-            (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _maxDistance) &&
-            hit.collider == collider);
+        public bool TryRaycast(out Collider collider, out RaycastHit hit)
+        {
+            hit = default;
+            collider = default;
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit _hit, _maxDistance))
+            {
+                hit = _hit;
+                collider = hit.collider;
+                return true;
+            }
+            return false;
+        }
+
         public bool TryGetCollider(out Collider collider)
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _maxDistance))

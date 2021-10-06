@@ -20,17 +20,12 @@ namespace QuoridorDelta.View
         private int _lastFreeWallIndexInFirst = 0;
         private int _lastFreeWallIndexInSecond = 0;
         private bool IsInitialized = false;
-<<<<<<< Updated upstream
         private Highlightable _pawn1HighLight;
         private Highlightable _pawn2HighLight;
-=======
-        private Highlitable _pawn1HighLight;
-        private Highlitable _pawn2HighLight;
         //private bool _isHighlightedPawn1;
         //private bool _isHighlightedPawn2;
         private bool _isHighlightedPawn = false;
         private bool _isHighlightedWalls = false;
->>>>>>> Stashed changes
 
         public void Start()
         {
@@ -78,7 +73,6 @@ namespace QuoridorDelta.View
             PlayerNumber.Second => _pawn2,
             _ => throw new ArgumentOutOfRangeException()
         };
-<<<<<<< Updated upstream
 
         private Highlightable GetPawnHighlight(PlayerNumber playerNumber) => playerNumber switch
         {
@@ -86,8 +80,6 @@ namespace QuoridorDelta.View
             PlayerNumber.Second => _pawn2HighLight,
             _ => throw new ArgumentOutOfRangeException()
         };
-=======
->>>>>>> Stashed changes
 
         public void MovePawn(PlayerNumber playerNumber, Coords newCoords, [NotNull] Action finHandler)
         {
@@ -149,11 +141,9 @@ namespace QuoridorDelta.View
             _lastFreeWallIndexInFirst = 0;
             _lastFreeWallIndexInSecond = 0;
         }
-<<<<<<< Updated upstream
 
         public void TurnOnPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(true);
         public void TurnOffPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(false);
-=======
         public void TryChangePawnHighlight(PlayerNumber playerNumber, bool highlighted)
         {
             if (_isHighlightedPawn == highlighted)
@@ -203,6 +193,10 @@ namespace QuoridorDelta.View
             PlayerNumber.Second => LayerMask.NameToLayer("SecondPlayersWall"),
             _ => throw new ArgumentOutOfRangeException()
         };
->>>>>>> Stashed changes
+        public static void SetAlpha(GameObject gameObject, float alpha)
+        {
+            Color color = gameObject.GetComponentInChildren<Renderer>().material.color;
+            color.a = alpha;
+        }
     }
 }
