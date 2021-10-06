@@ -26,11 +26,11 @@ namespace QuoridorDelta.View
 
 
         public CoordsConverter CoordsConverter { get; private set; }
+
         private PlayerBehaviour _playerBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
         private Backlight _backlight;
-
 
         private Action<MoveType> _moveTypeHandler;
         private Action<Coords> _movePawnHandler;
@@ -51,8 +51,13 @@ namespace QuoridorDelta.View
 
         public void GetMoveType(PlayerNumber playerNumber, Action<MoveType> handler)
         {
-            _moveTypeChoiceMenu.SetActive(true);
+            //_moveTypeChoiceMenu.SetActive(true);
             _moveTypeHandler = handler;
+            _input.UserType = playerNumber;
+            _input.OnLeftMouseButtonClicked2 += MoveTypeClickHandler;
+            _input.OnMouseHovering += MoveTypeChoiceHandler;
+            _input.IsMouseHoverActive = true;
+
         }
 
         public void GetMovePawnCoords(
@@ -114,7 +119,61 @@ namespace QuoridorDelta.View
                 _placeWallHandler = null;
             }
         }
+        private void SendMoveType(MoveType moveType)
+        {
+            if (_moveTypeHandler != null)
+            {
+                _moveTypeHandler(moveType);
+                _moveTypeHandler = null;
+            }
+        }
+        private void MoveTypeClickHandler(PlayerNumber playerNumber)
+        {
+            if (_raycastToDesk.TryGetCollider(out Collider collider))
+            {
+                MoveType moveType;
+                if (collider.gameObject == _playerBehaviour.GetPawn(playerNumber))
+                {
+                    moveType = MoveType.MovePawn;
+                }
+                else if (collider.gameObject.layer == PlayerBehaviour.GetWallLayer(playerNumber))
+                {
+                    moveType = MoveType.PlaceWall;
+                }
+                else
+                {
+                    return;
+                }
+                _input.OnLeftMouseButtonClicked2 -= MoveTypeClickHandler;
+                _input.OnMouseHovering -= MoveTypeChoiceHandler;
+                _input.IsMouseHoverActive = false;
+                _playerBehaviour.TurnOffAllHighlight(playerNumber);
+                SendMoveType(moveType);
+            }
+        }
+        private void MoveTypeChoiceHandler(PlayerNumber playerNumber)
+        {
+            if (_raycastToDesk.TryGetCollider(out Collider collider))
+            {
+                if (collider.gameObject == _playerBehaviour.GetPawn(playerNumber))
+                {
+                    _playerBehaviour.TryChangePawnHighlight(playerNumber, true);
+                }
+                else if (collider.gameObject.layer == PlayerBehaviour.GetWallLayer(playerNumber))
+                {
+                    _playerBehaviour.TryChangeWallsHighlight(playerNumber, true);
+                }
+                else
+                {
+                    _playerBehaviour.TurnOffAllHighlight(playerNumber);
+                }
+            }
+            else
+            {
+                _playerBehaviour.TurnOffAllHighlight(playerNumber);
+            }
 
+        }
         private void PawnCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
@@ -123,7 +182,6 @@ namespace QuoridorDelta.View
                 SendMovePawnCoords(coords);
             }
         }
-
         private void WallCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
@@ -170,7 +228,7 @@ namespace QuoridorDelta.View
             _restartBlock.SetActive(true);
         }
 
-        public void InitializeField(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords) 
+        public void InitializeField(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords)
         {
             _playerBehaviour.ResetWallsPosition(playerInfos);
             MovePawn(playerInfos, wallCoords, PlayerNumber.First, playerInfos.First.PawnCoords);

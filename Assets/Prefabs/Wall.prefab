@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7232470881578399285}
   - component: {fileID: 395484125369655855}
   - component: {fileID: 7283702094162431359}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7788838964611223814}
   - component: {fileID: -4432200642133687839}
-  m_Layer: 0
+  - component: {fileID: -7628660045661641197}
+  m_Layer: 7
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,4 +141,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 395484125369655855}
-  _chosenMaterial: {fileID: 2100000, guid: 0cdfcdfaa2d923740bcbfb3e6325c672, type: 2}
+  _changedMaterial: {fileID: 2100000, guid: 0cdfcdfaa2d923740bcbfb3e6325c672, type: 2}
+--- !u!65 &-7628660045661641197
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315456392147133782}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 0.83, z: 1.75}
+  m_Center: {x: 0, y: 0, z: 0}

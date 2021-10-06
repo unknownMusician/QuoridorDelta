@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5936707649050412267}
   - component: {fileID: 7752593467272305497}
   - component: {fileID: 3534430923413901604}
-  - component: {fileID: 540545633461283225}
+  - component: {fileID: 5622009534413516344}
   - component: {fileID: -4104068556911737753}
   m_Layer: 0
   m_Name: Pawn 1
@@ -83,8 +83,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &540545633461283225
-SphereCollider:
+--- !u!136 &5622009534413516344
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,9 +93,10 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.35
+  m_Height: 1.6232064
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4742217, z: 0}
 --- !u!114 &-4104068556911737753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,4 +110,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 3534430923413901604}
-  _chosenMaterial: {fileID: 2100000, guid: 0cdfcdfaa2d923740bcbfb3e6325c672, type: 2}
+  _changedMaterial: {fileID: 2100000, guid: 0cdfcdfaa2d923740bcbfb3e6325c672, type: 2}
