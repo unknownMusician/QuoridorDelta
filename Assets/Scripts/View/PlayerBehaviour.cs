@@ -15,22 +15,20 @@ namespace QuoridorDelta.View
         [SerializeField] private View _view;
         [SerializeField] private Animations _animations;
 
-
         private CoordsConverter _coordsConverter;
-
         private Dictionary<PlayerNumber, List<WallGameObject>> _playerWallsList;
-        //private readonly Vector3 _firstWall = new Vector3(-4.5f, 0.915f, -5.5f);
-
         private int _lastFreeWallIndexInFirst = 0;
         private int _lastFreeWallIndexInSecond = 0;
-
         private bool IsInitialized = false;
+        private Highlitable _pawn1HighLight;
+        private Highlitable _pawn2HighLight;
 
         public void Start()
         {
             _coordsConverter = _view.CoordsConverter;
+            _pawn1HighLight = _pawn1.GetComponent<Highlitable>();
+            _pawn2HighLight = _pawn2.GetComponent<Highlitable>();
         }
-
 
         private void InitializePlayerWalls(PlayerInfos playerInfos)
         {
@@ -70,6 +68,12 @@ namespace QuoridorDelta.View
         {
             PlayerNumber.First => _pawn1,
             PlayerNumber.Second => _pawn2,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        private Highlitable GetPawnHighlight(PlayerNumber playerNumber) => playerNumber switch
+        {
+            PlayerNumber.First => _pawn1HighLight,
+            PlayerNumber.Second => _pawn2HighLight,
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -132,5 +136,8 @@ namespace QuoridorDelta.View
             _lastFreeWallIndexInFirst = 0;
             _lastFreeWallIndexInSecond = 0;
         }
+        public void TurnOnPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(true);
+        public void TurnOffPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(false);
+
     }
 }
