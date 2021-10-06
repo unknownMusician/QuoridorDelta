@@ -102,7 +102,8 @@ namespace QuoridorDelta.View.Proxy
         {
             while (_isAlive)
             {
-                if (!_proxy.Requests.IsEmpty && !_isWaitingForAnimationEnd)
+                // todo
+                if (!_proxy.Requests.IsEmpty) //&& !_isWaitingForAnimationEnd)
                 {
                     if (_proxy.Requests.TryDequeue(out IRequest request))
                     {
