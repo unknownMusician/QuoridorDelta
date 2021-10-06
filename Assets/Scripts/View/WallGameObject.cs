@@ -17,6 +17,7 @@ namespace QuoridorDelta.View
         public void ResetToStartPosition()
         {
             GameObject.transform.position = StartPosition;
+            GameObject.transform.rotation = Quaternion.identity;
             //AtStartPosition = true;
         }
         public void PlaceWallGameObject(Vector3 newPosition, Quaternion newRotation)

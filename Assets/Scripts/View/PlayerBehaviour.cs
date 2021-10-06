@@ -18,7 +18,7 @@ namespace QuoridorDelta.View
 
         private CoordsConverter _coordsConverter;
 
-        private Dictionary<PlayerInfo, List<WallGameObject>> _playerWallsList;
+        private Dictionary<PlayerNumber, List<WallGameObject>> _playerWallsList;
         //private readonly Vector3 _firstWall = new Vector3(-4.5f, 0.915f, -5.5f);
 
         private int _lastFreeWallIndexInFirst = 0;
@@ -34,9 +34,9 @@ namespace QuoridorDelta.View
 
         private void InitializePlayerWalls(PlayerInfos playerInfos)
         {
-            _playerWallsList = new Dictionary<PlayerInfo, List<WallGameObject>>();
-            _playerWallsList[playerInfos.First] = new List<WallGameObject>();
-            _playerWallsList[playerInfos.Second] = new List<WallGameObject>();
+            _playerWallsList = new Dictionary<PlayerNumber, List<WallGameObject>>();
+            _playerWallsList.Add(PlayerNumber.First, new List<WallGameObject>());
+            _playerWallsList.Add(PlayerNumber.Second, new List<WallGameObject>());
 
             for (int i = 0; i < playerInfos.First.WallCount; i++)
             {
@@ -48,7 +48,7 @@ namespace QuoridorDelta.View
                     new WallGameObject(Instantiate(_wallPrefab, coords, Quaternion.identity, _wallsParent.transform),
                                        coords);
 
-                _playerWallsList[playerInfos.First].Add(wall);
+                _playerWallsList[PlayerNumber.First].Add(wall);
             }
 
             for (int i = 0; i < playerInfos.Second.WallCount; i++)
@@ -61,10 +61,9 @@ namespace QuoridorDelta.View
                     new WallGameObject(Instantiate(_wallPrefab, coords, Quaternion.identity, _wallsParent.transform),
                                        coords);
 
-                _playerWallsList[playerInfos.Second].Add(wall);
+                _playerWallsList[PlayerNumber.Second].Add(wall);
             }
 
-            IsInitialized = true;
         }
 
         private GameObject GetPawn(PlayerNumber playerNumber) => playerNumber switch
@@ -109,7 +108,7 @@ namespace QuoridorDelta.View
                 default: throw new ArgumentOutOfRangeException();
             }
 
-            _playerWallsList[playerInfo][lastFreeWallIndex]
+            _playerWallsList[playerNumber][lastFreeWallIndex]
                 .PlaceWallGameObject(_coordsConverter.ToVector3(newCoords), quaternion);
         }
 
@@ -118,17 +117,20 @@ namespace QuoridorDelta.View
             if (IsInitialized == false)
             {
                 InitializePlayerWalls(playerInfos);
+                IsInitialized = true;
             }
 
-            foreach (WallGameObject wall in _playerWallsList[playerInfos.First])
+            foreach (WallGameObject wall in _playerWallsList[PlayerNumber.First])
             {
                 wall.ResetToStartPosition();
             }
 
-            foreach (WallGameObject wall in _playerWallsList[playerInfos.Second])
+            foreach (WallGameObject wall in _playerWallsList[PlayerNumber.Second])
             {
                 wall.ResetToStartPosition();
             }
+            _lastFreeWallIndexInFirst = 0;
+            _lastFreeWallIndexInSecond = 0;
         }
     }
 }
