@@ -18,7 +18,10 @@ namespace QuoridorDelta.View
         [SerializeField] private GameObject _boardObject;
         [SerializeField] private GameObject _backlightCellPrefab;
         [SerializeField] private Transform _backlightsParent;
+        
+        //test
         [SerializeField] private Collider _tableCollider;
+        //[SerializeField] private Material _ghostMaterial;
 
         [Header("UI")] [SerializeField] private GameObject _moveTypeChoiceMenu;
         [SerializeField] private GameObject _gameTypeChoiceMenu;
@@ -121,6 +124,7 @@ namespace QuoridorDelta.View
                 _placeWallHandler = null;
             }
         }
+
         private void SendMoveType(MoveType moveType)
         {
             if (_moveTypeHandler != null)
@@ -129,6 +133,7 @@ namespace QuoridorDelta.View
                 _moveTypeHandler = null;
             }
         }
+
         private void MoveTypeClickHandler(PlayerNumber playerNumber)
         {
             if (_raycastToDesk.TryGetCollider(out Collider collider))
@@ -137,21 +142,20 @@ namespace QuoridorDelta.View
                 if (collider.gameObject == _playerBehaviour.GetPawn(playerNumber))
                 {
                     moveType = MoveType.MovePawn;
-                    _mouseFollowHandle.CurrentPlayer = playerNumber;
-                    //PlayerBehaviour.SetAlpha(collider.gameObject, 123f);
+                    _playerBehaviour.TryChangePawnGhost(playerNumber, true);
                     _mouseFollowHandle.OnMouseFollowing += PawnFollowHandler;
                 }
                 else if (collider.gameObject.layer == PlayerBehaviour.GetWallLayer(playerNumber))
                 {
                     moveType = MoveType.PlaceWall;
-                    _mouseFollowHandle.CurrentPlayer = playerNumber;
-                    //PlayerBehaviour.SetAlpha(collider.gameObject, 123f);
+                    _playerBehaviour.TryChangeWallsGhost(playerNumber, true);
                     _mouseFollowHandle.OnMouseFollowing += WallFollowHandler;
                 }
                 else
                 {
                     return;
                 }
+                _mouseFollowHandle.CurrentPlayer = playerNumber;
                 _input.OnLeftMouseButtonClicked2 -= MoveTypeClickHandler;
                 _input.OnMouseHovering -= MoveTypeChoiceHandler;
                 _input.IsMouseHoverActive = false;
@@ -159,6 +163,7 @@ namespace QuoridorDelta.View
                 SendMoveType(moveType);
             }
         }
+       
         private void MoveTypeChoiceHandler(PlayerNumber playerNumber)
         {
             if (_raycastToDesk.TryGetCollider(out Collider collider))
@@ -182,15 +187,18 @@ namespace QuoridorDelta.View
             }
 
         }
+        
         private void PawnCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
             {
                 _input.OnLeftMouseButtonClicked -= PawnCoordsClickHandler;
                 _mouseFollowHandle.OnMouseFollowing -= PawnFollowHandler;
+                _playerBehaviour.TurnOffAllGhost();
                 SendMovePawnCoords(coords);
             }
         }
+        
         private void WallCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
@@ -201,6 +209,7 @@ namespace QuoridorDelta.View
             }
         }
         // need refactor and update
+       
         private void PawnFollowHandler(PlayerNumber playerNumber)
         {
             if (_raycastToDesk.TryRaycast(out Collider collider, out RaycastHit hit))
@@ -209,6 +218,7 @@ namespace QuoridorDelta.View
 
             }
         }
+        
         private void WallFollowHandler(PlayerNumber playerNumber)
         {
             throw new NotImplementedException();

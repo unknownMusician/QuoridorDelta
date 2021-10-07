@@ -20,18 +20,24 @@ namespace QuoridorDelta.View
         private int _lastFreeWallIndexInFirst = 0;
         private int _lastFreeWallIndexInSecond = 0;
         private bool IsInitialized = false;
-        private Highlightable _pawn1HighLight;
-        private Highlightable _pawn2HighLight;
-        //private bool _isHighlightedPawn1;
-        //private bool _isHighlightedPawn2;
+
+        private Highlightable _pawnHighLight1;
+        private Highlightable _pawnHighLight2;
+        private Ghostable _pawnGhost1;
+        private Ghostable _pawnGhost2;
+
         private bool _isHighlightedPawn = false;
         private bool _isHighlightedWalls = false;
+        private bool _isGhostedPawn = false;
+        private bool _isGhostedWalls = false;
 
         public void Start()
         {
             _coordsConverter = _view.CoordsConverter;
-            _pawn1HighLight = _pawn1.GetComponent<Highlightable>();
-            _pawn2HighLight = _pawn2.GetComponent<Highlightable>();
+            _pawnHighLight1 = _pawn1.GetComponent<Highlightable>();
+            _pawnHighLight2 = _pawn2.GetComponent<Highlightable>();
+            _pawnGhost1 = _pawn1.GetComponent<Ghostable>();
+            _pawnGhost2 = _pawn2.GetComponent<Ghostable>();
         }
 
         private void InitializePlayerWalls(PlayerInfos playerInfos)
@@ -76,8 +82,14 @@ namespace QuoridorDelta.View
 
         private Highlightable GetPawnHighlight(PlayerNumber playerNumber) => playerNumber switch
         {
-            PlayerNumber.First => _pawn1HighLight,
-            PlayerNumber.Second => _pawn2HighLight,
+            PlayerNumber.First => _pawnHighLight1,
+            PlayerNumber.Second => _pawnHighLight2,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        private Ghostable GetPawnGhost(PlayerNumber playerNumber) => playerNumber switch
+        {
+            PlayerNumber.First => _pawnGhost1,
+            PlayerNumber.Second => _pawnGhost2,
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -142,34 +154,31 @@ namespace QuoridorDelta.View
             _lastFreeWallIndexInSecond = 0;
         }
 
-        public void TurnOnPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(true);
-        public void TurnOffPawnHighLight(PlayerNumber playerNumber) => GetPawnHighlight(playerNumber).Change(false);
-        public void TryChangePawnHighlight(PlayerNumber playerNumber, bool highlighted)
+        public bool TryChangePawnHighlight(PlayerNumber playerNumber, bool highlighted)
         {
             if (_isHighlightedPawn == highlighted)
             {
-                return;
+                return false;
             }
-            switch (playerNumber)
-            {
-                case PlayerNumber.First:
-                    _pawn1HighLight.Change(highlighted);
-                    _isHighlightedPawn = highlighted;
-                    break;
-                case PlayerNumber.Second:
-                    _pawn2HighLight.Change(highlighted);
-                    _isHighlightedPawn = highlighted;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            GetPawnHighlight(playerNumber).Change(highlighted);
+            _isHighlightedPawn = highlighted;
+            return true;
         }
-
-        public void TryChangeWallsHighlight(PlayerNumber playerNumber, bool highlighted)
+        public bool TryChangePawnGhost(PlayerNumber playerNumber, bool ghosted)
+        {
+            if (_isGhostedPawn == ghosted)
+            {
+                return false;
+            }
+            GetPawnGhost(playerNumber).Change(ghosted);
+            _isGhostedPawn = ghosted;
+            return true;
+        }
+        public bool TryChangeWallsHighlight(PlayerNumber playerNumber, bool highlighted)
         {
             if (_isHighlightedWalls == highlighted)
             {
-                return;
+                return false;
             }
             foreach (WallGameObject wall in PlayerWallsList[playerNumber])
             {
@@ -180,11 +189,37 @@ namespace QuoridorDelta.View
                 wall.Highlightable.Change(highlighted);
             }
             _isHighlightedWalls = highlighted;
+            return true;
         }
+        public bool TryChangeWallsGhost(PlayerNumber playerNumber, bool ghosted)
+        {
+            if (_isGhostedWalls == ghosted)
+            {
+                return false;
+            }
+            foreach (WallGameObject wall in PlayerWallsList[playerNumber])
+            {
+                if (wall.AtStartPosition == false)
+                {
+                    continue;
+                }
+                wall.Highlightable.Change(ghosted);
+            }
+            _isGhostedWalls = ghosted;
+            return true;
+        }
+
         public void TurnOffAllHighlight(PlayerNumber playerNumber)
         {
             TryChangePawnHighlight(playerNumber, false);
             TryChangeWallsHighlight(playerNumber, false);
+        }
+        public void TurnOffAllGhost()
+        {
+            TryChangePawnGhost(PlayerNumber.First, false);
+            TryChangeWallsGhost(PlayerNumber.First, false);
+            TryChangePawnGhost(PlayerNumber.Second, false);
+            TryChangeWallsGhost(PlayerNumber.Second, false);
         }
 
         public static int GetWallLayer(PlayerNumber playerNumber) => playerNumber switch
@@ -193,10 +228,10 @@ namespace QuoridorDelta.View
             PlayerNumber.Second => LayerMask.NameToLayer("SecondPlayersWall"),
             _ => throw new ArgumentOutOfRangeException()
         };
-        public static void SetAlpha(GameObject gameObject, float alpha)
-        {
-            Color color = gameObject.GetComponentInChildren<Renderer>().material.color;
-            color.a = alpha;
-        }
+        //public static void SetAlpha(GameObject gameObject, float alpha)
+        //{
+        //    Color color = gameObject.GetComponentInChildren<Renderer>().material.color;
+        //    color.a = alpha;
+        //}
     }
 }
