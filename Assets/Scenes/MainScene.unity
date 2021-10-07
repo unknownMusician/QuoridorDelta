@@ -209,6 +209,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1331288347}
     m_Modifications:
+    - target: {fileID: 3534430923413901604, guid: c559f3a6304f3e14f815167930db5092, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3534430923413901604, guid: c559f3a6304f3e14f815167930db5092, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3542299893086392943, guid: c559f3a6304f3e14f815167930db5092, type: 3}
       propertyPath: m_Name
       value: Pawn 1

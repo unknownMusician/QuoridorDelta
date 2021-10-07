@@ -79,6 +79,17 @@ namespace QuoridorDelta.View
             PlayerNumber.Second => _pawn2,
             _ => throw new ArgumentOutOfRangeException()
         };
+        public GameObject GetWall(PlayerNumber playerNumber)
+        {
+            foreach (WallGameObject wall in PlayerWallsList[playerNumber])
+            {
+                if (wall.AtStartPosition)
+                {
+                    return wall.GameObject;
+                }
+            }
+            throw new Exception("All walls putted on board");
+        }
 
         private Highlightable GetPawnHighlight(PlayerNumber playerNumber) => playerNumber switch
         {

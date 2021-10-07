@@ -66,5 +66,11 @@ namespace QuoridorDelta.View
 
             return new Vector3(x + CenterPoint.x + 0.5f, WallHeightValue, y + CenterPoint.z + 0.5f) + _wallStartPoint;
         }
+        public Quaternion GetWallQuaternion(WallRotation wallRotation) => wallRotation switch
+        {
+            WallRotation.Vertical => Quaternion.identity,
+            WallRotation.Horizontal => Quaternion.AngleAxis(90f, Vector3.up),
+            _ => throw new System.Exception("Incorrect wall orientation")
+        };
     }
 }

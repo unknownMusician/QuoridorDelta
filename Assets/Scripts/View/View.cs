@@ -193,8 +193,8 @@ namespace QuoridorDelta.View
             if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
             {
                 _input.OnLeftMouseButtonClicked -= PawnCoordsClickHandler;
-                _mouseFollowHandle.OnMouseFollowing -= PawnFollowHandler;
-                _playerBehaviour.TurnOffAllGhost();
+                _mouseFollowHandle.OnMouseFollowing -= PawnFollowHandler;   // wrong unfollowing place
+                _playerBehaviour.TurnOffAllGhost(); // wrong turnoff place
                 SendMovePawnCoords(coords);
             }
         }
@@ -204,24 +204,42 @@ namespace QuoridorDelta.View
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
             {
                 _input.OnLeftMouseButtonClicked -= WallCoordsClickHandler;
-                _mouseFollowHandle.OnMouseFollowing -= WallFollowHandler;
-                SendPlaceWallCoords(coords);
+                _mouseFollowHandle.OnMouseFollowing -= WallFollowHandler;   // wrong unfollowing place
+                _playerBehaviour.TurnOffAllGhost(); // wrong turnoff place
+                SendPlaceWallCoords(coords);    
             }
         }
-        // need refactor and update
        
+        // need refactor and update
         private void PawnFollowHandler(PlayerNumber playerNumber)
         {
             if (_raycastToDesk.TryRaycast(out Collider collider, out RaycastHit hit))
             {
-                _playerBehaviour.GetPawn(playerNumber).transform.position = new Vector3(hit.point.x, 1.5f, hit.point.z);
-
+                if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
+                {
+                    _playerBehaviour.GetPawn(playerNumber).transform.position = CoordsConverter.ToVector3(coords);
+                }
+                else
+                {
+                    _playerBehaviour.GetPawn(playerNumber).transform.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
+                }
             }
         }
         
         private void WallFollowHandler(PlayerNumber playerNumber)
         {
-            throw new NotImplementedException();
+            if (_raycastToDesk.TryRaycast(out RaycastHit hit))
+            {
+                if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords wallCoords))
+                {
+                    _playerBehaviour.GetWall(playerNumber).transform.position = CoordsConverter.ToVector3(wallCoords);
+                    _playerBehaviour.GetWall(playerNumber).transform.rotation = CoordsConverter.GetWallQuaternion(wallCoords.Rotation);
+                }
+                else
+                {
+                    _playerBehaviour.GetWall(playerNumber).transform.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
+                }
+            }
         }
 
         public void MovePawn(
