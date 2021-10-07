@@ -18,7 +18,7 @@ namespace QuoridorDelta.View
         [SerializeField] private GameObject _boardObject;
         [SerializeField] private GameObject _backlightCellPrefab;
         [SerializeField] private Transform _backlightsParent;
-        
+
         [Header("UI")] [SerializeField] private GameObject _moveTypeChoiceMenu;
         [SerializeField] private GameObject _gameTypeChoiceMenu;
         [SerializeField] private GameObject _wrongMoveInfoMenu;
@@ -112,6 +112,7 @@ namespace QuoridorDelta.View
                 _movePawnHandler(coords);
                 _movePawnHandler = null;
                 _backlight.TurnOffLights();
+                _soundKeeper.PawnMoveSound.PlayNext();
             }
         }
 
@@ -121,6 +122,7 @@ namespace QuoridorDelta.View
             {
                 _placeWallHandler(coords);
                 _placeWallHandler = null;
+                _soundKeeper.WallMoveSound.PlayNext();
             }
         }
 
@@ -162,7 +164,7 @@ namespace QuoridorDelta.View
                 SendMoveType(moveType);
             }
         }
-       
+
         private void MoveTypeChoiceHandler(PlayerNumber playerNumber)
         {
             if (_raycastToDesk.TryGetCollider(out Collider collider))
@@ -186,7 +188,7 @@ namespace QuoridorDelta.View
             }
 
         }
-        
+
         private void PawnCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
@@ -196,7 +198,7 @@ namespace QuoridorDelta.View
                 SendMovePawnCoords(coords);
             }
         }
-        
+
         private void WallCoordsClickHandler()
         {
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
@@ -204,41 +206,51 @@ namespace QuoridorDelta.View
                 _input.OnLeftMouseButtonClicked -= WallCoordsClickHandler;
                 _lastFollowHanlder = WallFollowHandler;
                 _mouseFollowHandle.OnMouseFollowing -= WallFollowHandler;   // wrong unfollowing place
-                SendPlaceWallCoords(coords);    
+                SendPlaceWallCoords(coords);
             }
         }
-       
+
         // need refactor and update
         private void PawnFollowHandler(PlayerNumber playerNumber)
         {
             if (_raycastToDesk.TryRaycast(out RaycastHit hit))
             {
+                Transform pawn = _playerBehaviour.GetPawn(playerNumber).transform;
                 if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
                 {
-                    _playerBehaviour.GetPawn(playerNumber).transform.position = CoordsConverter.ToVector3(coords);
-                    //_soundKeeper.MagnetSound.PlayNext();
+                    // need sound fix
+                    if (CoordsConverter.ToCoords(pawn.position) != coords)
+                    {
+                        _soundKeeper.MagnetSound.PlayNext();
+                        pawn.position = CoordsConverter.ToVector3(coords);
+                    }
                 }
                 else
                 {
-                    _playerBehaviour.GetPawn(playerNumber).transform.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
+                    pawn.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
                 }
             }
         }
-        
+
         private void WallFollowHandler(PlayerNumber playerNumber)
         {
             if (_raycastToDesk.TryRaycast(out RaycastHit hit))
             {
-                if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords wallCoords) && 
-                    _playerBehaviour.GetWall(playerNumber).transform.position != CoordsConverter.ToVector3(wallCoords))
+                Transform wall = _playerBehaviour.GetWall(playerNumber).transform;
+                if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords wallCoords))
                 {
+                    // need sound fix
+                    if (CoordsConverter.ToWallCoords(wall.position) != wallCoords)
+                    {
                         _soundKeeper.MagnetSound.PlayNext();
-                        _playerBehaviour.GetWall(playerNumber).transform.position = CoordsConverter.ToVector3(wallCoords);
-                        _playerBehaviour.GetWall(playerNumber).transform.rotation = CoordsConverter.GetWallQuaternion(wallCoords.Rotation);
+                        
+                    }
+                    wall.position = CoordsConverter.ToVector3(wallCoords);
+                    wall.rotation = CoordsConverter.GetWallQuaternion(wallCoords.Rotation);
                 }
                 else
                 {
-                    _playerBehaviour.GetWall(playerNumber).transform.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
+                    wall.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
                 }
             }
         }
