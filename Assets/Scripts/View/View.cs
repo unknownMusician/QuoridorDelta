@@ -19,10 +19,6 @@ namespace QuoridorDelta.View
         [SerializeField] private GameObject _backlightCellPrefab;
         [SerializeField] private Transform _backlightsParent;
         
-        //test
-        [SerializeField] private Collider _tableCollider;
-        //[SerializeField] private Material _ghostMaterial;
-
         [Header("UI")] [SerializeField] private GameObject _moveTypeChoiceMenu;
         [SerializeField] private GameObject _gameTypeChoiceMenu;
         [SerializeField] private GameObject _wrongMoveInfoMenu;
@@ -32,6 +28,7 @@ namespace QuoridorDelta.View
 
         public CoordsConverter CoordsConverter { get; private set; }
 
+        private SoundKeeper _soundKeeper;
         private PlayerBehaviour _playerBehaviour;
         private RaycastToDesk _raycastToDesk;
         private Camera _camera;
@@ -42,14 +39,14 @@ namespace QuoridorDelta.View
         private Action<WallCoords> _placeWallHandler;
         private Action<GameType> _getGameType;
         private Action<bool> _shouldRestart;
-
-        private Action<PlayerNumber> _some;
+        private Action<PlayerNumber> _lastFollowHanlder;
 
 
         private void Awake()
         {
             _camera = GetComponent<Camera>();
             _playerBehaviour = GetComponent<PlayerBehaviour>();
+            _soundKeeper = GetComponent<SoundKeeper>();
             CoordsConverter = new CoordsConverter(_boardObject.transform.position);
             _raycastToDesk = new RaycastToDesk(_camera, _layerMask, 100f, CoordsConverter);
             _backlight = new Backlight(CoordsConverter, _backlightCellPrefab, _backlightsParent);
@@ -144,16 +141,14 @@ namespace QuoridorDelta.View
                 if (collider.gameObject == _playerBehaviour.GetPawn(playerNumber))
                 {
                     moveType = MoveType.MovePawn;
-                    _playerBehaviour.TryChangePawnGhost(playerNumber, true);
                     _mouseFollowHandle.OnMouseFollowing += PawnFollowHandler;
-                    _some = PawnFollowHandler;
+                    _lastFollowHanlder = PawnFollowHandler;
                 }
                 else if (collider.gameObject.layer == PlayerBehaviour.GetWallLayer(playerNumber))
                 {
                     moveType = MoveType.PlaceWall;
-                    _playerBehaviour.TryChangeWallsGhost(playerNumber, true);
                     _mouseFollowHandle.OnMouseFollowing += WallFollowHandler;
-                    _some = WallFollowHandler;
+                    _lastFollowHanlder = WallFollowHandler;
                 }
                 else
                 {
@@ -198,7 +193,6 @@ namespace QuoridorDelta.View
             {
                 _input.OnLeftMouseButtonClicked -= PawnCoordsClickHandler;
                 _mouseFollowHandle.OnMouseFollowing -= PawnFollowHandler;   // wrong unfollowing place
-                _playerBehaviour.TurnOffAllGhost(); // wrong turnoff place
                 SendMovePawnCoords(coords);
             }
         }
@@ -208,9 +202,8 @@ namespace QuoridorDelta.View
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
             {
                 _input.OnLeftMouseButtonClicked -= WallCoordsClickHandler;
-                _some = WallFollowHandler;
+                _lastFollowHanlder = WallFollowHandler;
                 _mouseFollowHandle.OnMouseFollowing -= WallFollowHandler;   // wrong unfollowing place
-                _playerBehaviour.TurnOffAllGhost(); // wrong turnoff place
                 SendPlaceWallCoords(coords);    
             }
         }
@@ -218,11 +211,12 @@ namespace QuoridorDelta.View
         // need refactor and update
         private void PawnFollowHandler(PlayerNumber playerNumber)
         {
-            if (_raycastToDesk.TryRaycast(out Collider collider, out RaycastHit hit))
+            if (_raycastToDesk.TryRaycast(out RaycastHit hit))
             {
                 if (_raycastToDesk.TryGetPawnMoveCoords(out Coords coords))
                 {
                     _playerBehaviour.GetPawn(playerNumber).transform.position = CoordsConverter.ToVector3(coords);
+                    //_soundKeeper.MagnetSound.PlayNext();
                 }
                 else
                 {
@@ -235,10 +229,12 @@ namespace QuoridorDelta.View
         {
             if (_raycastToDesk.TryRaycast(out RaycastHit hit))
             {
-                if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords wallCoords))
+                if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords wallCoords) && 
+                    _playerBehaviour.GetWall(playerNumber).transform.position != CoordsConverter.ToVector3(wallCoords))
                 {
-                    _playerBehaviour.GetWall(playerNumber).transform.position = CoordsConverter.ToVector3(wallCoords);
-                    _playerBehaviour.GetWall(playerNumber).transform.rotation = CoordsConverter.GetWallQuaternion(wallCoords.Rotation);
+                        _soundKeeper.MagnetSound.PlayNext();
+                        _playerBehaviour.GetWall(playerNumber).transform.position = CoordsConverter.ToVector3(wallCoords);
+                        _playerBehaviour.GetWall(playerNumber).transform.rotation = CoordsConverter.GetWallQuaternion(wallCoords.Rotation);
                 }
                 else
                 {
@@ -272,7 +268,7 @@ namespace QuoridorDelta.View
         {
             const float waitingTime = 2.0f;
 
-            _mouseFollowHandle.OnMouseFollowing += _some;
+            _mouseFollowHandle.OnMouseFollowing += _lastFollowHanlder;
             _wrongMoveInfoMenu.SetActive(true);
             StartCoroutine(Waiting(waitingTime, () => _wrongMoveInfoMenu.SetActive(false)));
 
