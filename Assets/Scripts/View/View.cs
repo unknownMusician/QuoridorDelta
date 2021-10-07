@@ -43,6 +43,8 @@ namespace QuoridorDelta.View
         private Action<GameType> _getGameType;
         private Action<bool> _shouldRestart;
 
+        private Action<PlayerNumber> _some;
+
 
         private void Awake()
         {
@@ -144,12 +146,14 @@ namespace QuoridorDelta.View
                     moveType = MoveType.MovePawn;
                     _playerBehaviour.TryChangePawnGhost(playerNumber, true);
                     _mouseFollowHandle.OnMouseFollowing += PawnFollowHandler;
+                    _some = PawnFollowHandler;
                 }
                 else if (collider.gameObject.layer == PlayerBehaviour.GetWallLayer(playerNumber))
                 {
                     moveType = MoveType.PlaceWall;
                     _playerBehaviour.TryChangeWallsGhost(playerNumber, true);
                     _mouseFollowHandle.OnMouseFollowing += WallFollowHandler;
+                    _some = WallFollowHandler;
                 }
                 else
                 {
@@ -204,6 +208,7 @@ namespace QuoridorDelta.View
             if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords coords))
             {
                 _input.OnLeftMouseButtonClicked -= WallCoordsClickHandler;
+                _some = WallFollowHandler;
                 _mouseFollowHandle.OnMouseFollowing -= WallFollowHandler;   // wrong unfollowing place
                 _playerBehaviour.TurnOffAllGhost(); // wrong turnoff place
                 SendPlaceWallCoords(coords);    
@@ -267,8 +272,10 @@ namespace QuoridorDelta.View
         {
             const float waitingTime = 2.0f;
 
+            _mouseFollowHandle.OnMouseFollowing += _some;
             _wrongMoveInfoMenu.SetActive(true);
             StartCoroutine(Waiting(waitingTime, () => _wrongMoveInfoMenu.SetActive(false)));
+
         }
 
         public void ShowWinner(PlayerNumber playerNumber) => _winnerInfoMenu.SetActive(true);
