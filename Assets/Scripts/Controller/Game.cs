@@ -26,7 +26,7 @@ namespace QuoridorDelta.Controller
             {
                 Action<GameState, IDBChangeInfo> onChange = _rules.HandleChange;
                 _players = PlayersFactory.CreatePlayers(input.ChooseGameType(), input, view, ref onChange);
-                _dataBase = new Dbms(InitialRules.PlayerInfos, onChange);
+                _dataBase = new Dbms(InitialRules.PlayerInfoContainer, onChange);
 
                 Loop(out PlayerNumber winner);
                 view.ShowWinner(winner);
@@ -40,7 +40,7 @@ namespace QuoridorDelta.Controller
             {
                 winner.Change();
 
-                MoveType moveType = _dataBase.PlayerInfos[winner].WallCount > 0 ?
+                MoveType moveType = _dataBase.PlayerInfoContainer[winner].WallCount > 0 ?
                     _players[winner].ChooseMoveType(winner) :
                     MoveType.MovePawn;
 

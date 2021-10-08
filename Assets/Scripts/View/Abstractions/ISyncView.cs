@@ -10,17 +10,17 @@ namespace QuoridorDelta.View
         void ShowWinner(PlayerNumber playerNumber);
         void ShowWrongMove(MoveType moveType);
 
-        void InitializeField(PlayerInfos playerInfos, [NotNull] IEnumerable<WallCoords> wallCoords);
+        void InitializeField(PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] IEnumerable<WallCoords> wallCoords);
 
         void MovePawn(
-            PlayerInfos playerInfos,
+            PlayerInfoContainer<PlayerInfo> playerInfos,
             [NotNull] IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
             Coords newCoords
         );
 
         void PlaceWall(
-            PlayerInfos playerInfos,
+            PlayerInfoContainer<PlayerInfo> playerInfos,
             [NotNull] IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
             WallCoords newCoords

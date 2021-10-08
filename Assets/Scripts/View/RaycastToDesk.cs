@@ -23,10 +23,11 @@ namespace QuoridorDelta.View
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition),
                                 out RaycastHit hit,
                                 _maxDistance,
-                                _layerForRaycast) &&
-             hit.normal == Vector3.up)
+                                _layerForRaycast)
+             && hit.normal == Vector3.up)
             {
                 coords = _coordsConverter.ToCoords(hit.point);
+
                 return true;
             }
 
@@ -36,11 +37,11 @@ namespace QuoridorDelta.View
         }
 
         public bool TryGetPlaceWallCoords(out WallCoords coords)
+            => TryGetPlaceWallCoords(out coords, out _);
+
+        public bool TryGetPlaceWallCoords(out WallCoords coords, out RaycastHit hit)
         {
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition),
-                                out RaycastHit hit,
-                                _maxDistance,
-                                _layerForRaycast)
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, _maxDistance, _layerForRaycast)
              && hit.normal == Vector3.up)
             {
                 coords = _coordsConverter.ToWallCoords(hit.point);
@@ -53,27 +54,35 @@ namespace QuoridorDelta.View
 
             return false;
         }
+
         // remove
         public bool TryRaycast(out Collider collider, out RaycastHit hit)
         {
             hit = default;
             collider = default;
+
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit _hit, _maxDistance))
             {
                 hit = _hit;
                 collider = hit.collider;
+
                 return true;
             }
+
             return false;
         }
+
         public bool TryRaycast(out RaycastHit hit)
         {
             hit = default;
+
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit _hit, _maxDistance))
             {
                 hit = _hit;
+
                 return true;
             }
+
             return false;
         }
 
@@ -82,9 +91,12 @@ namespace QuoridorDelta.View
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _maxDistance))
             {
                 collider = hit.collider;
+
                 return true;
             }
+
             collider = null;
+
             return false;
         }
     }

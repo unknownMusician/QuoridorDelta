@@ -2,24 +2,25 @@
 using QuoridorDelta.Model;
 using UnityEngine;
 
-namespace QuoridorDelta.View
+namespace QuoridorDelta.View.Refactor
 {
-    public sealed class CoordsConverter
+    public sealed class CoordsConverter : MonoBehaviour
     {
-        private readonly Vector3 _cellStartPoint;
-        private readonly Vector3 _wallStartPoint;
+        [SerializeField] private Vector3 _centerPoint;
+        
+        private Vector3 _cellStartPoint;
+        private Vector3 _wallStartPoint;
         public const int BoardCellSize = 9;
         public const int BoardWallSize = BoardCellSize - 1;
         public const float PawnHeightValue = 0.652f;
         public const float WallHeightValue = 0.9f;
         public const float BoardCellHalfSize = BoardCellSize / 2.0f;
         public const float BoardWallHalfSize = BoardWallSize / 2.0f;
-        public readonly Vector3 CenterPoint;
+        public Vector3 CenterPoint => _centerPoint;
 
-        public CoordsConverter(Vector3 centerPoint)
+        public void Awake()
         {
-            CenterPoint = centerPoint;
-            Vector3 flatCenterPoint = DropY(centerPoint);
+            Vector3 flatCenterPoint = DropY(_centerPoint);
 
             var boardCellOffset = new Vector3(BoardCellHalfSize, 0, BoardCellHalfSize);
             var boardWallOffset = new Vector3(BoardWallHalfSize, 0, BoardWallHalfSize);

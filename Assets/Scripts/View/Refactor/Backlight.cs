@@ -3,22 +3,23 @@ using JetBrains.Annotations;
 using QuoridorDelta.Model;
 using UnityEngine;
 
-namespace QuoridorDelta.View
+namespace QuoridorDelta.View.Refactor
 {
-    public sealed class Backlight
+    public sealed class Backlight : MonoBehaviour
     {
+        [SerializeField] private GameObject _lightPrefab;
+        [SerializeField] private Transform _lightsParent;
+        [SerializeField] private CoordsConverter _coordsConverter;
+        
         private const int MaxPossibleLightsCount = 6;
-        private readonly CoordsConverter _coordsConverter;
 
         private readonly List<RectTransform> _lights = new List<RectTransform>();
 
-        public Backlight(CoordsConverter coordsConverter, GameObject lightPrefab, Transform lightsParent)
+        private void Awake()
         {
-            _coordsConverter = coordsConverter;
-
             for (int i = 0; i < MaxPossibleLightsCount; i++)
             {
-                _lights.Add(Object.Instantiate(lightPrefab, lightsParent).GetComponent<RectTransform>());
+                _lights.Add(Object.Instantiate(_lightPrefab, _lightsParent).GetComponent<RectTransform>());
             }
         }
 

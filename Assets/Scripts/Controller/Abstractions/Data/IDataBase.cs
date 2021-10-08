@@ -6,7 +6,7 @@ namespace QuoridorDelta.Controller.Abstractions.DataBase
 {
     public interface IDataBase
     {
-        PlayerInfos PlayerInfos { get; }
+        PlayerInfoContainer<PlayerInfo> PlayerInfoContainer { get; }
         [NotNull] IEnumerable<WallCoords> Walls { get; }
 
         void MovePawn(PlayerNumber playerNumber, Coords newCoords);

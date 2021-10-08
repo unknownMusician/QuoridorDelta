@@ -17,9 +17,9 @@ namespace QuoridorDelta.Controller
         private static int GetDistance(Coords c1, Coords c2) => Math.Abs(c1.X - c2.X) + Math.Abs(c1.Y - c2.Y);
 
         private bool IsThereEnemyNearby(PlayerNumber playerNumber)
-            => IsThereEnemyNearby(playerNumber, LastGameState.PlayerInfos);
+            => IsThereEnemyNearby(playerNumber, LastGameState.PlayerInfoContainer);
 
-        private static bool IsThereEnemyNearby(PlayerNumber playerNumber, PlayerInfos playerInfos)
+        private static bool IsThereEnemyNearby(PlayerNumber playerNumber, PlayerInfoContainer<PlayerInfo> playerInfos)
             => GetDistance(playerInfos[playerNumber].PawnCoords, playerInfos[playerNumber.Changed()].PawnCoords) == 1;
 
         private static bool IsWithinFieldRange(Coords coords)
@@ -113,16 +113,16 @@ namespace QuoridorDelta.Controller
 
         public static bool CanMovePawn(PlayerNumber playerNumber, Coords newCoords, [NotNull] GameState gameState)
         {
-            PlayerInfo playerInfo = gameState.PlayerInfos[playerNumber];
+            PlayerInfo playerInfo = gameState.PlayerInfoContainer[playerNumber];
 
             int moveDistance = GetDistance(playerInfo.PawnCoords, newCoords);
-            Coords otherPawnCoords = gameState.PlayerInfos[playerNumber.Changed()].PawnCoords;
+            Coords otherPawnCoords = gameState.PlayerInfoContainer[playerNumber.Changed()].PawnCoords;
 
             if ((newCoords == playerInfo.PawnCoords)
              || (!IsWithinFieldRange(newCoords))
              || (moveDistance > 2)
              || (otherPawnCoords == newCoords)
-             || (!IsThereEnemyNearby(playerNumber, gameState.PlayerInfos) && moveDistance > 1)
+             || (!IsThereEnemyNearby(playerNumber, gameState.PlayerInfoContainer) && moveDistance > 1)
              || (moveDistance > 1 && !CanJump2StepsOverCloseEnemy(playerInfo.PawnCoords, otherPawnCoords, newCoords)))
             {
                 return false;
@@ -150,7 +150,7 @@ namespace QuoridorDelta.Controller
             => CanPlaceWall(playerNumber, newCoords, LastGameState);
 
         public static bool CanPlaceWall(PlayerNumber playerNumber, WallCoords newCoords, [NotNull] GameState gameState)
-            => (gameState.PlayerInfos[playerNumber].WallCount > 0)
+            => (gameState.PlayerInfoContainer[playerNumber].WallCount > 0)
             && CanPlaceWallWallCountUnchecked(newCoords, gameState);
 
         public override IEnumerable<Coords> GetPossiblePawnMoves(PlayerNumber playerNumber)
@@ -159,7 +159,7 @@ namespace QuoridorDelta.Controller
         [NotNull]
         public static IEnumerable<Coords> GetPossiblePawnMoves(PlayerNumber playerNumber, [NotNull] GameState gameState)
         {
-            Coords pawnCoords = gameState.PlayerInfos[playerNumber].PawnCoords;
+            Coords pawnCoords = gameState.PlayerInfoContainer[playerNumber].PawnCoords;
 
             var possibleMoves = new List<Coords>();
 
@@ -179,9 +179,9 @@ namespace QuoridorDelta.Controller
             return possibleMoves;
         }
 
-        public override bool IsWinner(PlayerNumber playerNumber) => IsWinner(playerNumber, LastGameState.PlayerInfos);
+        public override bool IsWinner(PlayerNumber playerNumber) => IsWinner(playerNumber, LastGameState.PlayerInfoContainer);
 
-        public static bool IsWinner(PlayerNumber playerNumber, PlayerInfos playerInfos)
+        public static bool IsWinner(PlayerNumber playerNumber, PlayerInfoContainer<PlayerInfo> playerInfos)
         {
             int coordsY = playerInfos[playerNumber].PawnCoords.Y;
 
@@ -208,11 +208,11 @@ namespace QuoridorDelta.Controller
 
             return PathExist(GetWinCoordsY(PlayerNumber.First),
                              wallList,
-                             gameState.PlayerInfos[PlayerNumber.First].PawnCoords,
+                             gameState.PlayerInfoContainer[PlayerNumber.First].PawnCoords,
                              new HashSet<Coords>())
                 && PathExist(GetWinCoordsY(PlayerNumber.Second),
                              wallList,
-                             gameState.PlayerInfos[PlayerNumber.Second].PawnCoords,
+                             gameState.PlayerInfoContainer[PlayerNumber.Second].PawnCoords,
                              new HashSet<Coords>());
         }
 

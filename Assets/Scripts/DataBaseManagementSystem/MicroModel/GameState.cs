@@ -11,15 +11,15 @@ namespace QuoridorDelta.DataBaseManagementSystem
     {
         [NotNull] public static GameState Empty => new GameState(default, Array.Empty<WallCoords>());
 
-        public readonly PlayerInfos PlayerInfos;
+        public readonly PlayerInfoContainer<PlayerInfo> PlayerInfoContainer;
         [NotNull] public readonly IEnumerable<WallCoords> Walls;
 
-        internal GameState(PlayerInfos playerInfos, [NotNull] IEnumerable<WallCoords> walls)
+        internal GameState(PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] IEnumerable<WallCoords> walls)
         {
-            PlayerInfos = playerInfos;
+            PlayerInfoContainer = playerInfos;
             Walls = walls;
         }
 
-        internal GameState([NotNull] IDataBase dbms) : this(dbms.PlayerInfos, dbms.Walls) { }
+        internal GameState([NotNull] IDataBase dbms) : this(dbms.PlayerInfoContainer, dbms.Walls) { }
     }
 }

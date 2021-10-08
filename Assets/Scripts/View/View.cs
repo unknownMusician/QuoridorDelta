@@ -41,6 +41,7 @@ namespace QuoridorDelta.View
         private Action<bool> _shouldRestart;
         private Action<PlayerNumber> _lastFollowHanlder;
 
+        private WallCoords _lastWallCoords;
 
         private void Awake()
         {
@@ -112,7 +113,8 @@ namespace QuoridorDelta.View
                 _movePawnHandler(coords);
                 _movePawnHandler = null;
                 _backlight.TurnOffLights();
-                _soundKeeper.PawnMoveSound.PlayNext();
+                // todo
+                //_soundKeeper._pawnMoveSound.PlayNext();
             }
         }
 
@@ -122,7 +124,8 @@ namespace QuoridorDelta.View
             {
                 _placeWallHandler(coords);
                 _placeWallHandler = null;
-                _soundKeeper.WallMoveSound.PlayNext();
+                // todo
+                //_soundKeeper._wallMoveSound.PlayNext();
             }
         }
 
@@ -221,7 +224,8 @@ namespace QuoridorDelta.View
                     // need sound fix
                     if (CoordsConverter.ToCoords(pawn.position) != coords)
                     {
-                        _soundKeeper.MagnetSound.PlayNext();
+                        // todo
+                        //_soundKeeper._magnetSound.PlayNext();
                         pawn.position = CoordsConverter.ToVector3(coords);
                     }
                 }
@@ -234,29 +238,36 @@ namespace QuoridorDelta.View
 
         private void WallFollowHandler(PlayerNumber playerNumber)
         {
-            if (_raycastToDesk.TryRaycast(out RaycastHit hit))
+            if (!_raycastToDesk.TryRaycast(out RaycastHit hit))
             {
-                Transform wall = _playerBehaviour.GetWall(playerNumber).transform;
-                if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords wallCoords))
+                return;
+            }
+
+            Transform wall = _playerBehaviour.GetWall(playerNumber).transform;
+            
+            if (_raycastToDesk.TryGetPlaceWallCoords(out WallCoords wallCoords, out hit))
+            {
+                Debug.Log(CoordsConverter.ToWallCoords(hit.point));
+                
+                // need sound fix
+                if (wallCoords != _lastWallCoords)
                 {
-                    // need sound fix
-                    if (CoordsConverter.ToWallCoords(wall.position) != wallCoords)
-                    {
-                        _soundKeeper.MagnetSound.PlayNext();
-                        
-                    }
-                    wall.position = CoordsConverter.ToVector3(wallCoords);
-                    wall.rotation = CoordsConverter.GetWallQuaternion(wallCoords.Rotation);
+                    // todo
+                    //_soundKeeper._magnetSound.PlayNext();
+                    _lastWallCoords = wallCoords;
                 }
-                else
-                {
-                    wall.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
-                }
+                
+                wall.position = CoordsConverter.ToVector3(wallCoords);
+                wall.rotation = CoordsConverter.GetWallQuaternion(wallCoords.Rotation);
+            }
+            else
+            {
+                wall.position = new Vector3(hit.point.x, 1.2f, hit.point.z);
             }
         }
 
         public void MovePawn(
-            PlayerInfos playerInfos,
+            PlayerInfoContainer<PlayerInfo> playerInfos,
             IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
             Coords newCoords
@@ -264,7 +275,7 @@ namespace QuoridorDelta.View
             => _playerBehaviour.MovePawn(playerNumber, newCoords, _proxy.HandleAnimationEnded);
 
         public void PlaceWall(
-            PlayerInfos playerInfos,
+            PlayerInfoContainer<PlayerInfo> playerInfos,
             IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
             WallCoords newCoords
@@ -294,7 +305,7 @@ namespace QuoridorDelta.View
             _restartBlock.SetActive(true);
         }
 
-        public void InitializeField(PlayerInfos playerInfos, IEnumerable<WallCoords> wallCoords)
+        public void InitializeField(PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords)
         {
             _playerBehaviour.ResetWallsPosition(playerInfos);
             MovePawn(playerInfos, wallCoords, PlayerNumber.First, playerInfos.First.PawnCoords);

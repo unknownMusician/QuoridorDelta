@@ -38,16 +38,16 @@ namespace QuoridorDelta.View.Proxy
             switch (changeInfo)
             {
                 case DBInitializedInfo _:
-                    Send((gameState.PlayerInfos, gameState.Walls));
+                    Send((PlayerInfos: gameState.PlayerInfoContainer, gameState.Walls));
 
                     break;
                 case DBPawnMovedInfo dbPawnMovedInfo:
-                    Send((gameState.PlayerInfos, gameState.Walls, dbPawnMovedInfo.PlayerNumber,
+                    Send((PlayerInfos: gameState.PlayerInfoContainer, gameState.Walls, dbPawnMovedInfo.PlayerNumber,
                           dbPawnMovedInfo.NewCoords));
 
                     break;
                 case DBWallPlacedInfo dbWallPlacedInfo:
-                    Send((gameState.PlayerInfos, gameState.Walls, dbWallPlacedInfo.PlayerNumber,
+                    Send((PlayerInfos: gameState.PlayerInfoContainer, gameState.Walls, dbWallPlacedInfo.PlayerNumber,
                           dbWallPlacedInfo.NewCoords));
 
                     break;

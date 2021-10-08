@@ -76,18 +76,18 @@ namespace QuoridorDelta.View.Proxy
                     _input.ShouldRestart(shouldRestartRequest.StartInitializing());
 
                     break;
-                case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>)> fieldInitRequest:
+                case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>)> fieldInitRequest:
                     _view.InitializeField(fieldInitRequest.Input.Item1, fieldInitRequest.Input.Item2);
 
                     break;
-                case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>, PlayerNumber, Coords)> movePawnRequest:
+                case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>, PlayerNumber, Coords)> movePawnRequest:
                     _view.MovePawn(movePawnRequest.Input.Item1,
                                    movePawnRequest.Input.Item2,
                                    movePawnRequest.Input.Item3,
                                    movePawnRequest.Input.Item4);
 
                     break;
-                case ActionRequest<(PlayerInfos, IEnumerable<WallCoords>, PlayerNumber, WallCoords)> placeWallRequest:
+                case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>, PlayerNumber, WallCoords)> placeWallRequest:
                     _view.PlaceWall(placeWallRequest.Input.Item1,
                                     placeWallRequest.Input.Item2,
                                     placeWallRequest.Input.Item3,

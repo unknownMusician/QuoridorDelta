@@ -5,14 +5,14 @@ namespace QuoridorDelta.DataBase
 {
     public sealed class DB
     {
-        public PlayerInfos PlayerInfos { get; set; }
+        public PlayerInfoContainer<PlayerInfo> PlayerInfoContainer { get; set; }
         public List<WallCoords> Walls { get; set; }
 
         public DB() { }
 
-        public DB(PlayerInfos playerInfos, List<WallCoords> walls)
+        public DB(PlayerInfoContainer<PlayerInfo> playerInfos, List<WallCoords> walls)
         {
-            PlayerInfos = playerInfos;
+            PlayerInfoContainer = playerInfos;
             Walls = walls;
         }
     }

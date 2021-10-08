@@ -8,12 +8,8 @@ namespace QuoridorDelta.View
     {
         public event Action<PlayerNumber> OnMouseFollowing;
 
-        public PlayerNumber CurrentPlayer { get; set; }
+        public PlayerNumber CurrentPlayer { private get; set; }
 
-        private void Update()
-        {
-            OnMouseFollowing?.Invoke(CurrentPlayer);
-        }
-        
+        private void Update() => OnMouseFollowing?.Invoke(CurrentPlayer);
     }
 }

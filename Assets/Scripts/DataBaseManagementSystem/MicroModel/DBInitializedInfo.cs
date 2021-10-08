@@ -4,8 +4,8 @@ namespace QuoridorDelta.DataBaseManagementSystem
 {
     public readonly struct DBInitializedInfo : IDBChangeInfo
     {
-        public readonly PlayerInfos PlayerInfos;
+        public readonly PlayerInfoContainer<PlayerInfo> PlayerInfoContainer;
 
-        public DBInitializedInfo(PlayerInfos playerInfos) => PlayerInfos = playerInfos;
+        public DBInitializedInfo(PlayerInfoContainer<PlayerInfo> playerInfos) => PlayerInfoContainer = playerInfos;
     }
 }
