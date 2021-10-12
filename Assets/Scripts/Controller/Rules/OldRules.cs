@@ -179,7 +179,8 @@ namespace QuoridorDelta.Controller
             return possibleMoves;
         }
 
-        public override bool IsWinner(PlayerNumber playerNumber) => IsWinner(playerNumber, LastGameState.PlayerInfoContainer);
+        public override bool IsWinner(PlayerNumber playerNumber)
+            => IsWinner(playerNumber, LastGameState.PlayerInfoContainer);
 
         public static bool IsWinner(PlayerNumber playerNumber, PlayerInfoContainer<PlayerInfo> playerInfos)
         {
@@ -279,9 +280,10 @@ namespace QuoridorDelta.Controller
             {
                 for (int x = 0; x < MaxWallCoords; x++)
                 {
-                    for (var o = WallRotation.Horizontal; o != WallRotation.Vertical; o = WallRotation.Vertical)
+                    for (int i = 0; i < 2; i++)
                     {
-                        WallCoords wallCoords = ((x, y), o);
+                        var wallRotation = (WallRotation)i;
+                        WallCoords wallCoords = ((x, y), wallRotation);
 
                         if (CanPlaceWallWallCountUnchecked(wallCoords, gameState))
                         {
