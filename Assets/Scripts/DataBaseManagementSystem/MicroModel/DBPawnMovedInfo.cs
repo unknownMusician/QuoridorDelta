@@ -7,7 +7,7 @@ namespace QuoridorDelta.DataBaseManagementSystem
         public readonly PlayerNumber PlayerNumber;
         public readonly Coords NewCoords;
 
-        public DBPawnMovedInfo(PlayerNumber playerNumber, Coords newCoords)
+        public DBPawnMovedInfo(PlayerNumber playerNumber, in Coords newCoords)
         {
             PlayerNumber = playerNumber;
             NewCoords = newCoords;

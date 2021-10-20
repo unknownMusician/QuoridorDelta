@@ -9,7 +9,7 @@ namespace QuoridorDelta.Controller.Abstractions.DataBase
         PlayerInfoContainer<PlayerInfo> PlayerInfoContainer { get; }
         [NotNull] IEnumerable<WallCoords> Walls { get; }
 
-        void MovePawn(PlayerNumber playerNumber, Coords newCoords);
-        void PlaceWall(PlayerNumber playerNumber, WallCoords newCoords);
+        void MovePawn(PlayerNumber playerNumber, in Coords newCoords);
+        void PlaceWall(PlayerNumber playerNumber, in WallCoords newCoords);
     }
 }

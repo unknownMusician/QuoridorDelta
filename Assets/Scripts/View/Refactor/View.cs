@@ -18,7 +18,7 @@ namespace QuoridorDelta.View.Refactor
 
         public void ShowWrongMove(MoveType moveType) => _wrongMoveWindow.Show();
 
-        public void InitializeField(PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords)
+        public void InitializeField(in PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords)
         {
             foreach ((PlayerNumber number, PlayerInfoHolder holder) in _field.PlayerInfoHolders.Pairs)
             {
@@ -27,17 +27,17 @@ namespace QuoridorDelta.View.Refactor
         }
 
         public void MovePawn(
-            PlayerInfoContainer<PlayerInfo> playerInfos,
+            in PlayerInfoContainer<PlayerInfo> playerInfos,
             IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
-            Coords newCoords
+            in Coords newCoords
         ) => _field.PlayerInfoHolders[playerNumber].MovePawn(newCoords);
 
         public void PlaceWall(
-            PlayerInfoContainer<PlayerInfo> playerInfos,
+            in PlayerInfoContainer<PlayerInfo> playerInfos,
             IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
-            WallCoords newCoords
+            in WallCoords newCoords
         ) => _field.PlayerInfoHolders[playerNumber].PlaceWall(newCoords);
     }
 }

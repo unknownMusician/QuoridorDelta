@@ -267,18 +267,18 @@ namespace QuoridorDelta.View
         }
 
         public void MovePawn(
-            PlayerInfoContainer<PlayerInfo> playerInfos,
+            in PlayerInfoContainer<PlayerInfo> playerInfos,
             IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
-            Coords newCoords
+            in Coords newCoords
         )
             => _playerBehaviour.MovePawn(playerNumber, newCoords, _proxy.HandleAnimationEnded);
 
         public void PlaceWall(
-            PlayerInfoContainer<PlayerInfo> playerInfos,
+            in PlayerInfoContainer<PlayerInfo> playerInfos,
             IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
-            WallCoords newCoords
+            in WallCoords newCoords
         ) => _playerBehaviour.PlaceWall(playerInfos, playerNumber, newCoords);
 
         public void GetGameType(Action<GameType> handler)
@@ -305,7 +305,7 @@ namespace QuoridorDelta.View
             _restartBlock.SetActive(true);
         }
 
-        public void InitializeField(PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords)
+        public void InitializeField(in PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords)
         {
             _playerBehaviour.ResetWallsPosition(playerInfos);
             MovePawn(playerInfos, wallCoords, PlayerNumber.First, playerInfos.First.PawnCoords);

@@ -14,7 +14,7 @@ namespace QuoridorDelta.DataBaseManagementSystem
         public readonly PlayerInfoContainer<PlayerInfo> PlayerInfoContainer;
         [NotNull] public readonly IEnumerable<WallCoords> Walls;
 
-        internal GameState(PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] IEnumerable<WallCoords> walls)
+        internal GameState(in PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] IEnumerable<WallCoords> walls)
         {
             PlayerInfoContainer = playerInfos;
             Walls = walls;

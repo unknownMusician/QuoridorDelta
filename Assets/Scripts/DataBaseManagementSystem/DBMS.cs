@@ -20,7 +20,7 @@ namespace QuoridorDelta.DataBaseManagementSystem
 
         [NotNull] private GameState GameState => new GameState(this);
 
-        public Dbms(PlayerInfoContainer<PlayerInfo> playerInfos, Action<GameState, IDBChangeInfo> onChange)
+        public Dbms(in PlayerInfoContainer<PlayerInfo> playerInfos, Action<GameState, IDBChangeInfo> onChange)
         {
             _db = new DB(playerInfos, new List<WallCoords>());
             OnChange = onChange;
@@ -28,12 +28,12 @@ namespace QuoridorDelta.DataBaseManagementSystem
             OnChange?.Invoke(GameState, new DBInitializedInfo(playerInfos));
         }
 
-        public Dbms(PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] params INotifiable[] notifiables) : this(playerInfos,
+        public Dbms(in PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] params INotifiable[] notifiables) : this(playerInfos,
             notifiables.Select(n => (Action<GameState, IDBChangeInfo>)n.HandleChange)
                        .Aggregate((current, handler) => current + handler)) { }
 
 
-        public void MovePawn(PlayerNumber playerNumber, Coords newCoords)
+        public void MovePawn(PlayerNumber playerNumber, in Coords newCoords)
         {
             _db.PlayerInfoContainer = CreateNew(PlayerInfoContainer,
                                         playerNumber,
@@ -42,7 +42,7 @@ namespace QuoridorDelta.DataBaseManagementSystem
             OnChange?.Invoke(GameState, new DBPawnMovedInfo(playerNumber, newCoords));
         }
 
-        public void PlaceWall(PlayerNumber playerNumber, WallCoords newCoords)
+        public void PlaceWall(PlayerNumber playerNumber, in WallCoords newCoords)
         {
             _db.Walls.Add(newCoords);
 
@@ -54,7 +54,7 @@ namespace QuoridorDelta.DataBaseManagementSystem
             OnChange?.Invoke(GameState, new DBWallPlacedInfo(playerNumber, newCoords));
         }
 
-        private static PlayerInfoContainer<PlayerInfo> CreateNew(PlayerInfoContainer<PlayerInfo> old, PlayerNumber changedPlayer, PlayerInfo newPlayer)
+        private static PlayerInfoContainer<PlayerInfo> CreateNew(in PlayerInfoContainer<PlayerInfo> old, PlayerNumber changedPlayer, in PlayerInfo newPlayer)
             => changedPlayer switch
             {
                 PlayerNumber.First => new PlayerInfoContainer<PlayerInfo>(newPlayer, old[PlayerNumber.Second]),

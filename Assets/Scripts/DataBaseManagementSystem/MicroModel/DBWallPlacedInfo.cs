@@ -7,7 +7,7 @@ namespace QuoridorDelta.DataBaseManagementSystem
         public readonly PlayerNumber PlayerNumber;
         public readonly WallCoords NewCoords;
 
-        public DBWallPlacedInfo(PlayerNumber playerNumber, WallCoords newCoords)
+        public DBWallPlacedInfo(PlayerNumber playerNumber, in WallCoords newCoords)
         {
             PlayerNumber = playerNumber;
             NewCoords = newCoords;

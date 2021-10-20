@@ -7,9 +7,9 @@ namespace QuoridorDelta.Controller
 {
     public class AllowingRules : Rules
     {
-        public override bool CanMovePawn(PlayerNumber playerNumber, Coords newCoords) => true;
+        public override bool CanMovePawn(PlayerNumber playerNumber, in Coords newCoords) => true;
 
-        public override bool CanPlaceWall(PlayerNumber playerNumber, WallCoords newCoords) => true;
+        public override bool CanPlaceWall(PlayerNumber playerNumber, in WallCoords newCoords) => true;
 
         public override IEnumerable<Coords> GetPossiblePawnMoves(PlayerNumber playerNumber)
             => Array.Empty<Coords>();
