@@ -43,7 +43,12 @@ namespace QuoridorDelta.Controller
             return result;
         }
 
-        private static bool CanJump2StepsOverCloseEnemy(in Coords pawnCoords, in Coords enemyCoords, in Coords newCoords)
+        private static bool CanJump2StepsOverCloseEnemy(
+            in Coords pawnCoords,
+            in Coords enemyCoords,
+            in Coords newCoords,
+            [NotNull] IEnumerable<WallCoords> walls
+        )
         {
             int coordsIndex;
 
@@ -60,14 +65,26 @@ namespace QuoridorDelta.Controller
                 return false;
             }
 
-            return Math.Sign(enemyCoords[coordsIndex] - pawnCoords[coordsIndex])
-                == Math.Sign(newCoords[coordsIndex] - pawnCoords[coordsIndex]);
+            if (Math.Sign(enemyCoords[coordsIndex] - pawnCoords[coordsIndex])
+             != Math.Sign(newCoords[coordsIndex] - pawnCoords[coordsIndex]))
+            {
+                return false;
+            }
+
+            int otherCordsIndex = 1 - coordsIndex;
+
+            return pawnCoords[otherCordsIndex] == newCoords[otherCordsIndex]
+                || IsThereWallBetweenNeighbors(enemyCoords, (enemyCoords - pawnCoords) * 2 + pawnCoords, walls);
         }
 
         private bool IsThereWallBetweenNeighbors(in Coords c1, in Coords c2)
             => IsThereWallBetweenNeighbors(c1, c2, LastGameState.Walls);
 
-        private static bool IsThereWallBetweenNeighbors(in Coords c1, in Coords c2, [NotNull] IEnumerable<WallCoords> walls)
+        private static bool IsThereWallBetweenNeighbors(
+            in Coords c1,
+            in Coords c2,
+            [NotNull] IEnumerable<WallCoords> walls
+        )
         {
             Coords minCoord;
             (int x, int y) = c2 - c1;
@@ -135,8 +152,8 @@ namespace QuoridorDelta.Controller
              || (!IsWithinFieldRange(newCoords))
              || (moveDistance > 2)
              || (otherPawnCoords == newCoords)
-             || (!IsThereEnemyNearby(playerNumber, gameState.PlayerInfoContainer) && moveDistance > 1)
-             || (moveDistance > 1 && !CanJump2StepsOverCloseEnemy(playerInfo.PawnCoords, otherPawnCoords, newCoords)))
+             || (moveDistance > 1 && !IsThereEnemyNearby(playerNumber, gameState.PlayerInfoContainer))
+             || (moveDistance > 1 && !CanJump2StepsOverCloseEnemy(playerInfo.PawnCoords, otherPawnCoords, newCoords, gameState.Walls)))
             {
                 return false;
             }
@@ -163,7 +180,11 @@ namespace QuoridorDelta.Controller
             => CanPlaceWall(playerNumber, newCoords, LastGameState);
 
         [Optimized(0.3, 0.6)]
-        public static bool CanPlaceWall(PlayerNumber playerNumber, in WallCoords newCoords, [NotNull] GameState gameState)
+        public static bool CanPlaceWall(
+            PlayerNumber playerNumber,
+            in WallCoords newCoords,
+            [NotNull] GameState gameState
+        )
             => (gameState.PlayerInfoContainer[playerNumber].WallCount > 0)
             && CanPlaceWallWallCountUnchecked(newCoords, gameState);
 
@@ -319,7 +340,7 @@ namespace QuoridorDelta.Controller
             LoopProfiler.Print();
 
             return possibleCoords;
-            
+
             possibleCoords.Any();
         }
     }

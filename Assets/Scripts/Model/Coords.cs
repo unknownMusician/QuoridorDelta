@@ -31,6 +31,7 @@
 
         public static Coords operator +(in Coords c1, in Coords c2) => (c1.X + c2.X, c1.Y + c2.Y);
         public static Coords operator -(in Coords c1, in Coords c2) => (c1.X - c2.X, c1.Y - c2.Y);
+        public static Coords operator *(in Coords c1, int v) => (c1.X * v, c1.Y * v);
 
         public int this[int index] => index switch
         {
