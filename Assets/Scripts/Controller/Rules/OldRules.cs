@@ -259,6 +259,50 @@ namespace QuoridorDelta.Controller
             return result;
         }
 
+        private static bool ShortPathAStar(Coords start, Coords goal)
+        {
+            var g = new Dictionary<Coords, int>();
+            var f = new Dictionary<Coords, int>();
+
+            int h(Coords coords) => GetDistance(coords, goal);
+            
+            var U = new List<Coords>();
+            var Q = new List<Coords>();
+            Q.Add(start);
+            g[start] = 0;
+            f[start] = g[start] + h(start);
+
+            while (Q.Count != 0)
+            {
+                var current = Q[0]; //вершина из Q с минимальным значением f
+
+                if (current == goal)
+                {
+                    return true; // нашли путь до нужной вершины
+                }
+
+                Q.RemoveAt(0);
+                U.Add(current);
+                foreach (var v in GetNeighbors(current, coords => IsThereWallBetweenNeighbors()))
+                for v :
+                смежные с current вершины
+                    tentativeScore = g[current] + d(current, v) // d(current, v) — стоимость пути между current и v 
+
+                if v∈U and tentativeScore >= g[v]
+
+                continue
+
+                if v∉U or tentativeScore < g[v]
+                parent[v] = current
+                g[v] = tentativeScore
+                f[v] = g[v] + h(v)
+                if v∉Q
+                Q.push(v)
+            }
+
+            return false
+        }
+
         private static bool PathExists(
             int winCoordsY,
             IEnumerable<WallCoords> walls,
@@ -302,6 +346,27 @@ namespace QuoridorDelta.Controller
         private static void AddIfWithinFieldRange(in Coords coords, [NotNull] ICollection<Coords> list)
         {
             if (IsWithinFieldRange(coords))
+            {
+                list.Add(coords);
+            }
+        }
+
+        [NotNull]
+        private static List<Coords> GetNeighbors(in Coords coords, [NotNull] Predicate<Coords> predicate)
+        {
+            var neighbours = new List<Coords>();
+
+            AddIf((coords.X - 1, coords.Y), neighbours, predicate);
+            AddIf((coords.X + 1, coords.Y), neighbours, predicate);
+            AddIf((coords.X, coords.Y - 1), neighbours, predicate);
+            AddIf((coords.X, coords.Y + 1), neighbours, predicate);
+
+            return neighbours;
+        }
+
+        private static void AddIf(in Coords coords, [NotNull] ICollection<Coords> list, [NotNull] Predicate<Coords> predicate)
+        {
+            if (predicate(coords))
             {
                 list.Add(coords);
             }

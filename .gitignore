@@ -39,4 +39,6 @@ sysinfo.txt
 
 # Logs
 *.log
+
+# Settings
 *.xml
