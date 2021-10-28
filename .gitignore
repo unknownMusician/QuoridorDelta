@@ -42,3 +42,9 @@ sysinfo.txt
 
 # Settings
 *.xml
+
+# Console
+Assets/Scripts/ViewConsole.meta
+Assets/Scripts/ViewConsole/**/*.meta
+Assets/Scripts/QuoridorConsole.meta
+Assets/Scripts/QuoridorConsole/**/*.meta
