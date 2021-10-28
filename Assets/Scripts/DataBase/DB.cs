@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.DataBase
@@ -7,8 +9,6 @@ namespace QuoridorDelta.DataBase
     {
         public PlayerInfoContainer<PlayerInfo> PlayerInfoContainer { get; set; }
         public List<WallCoords> Walls { get; set; }
-
-        public DB() { }
 
         public DB(PlayerInfoContainer<PlayerInfo> playerInfos, List<WallCoords> walls)
         {

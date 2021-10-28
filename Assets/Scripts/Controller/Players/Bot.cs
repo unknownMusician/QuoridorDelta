@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿#nullable enable
+
+using System.Collections.Generic;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller

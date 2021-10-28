@@ -1,10 +1,11 @@
-﻿using JetBrains.Annotations;
+﻿#nullable enable
+
 using QuoridorDelta.DataBaseManagementSystem;
 
 namespace QuoridorDelta.Controller
 {
     public interface INotifiable
     {
-        void HandleChange([NotNull] GameState gameState, IDBChangeInfo changeInfo);
+        void HandleChange(GameState gameState, IDBChangeInfo changeInfo);
     }
 }

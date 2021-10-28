@@ -1,4 +1,6 @@
-﻿namespace QuoridorDelta.DataBaseManagementSystem
+﻿#nullable enable
+
+namespace QuoridorDelta.DataBaseManagementSystem
 {
     public interface IDBChangeInfo { }
 }

@@ -1,4 +1,6 @@
-﻿namespace QuoridorDelta.Model
+﻿#nullable enable
+
+namespace QuoridorDelta.Model
 {
     public enum WallRotation
     {
