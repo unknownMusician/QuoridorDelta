@@ -10,7 +10,7 @@ namespace ViewConsole
     {
         public static void Main()
         {
-            new Game().Start();
+            new Game().Start(new GameInput(), new GameView());
         }
     }
 
