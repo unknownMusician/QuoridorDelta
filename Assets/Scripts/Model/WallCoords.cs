@@ -1,4 +1,6 @@
-﻿namespace QuoridorDelta.Model
+﻿#nullable enable
+
+namespace QuoridorDelta.Model
 {
     public readonly struct WallCoords : System.IEquatable<WallCoords>
     {

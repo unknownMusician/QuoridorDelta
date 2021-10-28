@@ -1,4 +1,6 @@
-﻿namespace QuoridorDelta.Controller
+﻿#nullable enable
+
+namespace QuoridorDelta.Controller
 {
     public enum MoveType
     {

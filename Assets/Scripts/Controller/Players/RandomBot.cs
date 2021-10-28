@@ -1,7 +1,8 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using QuoridorDelta.DataBaseManagementSystem;
 using QuoridorDelta.Model;
 
@@ -11,7 +12,7 @@ namespace QuoridorDelta.Controller
     {
         private readonly Random _random = new Random();
         
-        public RandomBot(ref Action<GameState, IDBChangeInfo> onDBChange) => onDBChange += HandleChange;
+        public RandomBot(ref Action<GameState, IDBChangeInfo>? onDBChange) => onDBChange += HandleChange;
 
         public override MoveType ChooseMoveType(PlayerNumber playerNumber) => (MoveType)_random.Next(0, 2);
 
@@ -21,7 +22,7 @@ namespace QuoridorDelta.Controller
         public override WallCoords PlaceWall(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves)
             => GetRandom(possibleMoves.ToArray());
 
-        private T GetRandom<T>([NotNull] IReadOnlyList<T> possibleCoords)
+        private T GetRandom<T>(IReadOnlyList<T> possibleCoords)
             => possibleCoords[_random.Next(0, possibleCoords.Count)];
     }
 }

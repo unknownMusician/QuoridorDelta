@@ -1,8 +1,12 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+#if UNITY_EDITOR
 using Debug = UnityEngine.Debug;
+#endif
 
 namespace Dev
 {
@@ -15,31 +19,34 @@ namespace Dev
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            Buffers.Push((name, stopWatch));
+            Profiler.Buffers.Push((name, stopWatch));
         }
 
         public static void Stop()
         {
-            DateTime now = DateTime.Now;
-
-            if (!Buffers.Any())
+            if (!Profiler.Buffers.Any())
             {
                 throw new InvalidOperationException("Buffer start count does not match stop count");
             }
 
-            (string name, Stopwatch watch) = Buffers.Pop();
+            (string name, Stopwatch watch) = Profiler.Buffers.Pop();
             watch.Stop();
             double milliseconds = watch.Elapsed.TotalMilliseconds;
 
-            Debug.Log($"P: {name} - {milliseconds:F5} ms.");
+            string debugMessage = $"P: {name} - {milliseconds:F5} ms.";
+
+        #if UNITY_EDITOR
+            Debug.Log(debugMessage);
+        #else
+            Console.WriteLine(debugMessage);
+        #endif
         }
     }
-    
+
     public static class LoopProfiler
     {
-        private static readonly Dictionary<string, double> Total =
-            new Dictionary<string, double>();
-        
+        private static readonly Dictionary<string, double> Total = new Dictionary<string, double>();
+
         private static readonly Stack<(string name, Stopwatch watch)> Buffers =
             new Stack<(string name, Stopwatch watch)>();
 
@@ -47,38 +54,41 @@ namespace Dev
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            Buffers.Push((name, stopWatch));
+            LoopProfiler.Buffers.Push((name, stopWatch));
         }
 
         public static void Stop()
         {
-            DateTime now = DateTime.Now;
-
-            if (!Buffers.Any())
+            if (!LoopProfiler.Buffers.Any())
             {
                 throw new InvalidOperationException("Buffer start count does not match stop count");
             }
 
-            (string name, Stopwatch watch) = Buffers.Pop();
+            (string name, Stopwatch watch) = LoopProfiler.Buffers.Pop();
             watch.Stop();
             double milliseconds = watch.Elapsed.TotalMilliseconds;
 
-            if (Total.TryGetValue(name, out double sum))
+            if (LoopProfiler.Total.TryGetValue(name, out double sum))
             {
                 milliseconds += sum;
             }
-            
-            Total[name] = milliseconds;
+
+            LoopProfiler.Total[name] = milliseconds;
         }
 
         public static void Print()
         {
-            foreach (KeyValuePair<string, double> pair in Total)
+            foreach (KeyValuePair<string, double> pair in LoopProfiler.Total)
             {
-                Debug.Log($"T: {pair.Key} - {pair.Value:F5} ms.");
+                string debugMessage = $"T: {pair.Key} - {pair.Value:F5} ms.";
+            #if UNITY_EDITOR
+                Debug.Log(debugMessage);
+            #else
+                Console.WriteLine(debugMessage);
+            #endif
             }
-            
-            Total.Clear();
+
+            LoopProfiler.Total.Clear();
         }
     }
 }

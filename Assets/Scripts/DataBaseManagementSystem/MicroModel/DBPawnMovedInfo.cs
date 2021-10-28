@@ -1,4 +1,6 @@
-﻿using QuoridorDelta.Model;
+﻿#nullable enable
+
+using QuoridorDelta.Model;
 
 namespace QuoridorDelta.DataBaseManagementSystem
 {

@@ -1,7 +1,8 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Controller.Abstractions.DataBase;
 using QuoridorDelta.DataBase;
@@ -11,14 +12,14 @@ namespace QuoridorDelta.DataBaseManagementSystem
 {
     public sealed class Dbms : IDataBase
     {
-        [NotNull] private readonly DB _db;
+        private readonly DB _db;
 
-        public event Action<GameState, IDBChangeInfo> OnChange;
+        public event Action<GameState, IDBChangeInfo>? OnChange;
 
         public PlayerInfoContainer<PlayerInfo> PlayerInfoContainer => _db.PlayerInfoContainer;
         public IEnumerable<WallCoords> Walls => new List<WallCoords>(_db.Walls);
 
-        [NotNull] private GameState GameState => new GameState(this);
+        private GameState GameState => new GameState(this);
 
         public Dbms(in PlayerInfoContainer<PlayerInfo> playerInfos, Action<GameState, IDBChangeInfo> onChange)
         {
@@ -28,16 +29,16 @@ namespace QuoridorDelta.DataBaseManagementSystem
             OnChange?.Invoke(GameState, new DBInitializedInfo(playerInfos));
         }
 
-        public Dbms(in PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] params INotifiable[] notifiables) : this(playerInfos,
+        public Dbms(in PlayerInfoContainer<PlayerInfo> playerInfos, params INotifiable[] notifiables) : this(playerInfos,
             notifiables.Select(n => (Action<GameState, IDBChangeInfo>)n.HandleChange)
                        .Aggregate((current, handler) => current + handler)) { }
 
 
         public void MovePawn(PlayerNumber playerNumber, in Coords newCoords)
         {
-            _db.PlayerInfoContainer = CreateNew(PlayerInfoContainer,
-                                        playerNumber,
-                                        new PlayerInfo(newCoords, PlayerInfoContainer[playerNumber].WallCount));
+            _db.PlayerInfoContainer = Dbms.CreateNew(PlayerInfoContainer,
+                                                     playerNumber,
+                                                     new PlayerInfo(newCoords, PlayerInfoContainer[playerNumber].WallCount));
 
             OnChange?.Invoke(GameState, new DBPawnMovedInfo(playerNumber, newCoords));
         }
@@ -46,10 +47,10 @@ namespace QuoridorDelta.DataBaseManagementSystem
         {
             _db.Walls.Add(newCoords);
 
-            _db.PlayerInfoContainer = CreateNew(PlayerInfoContainer,
-                                        playerNumber,
-                                        new PlayerInfo(PlayerInfoContainer[playerNumber].PawnCoords,
-                                                       PlayerInfoContainer[playerNumber].WallCount - 1));
+            _db.PlayerInfoContainer = Dbms.CreateNew(PlayerInfoContainer,
+                                                     playerNumber,
+                                                     new PlayerInfo(PlayerInfoContainer[playerNumber].PawnCoords,
+                                                                    PlayerInfoContainer[playerNumber].WallCount - 1));
 
             OnChange?.Invoke(GameState, new DBWallPlacedInfo(playerNumber, newCoords));
         }

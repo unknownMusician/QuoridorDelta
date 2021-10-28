@@ -1,5 +1,6 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿#nullable enable
+
+using System;
 using QuoridorDelta.Controller.Abstractions.DataBase;
 using QuoridorDelta.Controller.Abstractions.View;
 using QuoridorDelta.DataBaseManagementSystem;
@@ -11,12 +12,12 @@ namespace QuoridorDelta.Controller
     {
         private readonly DisposableStartHandler _startHandler = new DisposableStartHandler();
 
-        private IDataBase _dataBase;
-        private Rules _rules;
-        private Players _players;
-        private IGameView _view;
+        private IDataBase? _dataBase;
+        private Rules? _rules;
+        private Players? _players;
+        private IGameView? _view;
 
-        public void Start([NotNull] IGameInput input, [NotNull] IGameView view)
+        public void Start(IGameInput input, IGameView view)
         {
             _startHandler.HandleStart();
             _view = view;
@@ -25,7 +26,7 @@ namespace QuoridorDelta.Controller
             do
             {
                 Action<GameState, IDBChangeInfo> onChange = _rules.HandleChange;
-                _players = PlayersFactory.CreatePlayers(input.ChooseGameType(), input, view, ref onChange);
+                _players = PlayersFactory.CreatePlayers(input.ChooseGameType(), input, view, ref onChange!);
                 _dataBase = new Dbms(InitialRules.PlayerInfoContainer, onChange);
 
                 Loop(out PlayerNumber winner);
@@ -36,12 +37,12 @@ namespace QuoridorDelta.Controller
 
         private void Loop(out PlayerNumber winner)
         {
-            for (winner = PlayerNumber.Second; !_rules.IsWinner(winner);)
+            for (winner = PlayerNumber.Second; !_rules!.IsWinner(winner);)
             {
                 winner.Change();
 
-                MoveType moveType = _dataBase.PlayerInfoContainer[winner].WallCount > 0 ?
-                    _players[winner].ChooseMoveType(winner) :
+                MoveType moveType = _dataBase!.PlayerInfoContainer[winner].WallCount > 0 ?
+                    _players![winner].ChooseMoveType(winner) :
                     MoveType.MovePawn;
 
                 MakeMove(moveType, winner);
@@ -70,17 +71,17 @@ namespace QuoridorDelta.Controller
 
             while (true)
             {
-                chosenCoords = _players[playerNumber].MovePawn(playerNumber, _rules.GetPossiblePawnMoves(playerNumber));
+                chosenCoords = _players![playerNumber].MovePawn(playerNumber, _rules!.GetPossiblePawnMoves(playerNumber));
 
                 if (_rules.CanMovePawn(playerNumber, chosenCoords))
                 {
                     break;
                 }
 
-                _view.ShowWrongMove(MoveType.MovePawn);
+                _view!.ShowWrongMove(MoveType.MovePawn);
             }
 
-            _dataBase.MovePawn(playerNumber, chosenCoords);
+            _dataBase!.MovePawn(playerNumber, chosenCoords);
         }
 
         private void PlaceWall(PlayerNumber playerNumber)
@@ -89,18 +90,18 @@ namespace QuoridorDelta.Controller
 
             while (true)
             {
-                chosenCoords = _players[playerNumber]
-                    .PlaceWall(playerNumber, _rules.GetPossibleWallPlacements(playerNumber));
+                chosenCoords = _players![playerNumber]
+                    .PlaceWall(playerNumber, _rules!.GetPossibleWallPlacements(playerNumber));
 
                 if (_rules.CanPlaceWall(playerNumber, chosenCoords))
                 {
                     break;
                 }
 
-                _view.ShowWrongMove(MoveType.PlaceWall);
+                _view!.ShowWrongMove(MoveType.PlaceWall);
             }
 
-            _dataBase.PlaceWall(playerNumber, chosenCoords);
+            _dataBase!.PlaceWall(playerNumber, chosenCoords);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using QuoridorDelta.Model;
+﻿#nullable enable
+
+using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller
 {
@@ -9,6 +11,7 @@ namespace QuoridorDelta.Controller
         public static readonly Coords Player2Coords = (4, 8);
 
         public static PlayerInfoContainer<PlayerInfo> PlayerInfoContainer
-            => ((Player1Coords, WallCountPerPlayer), (Player2Coords, WallCountPerPlayer));
+            => ((InitialRules.Player1Coords, InitialRules.WallCountPerPlayer),
+                (InitialRules.Player2Coords, InitialRules.WallCountPerPlayer));
     }
 }

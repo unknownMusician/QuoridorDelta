@@ -1,7 +1,8 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace QuoridorDelta.Model
 {
@@ -10,7 +11,6 @@ namespace QuoridorDelta.Model
         public readonly TInfo First;
         public readonly TInfo Second;
 
-        [NotNull]
         public (PlayerNumber number, TInfo element)[] Pairs
             => new[] { (PlayerNumber.First, First), (PlayerNumber.Second, Second) };
 
@@ -30,9 +30,9 @@ namespace QuoridorDelta.Model
             => new PlayerInfoContainer<TInfo>(tuple.first, tuple.second);
 
         public bool Equals(PlayerInfoContainer<TInfo> other) => Equals(in other);
-        
+
         public bool Equals(in PlayerInfoContainer<TInfo> other)
-            => other.First.Equals(First) && other.Second.Equals(Second);
+            => other.First!.Equals(First) && other.Second!.Equals(Second);
 
         public IEnumerator<TInfo> GetEnumerator()
         {
@@ -46,14 +46,18 @@ namespace QuoridorDelta.Model
         public override int GetHashCode() => base.GetHashCode();
         public override string ToString() => $"PlayerInfos ({First}, {Second})";
 
-        public static bool operator ==(in PlayerInfoContainer<TInfo> p1, in PlayerInfoContainer<TInfo> p2) => p1.Equals(in p2);
-        public static bool operator !=(in PlayerInfoContainer<TInfo> p1, in PlayerInfoContainer<TInfo> p2) => !p1.Equals(in p2);
+        public static bool operator ==(in PlayerInfoContainer<TInfo> p1, in PlayerInfoContainer<TInfo> p2)
+            => p1.Equals(in p2);
 
-        public TInfo this[PlayerNumber playerNumber] => playerNumber switch
-        {
-            PlayerNumber.First => First,
-            PlayerNumber.Second => Second,
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        public static bool operator !=(in PlayerInfoContainer<TInfo> p1, in PlayerInfoContainer<TInfo> p2)
+            => !p1.Equals(in p2);
+
+        public TInfo this[PlayerNumber playerNumber]
+            => playerNumber switch
+            {
+                PlayerNumber.First => First,
+                PlayerNumber.Second => Second,
+                _ => throw new ArgumentOutOfRangeException()
+            };
     }
 }
