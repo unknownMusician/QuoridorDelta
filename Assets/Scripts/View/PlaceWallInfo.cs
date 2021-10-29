@@ -1,4 +1,4 @@
-﻿namespace QuoridorDelta.View.Refactor
+﻿namespace QuoridorDelta.View
 {
     public readonly struct PlaceWallInfo : IMoveInfo
     {

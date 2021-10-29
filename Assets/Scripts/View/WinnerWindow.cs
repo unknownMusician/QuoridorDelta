@@ -4,7 +4,7 @@ using QuoridorDelta.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
     public sealed class WinnerWindow : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
     [RequireComponent(typeof(Camera))]
     public sealed class MouseInputHandler : MonoBehaviour

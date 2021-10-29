@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 
@@ -10,18 +9,18 @@ namespace QuoridorDelta.View
         void ShowWinner(PlayerNumber playerNumber);
         void ShowWrongMove(MoveType moveType);
 
-        void InitializeField(in PlayerInfoContainer<PlayerInfo> playerInfos, [NotNull] IEnumerable<WallCoords> wallCoords);
+        void InitializeField(in PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords);
 
         void MovePawn(
             in PlayerInfoContainer<PlayerInfo> playerInfos,
-            [NotNull] IEnumerable<WallCoords> wallCoords,
+            IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
             in Coords newCoords
         );
 
         void PlaceWall(
             in PlayerInfoContainer<PlayerInfo> playerInfos,
-            [NotNull] IEnumerable<WallCoords> wallCoords,
+            IEnumerable<WallCoords> wallCoords,
             PlayerNumber playerNumber,
             in WallCoords newCoords
         );

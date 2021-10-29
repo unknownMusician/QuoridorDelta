@@ -5,7 +5,7 @@ using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 using UnityEngine;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
     public sealed class PlayerInfoHolder : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
     public sealed class ShouldRestartWindow : MonoBehaviour
     {

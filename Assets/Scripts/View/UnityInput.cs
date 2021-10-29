@@ -4,9 +4,9 @@ using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 using UnityEngine;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
-    public sealed class Input : MonoBehaviour, ISyncInput
+    public sealed class UnityInput : MonoBehaviour, ISyncInput
     {
         [SerializeField] private GameTypeWindow _gameTypeWindow;
         [SerializeField] private ShouldRestartWindow _shouldRestartWindow;

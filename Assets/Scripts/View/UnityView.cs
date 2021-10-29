@@ -4,9 +4,9 @@ using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 using UnityEngine;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
-    public sealed class View : MonoBehaviour, ISyncView
+    public sealed class UnityView : MonoBehaviour, ISyncView
     {
         [SerializeField] private WinnerWindow _winnerWindow;
         [SerializeField] private WrongMoveWindow _wrongMoveWindow;

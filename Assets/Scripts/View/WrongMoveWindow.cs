@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
     public sealed class WrongMoveWindow : MonoBehaviour
     {

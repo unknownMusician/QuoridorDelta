@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using UnityEngine;
 
-namespace QuoridorDelta.View.Refactor
+namespace QuoridorDelta.View
 {
     public sealed class GameTypeWindow : MonoBehaviour
     {

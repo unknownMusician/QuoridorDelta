@@ -18,7 +18,7 @@ namespace QuoridorDelta.View
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(LeftMouseButtonIndex))
+            if (Input.GetMouseButtonDown(UserInput.LeftMouseButtonIndex))
             {
                 OnLeftMouseButtonClicked?.Invoke();
                 OnLeftMouseButtonClicked2?.Invoke(UserType);
