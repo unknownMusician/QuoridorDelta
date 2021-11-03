@@ -1,12 +1,12 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using PathFinding;
-using PathFinding.Model;
 
-namespace QuoridorDelta.Controller
+namespace QuoridorDelta.Controller.PathFinding
 {
-    public sealed class PathFinderAstar : IPathFinder
+    public sealed class PathFinderAStar : IPathFinder
     {
         //private NodeDistanceToFinalComparer _nodeComparer = new NodeDistanceToFinalComparer();
         public int GetShortestPathLength(in IGraph graph)
@@ -21,7 +21,9 @@ namespace QuoridorDelta.Controller
                 NodeInfo currentNodeInfo = openSet.OrderBy(nodeInfo => nodeInfo.HeuristicFunctionValue).First();
 
                 if (currentNodeInfo.Node.IsFinal())
+                {
                     return currentNodeInfo.PathLengthToFirst;
+                }
 
                 openSet.Remove(currentNodeInfo);
                 closedSet.Add(currentNodeInfo);
@@ -49,31 +51,10 @@ namespace QuoridorDelta.Controller
                     }
                 }
             }
+            
             throw new Exception("Program cannot find path to win");
         }
 
         private static int GetHeuristicPathLength(in INode from) => NodeHelper.FinalYCoord - from.Position.y;
-    }
-    public class NodeInfo
-    {
-        private NodeInfo _parent;
-        private int _heuristicPathLength;
-
-        public readonly INode Node;
-        public int PathLengthToFirst { get; private set; }
-        public int HeuristicFunctionValue => PathLengthToFirst + _heuristicPathLength;
-
-        public NodeInfo(in INode node, NodeInfo parent, int g, int h)
-        {
-            Node = node;
-            _parent = parent;
-            PathLengthToFirst = g;
-            _heuristicPathLength = h;
-        }
-        public void ChangeNodeConnection(NodeInfo newParent, int newG)
-        {
-            _parent = newParent;
-            PathLengthToFirst = newG;
-        }
     }
 }
