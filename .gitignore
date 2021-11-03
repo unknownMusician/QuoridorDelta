@@ -48,3 +48,6 @@ Assets/Scripts/ViewConsole.meta
 Assets/Scripts/ViewConsole/**/*.meta
 Assets/Scripts/QuoridorConsole.meta
 Assets/Scripts/QuoridorConsole/**/*.meta
+
+# Builded code
+*.dll
