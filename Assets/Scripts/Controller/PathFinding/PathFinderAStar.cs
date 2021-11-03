@@ -13,7 +13,7 @@ namespace QuoridorDelta.Controller.PathFinding
             var openSet = new List<NodeInfo>();
             var closedSet = new List<NodeInfo>();
 
-            openSet.Add(new NodeInfo(graph.FirstNode, null, 0, GetDirectPathLength(graph.FirstNode)));
+            openSet.Add(new NodeInfo(graph.FirstNode, 0, GetDirectPathLength(graph.FirstNode)));
             return MainCycle(openSet, closedSet);
         }
 
@@ -57,7 +57,6 @@ namespace QuoridorDelta.Controller.PathFinding
             {
                 openSet.Add(new NodeInfo(
                    neighbourNode,
-                   parentNodeInfo,
                    parentNodeInfo.PathLengthToFirst + 1,
                    GetDirectPathLength(neighbourNode)));
                 return true;
@@ -70,12 +69,12 @@ namespace QuoridorDelta.Controller.PathFinding
         {
             if (newParentNodeInfo.PathLengthToFirst + 1 < currentNodeInfo.PathLengthToFirst)
             {
-                currentNodeInfo.ChangeNodeConnection(newParentNodeInfo, newParentNodeInfo.PathLengthToFirst + 1);
+                currentNodeInfo.ChangeNodeConnection(newParentNodeInfo.PathLengthToFirst + 1);
                 return true;
             }
             return false;
         }
 
-        private static int GetDirectPathLength(in INode from) => NodeHelper.FinalYCoord - from.Position.y;
+        private int GetDirectPathLength(in INode from) => NodeHelper.FinalYCoord - from.Position.y;
     }
 }
