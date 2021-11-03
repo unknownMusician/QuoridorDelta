@@ -39,24 +39,6 @@
       <Compile Include="..\..\Controller\MicroModel\MoveType.cs">
         <Link>Controller\MicroModel\MoveType.cs</Link>
       </Compile>
-      <Compile Include="..\..\Controller\PathFinding\IGraph.cs">
-        <Link>Controller\PathFinding\IGraph.cs</Link>
-      </Compile>
-      <Compile Include="..\..\Controller\PathFinding\INode.cs">
-        <Link>Controller\PathFinding\INode.cs</Link>
-      </Compile>
-      <Compile Include="..\..\Controller\PathFinding\NodeHelper.cs">
-        <Link>Controller\PathFinding\NodeHelper.cs</Link>
-      </Compile>
-      <Compile Include="..\..\Controller\PathFinding\NodeInfo.cs">
-        <Link>Controller\PathFinding\NodeInfo.cs</Link>
-      </Compile>
-      <Compile Include="..\..\Controller\PathFinding\PathFinderAStar.cs">
-        <Link>Controller\PathFinding\PathFinderAStar.cs</Link>
-      </Compile>
-      <Compile Include="..\..\Controller\PathFinding\IPathFinder.cs">
-        <Link>Controller\PathFinding\IPathFinder.cs</Link>
-      </Compile>
       <Compile Include="..\..\Controller\PlayerNumberExtension.cs">
         <Link>Controller\PlayerNumberExtension.cs</Link>
       </Compile>
@@ -128,6 +110,12 @@
       </Compile>
       <Compile Include="..\..\Model\WallRotation.cs">
         <Link>Model\WallRotation.cs</Link>
+      </Compile>
+      <Compile Include="..\..\ViewConsole\Parser.cs">
+        <Link>ViewConsole\Parser.cs</Link>
+      </Compile>
+      <Compile Include="..\..\ViewConsole\Tester.cs">
+        <Link>ViewConsole\Tester.cs</Link>
       </Compile>
       <Compile Include="..\..\ViewConsole\ViewConsole.cs">
         <Link>ViewConsole\ViewConsole.cs</Link>

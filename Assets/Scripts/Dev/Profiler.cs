@@ -38,7 +38,7 @@ namespace Dev
         #if UNITY_EDITOR
             Debug.Log(debugMessage);
         #else
-            Console.WriteLine(debugMessage);
+                // Console.WriteLine(debugMessage);
         #endif
         }
     }
@@ -84,7 +84,7 @@ namespace Dev
             #if UNITY_EDITOR
                 Debug.Log(debugMessage);
             #else
-                Console.WriteLine(debugMessage);
+                    // Console.WriteLine(debugMessage);
             #endif
             }
 
