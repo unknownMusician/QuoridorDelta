@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/Controller/PathFinding/GraphExtension.cs.meta
 guid: 128f7c0699fa4b6459d055b56e903e94
+=======
+guid: d87c9e1bff1d2294e8af571f043fd3d3
+>>>>>>> 5ca4884a643dc8da03ed7a59fddaa33d77f42f1c:Assets/Scripts/Controller/PathFinding/IGraph.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
