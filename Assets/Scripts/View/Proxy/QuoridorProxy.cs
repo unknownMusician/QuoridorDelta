@@ -12,11 +12,11 @@ namespace QuoridorDelta.View.Proxy
     {
         public QuoridorProxy() => Start(() => new Game().Start(this, this));
 
-        public GameType ChooseGameType()
-            => Wait<GameType>();
+        public GameType ChooseGameType() => Wait<GameType>();
 
-        public MoveType ChooseMoveType(PlayerNumber playerNumber)
-            => Wait<PlayerNumber, MoveType>(playerNumber);
+        public PlayerNumber ChoosePlayerNumber() => PlayerNumber.First;
+
+        public MoveType ChooseMoveType(PlayerNumber playerNumber) => Wait<PlayerNumber, MoveType>(playerNumber);
 
         public Coords MovePawn(PlayerNumber playerNumber, IEnumerable<Coords> possibleMoves)
             => Wait<(PlayerNumber, IEnumerable<Coords>), Coords>((playerNumber, possibleMoves));
@@ -24,14 +24,11 @@ namespace QuoridorDelta.View.Proxy
         public WallCoords PlaceWall(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves)
             => Wait<(PlayerNumber, IEnumerable<WallCoords>), WallCoords>((playerNumber, possibleMoves));
 
-        public void ShowWinner(PlayerNumber winner)
-            => Send(winner);
+        public void ShowWinner(PlayerNumber winner) => Send(winner);
 
-        public void ShowWrongMove(MoveType moveType)
-            => Send(moveType);
+        public void ShowWrongMove(MoveType moveType) => Send(moveType);
 
-        public bool ShouldRestart()
-            => Wait<bool>();
+        public bool ShouldRestart() => Wait<bool>();
 
         public void HandleChange(GameState gameState, [NotNull] IDBChangeInfo changeInfo)
         {
@@ -47,8 +44,8 @@ namespace QuoridorDelta.View.Proxy
 
                     break;
                 case DBWallPlacedInfo dbWallPlacedInfo:
-                    Send((PlayerInfos: gameState.PlayerInfoContainer, gameState.Walls, dbWallPlacedInfo.PlayerNumber,
-                          dbWallPlacedInfo.NewCoords));
+                    Send((PlayerInfos: gameState.PlayerInfoContainer, gameState.Walls,
+                          dbWallPlacedInfo.PlayerNumber, dbWallPlacedInfo.NewCoords));
 
                     break;
                 default: throw new ArgumentOutOfRangeException();

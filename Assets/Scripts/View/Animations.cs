@@ -5,29 +5,8 @@ using UnityEngine;
 
 namespace QuoridorDelta.View
 {
-    public sealed class Animations : MonoBehaviour
+    public static class Animations
     {
-        [SerializeField] private float _speed = 0.5f;
-
-        public void Move(
-            [NotNull] Transform movable,
-            Vector3 startPosition,
-            Vector3 endPosition,
-            [NotNull] Action finHandler
-        )
-        {
-            void LerpConsumer(float t) => movable.position = Vector3.Lerp(startPosition, endPosition, t);
-
-            StartCoroutine(Lerp(_speed, LerpConsumer, finHandler));
-        }
-
-        public static IEnumerator Lerp(float time, [NotNull] Action<float> tConsumer, [NotNull] Action finHandler)
-        {
-            yield return Lerp(time, tConsumer);
-
-            finHandler();
-        }
-
         public static IEnumerator Lerp(float time, [NotNull] Action<float> tConsumer)
         {
             float t = 0.0f;
@@ -41,6 +20,28 @@ namespace QuoridorDelta.View
             }
 
             tConsumer(1.0f);
+        }
+
+        public static IEnumerator Lerp(float time, [NotNull] Action<float> tConsumer, [NotNull] Action finHandler)
+        {
+            yield return Animations.Lerp(time, tConsumer);
+
+            finHandler();
+        }
+        
+        
+        public static IEnumerator Wait(float time, [NotNull] Action finHandler)
+        {
+            float t = 0.0f;
+
+            while (t < 1.0f)
+            {
+                t += Time.deltaTime / time;
+
+                yield return null;
+            }
+
+            finHandler();
         }
     }
 }

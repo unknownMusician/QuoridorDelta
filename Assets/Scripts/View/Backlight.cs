@@ -5,20 +5,21 @@ using UnityEngine;
 
 namespace QuoridorDelta.View
 {
-    public sealed class Backlight
+    public sealed class Backlight : MonoBehaviour
     {
-        private const int MaxPossibleLightsCount = 6;
-        private readonly CoordsConverter _coordsConverter;
+        [SerializeField] private GameObject _lightPrefab;
+        [SerializeField] private Transform _lightsParent;
+        [SerializeField] private CoordsConverter _coordsConverter;
+        
+        private const int MaxPossibleLightsCount = 5;
 
         private readonly List<RectTransform> _lights = new List<RectTransform>();
 
-        public Backlight(CoordsConverter coordsConverter, GameObject lightPrefab, Transform lightsParent)
+        private void Awake()
         {
-            _coordsConverter = coordsConverter;
-
-            for (int i = 0; i < MaxPossibleLightsCount; i++)
+            for (int i = 0; i < Backlight.MaxPossibleLightsCount; i++)
             {
-                _lights.Add(Object.Instantiate(lightPrefab, lightsParent).GetComponent<RectTransform>());
+                _lights.Add(Object.Instantiate(_lightPrefab, _lightsParent).GetComponent<RectTransform>());
             }
         }
 

@@ -23,6 +23,7 @@ namespace ViewConsole
         private String _command;
         
         public GameType ChooseGameType() => GameType.VersusBot;
+        public PlayerNumber ChoosePlayerNumber() => throw new System.NotImplementedException();
 
         public MoveType ChooseMoveType(PlayerNumber playerNumber)
         {

@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Dev\Profiler.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\Requests\Request.cs" />
      <Compile Include="Assets\Scripts\DataBaseManagementSystem\MicroModel\GameState.cs" />
+     <Compile Include="Assets\Scripts\Controller\PathFinding\PathFinderAStar.cs" />
      <Compile Include="Assets\Scripts\View\Abstractions\ISyncInput.cs" />
      <Compile Include="Assets\Scripts\View\NullValidatorExtension.cs" />
      <Compile Include="Assets\Scripts\Controller\Abstractions\INotifiable.cs" />
@@ -76,19 +77,25 @@
      <Compile Include="Assets\Scripts\DataBaseManagementSystem\DBMS.cs" />
      <Compile Include="Assets\Scripts\Model\WallCoords.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\Requests\IRequest.cs" />
+     <Compile Include="Assets\Scripts\Dev\ConsoleLogger.cs" />
      <Compile Include="Assets\Scripts\View\Backlight.cs" />
      <Compile Include="Assets\Scripts\View\MouseInputHandler.cs" />
      <Compile Include="Assets\Scripts\View\PlayerInfoHolder.cs" />
      <Compile Include="Assets\Scripts\Controller\PlayerNumberExtension.cs" />
+     <Compile Include="Assets\Scripts\Controller\PathFinding\NodeInfo.cs" />
+     <Compile Include="Assets\Scripts\Controller\PathFinding\IGraph.cs" />
      <Compile Include="Assets\Scripts\View\Field.cs" />
      <Compile Include="Assets\Scripts\Common\Assertions.cs" />
      <Compile Include="Assets\Scripts\DataBaseManagementSystem\MicroModel\DBInitializedInfo.cs" />
+     <Compile Include="Assets\Scripts\Controller\PathFinding\INode.cs" />
      <Compile Include="Assets\Scripts\DataBase\DB.cs" />
      <Compile Include="Assets\Scripts\Controller\DisposableStartHandler.cs" />
      <Compile Include="Assets\Scripts\DataBaseManagementSystem\MicroModel\DBPawnMovedInfo.cs" />
      <Compile Include="Assets\Scripts\View\PawnMoveInfo.cs" />
      <Compile Include="Assets\Scripts\Controller\GameStateRememberer.cs" />
      <Compile Include="Assets\Scripts\Controller\Players\RandomBot.cs" />
+     <Compile Include="Assets\Scripts\Controller\PathFinding\IPathFinder.cs" />
+     <Compile Include="Assets\Scripts\Controller\PathFinding\GraphExtension.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\Requests\ActionRequest.cs" />
      <Compile Include="Assets\Scripts\Controller\Abstractions\View\IGameInput.cs" />
      <Compile Include="Assets\Scripts\View\GameTypeWindow.cs" />
@@ -114,11 +121,11 @@
      <Compile Include="Assets\Scripts\Controller\MicroModel\GameType.cs" />
      <Compile Include="Assets\Scripts\Controller\Abstractions\View\IGameView.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\Requests\InitializableRequest.cs" />
+     <Compile Include="Assets\Scripts\Controller\PathFinding\GraphHelper.cs" />
      <Compile Include="Assets\Scripts\Model\WallRotation.cs" />
      <Compile Include="Assets\Scripts\View\RandomSoundPlayer.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\QuoridorProxy.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\UnityProxy.cs" />
-     <Compile Include="Assets\Scripts\QuoridorConsole\QuoridorConsole\obj\Debug\net5.0\QuoridorConsole.AssemblyInfo.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\GameProxy.cs" />
      <Compile Include="Assets\Scripts\View\IMoveInfo.cs" />
  <Reference Include="UnityEngine">
@@ -682,6 +689,9 @@
  <Reference Include="Unity.ShaderGraph.Editor">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Recorder.Editor">
+ <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Recorder.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.RenderPipelines.Universal.Shaders">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
  </Reference>
@@ -691,11 +701,20 @@
  <Reference Include="Unity.RenderPipelines.Universal.Runtime">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Recorder.Base">
+ <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Recorder.Base.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.VisualStudio.Editor">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline.Editor">
+ <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline">
+ <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
@@ -724,23 +743,11 @@
  <Reference Include="Unity.RenderPipelines.Core.Editor">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Mathematics">
- <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
- </Reference>
  <Reference Include="Unity.Recorder">
  <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Recorder.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Timeline">
- <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Recorder.Editor">
- <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Recorder.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Recorder.Base">
- <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Recorder.Base.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Timeline.Editor">
- <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <Reference Include="Unity.Mathematics">
+ <HintPath>D:/Projects/Unity projects/QuoridorDelta/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

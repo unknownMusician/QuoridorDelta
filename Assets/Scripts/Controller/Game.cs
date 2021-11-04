@@ -23,21 +23,23 @@ namespace QuoridorDelta.Controller
             _view = view;
             _rules = new OldRules();
 
+            PlayerNumber humanNumber = input.ChoosePlayerNumber();
+            
             do
             {
                 Action<GameState, IDBChangeInfo> onChange = _rules.HandleChange;
-                _players = PlayersFactory.CreatePlayers(input.ChooseGameType(), input, view, ref onChange!);
+                _players = PlayersFactory.CreatePlayers(input.ChooseGameType(), humanNumber, input, view, ref onChange!);
                 _dataBase = new Dbms(InitialRules.PlayerInfoContainer, onChange);
 
-                Loop(out PlayerNumber winner);
+                Loop(humanNumber, out PlayerNumber winner);
                 view.ShowWinner(winner);
             }
             while (input.ShouldRestart());
         }
 
-        private void Loop(out PlayerNumber winner)
+        private void Loop(PlayerNumber humanNumber, out PlayerNumber winner)
         {
-            for (winner = PlayerNumber.Second; !_rules!.IsWinner(winner);)
+            for (winner = humanNumber.Changed(); !_rules!.IsWinner(winner);)
             {
                 winner.Change();
 
