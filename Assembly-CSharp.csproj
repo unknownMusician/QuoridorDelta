@@ -128,6 +128,10 @@
      <Compile Include="Assets\Scripts\View\Proxy\UnityProxy.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\GameProxy.cs" />
      <Compile Include="Assets\Scripts\View\IMoveInfo.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\Parser.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\Tester.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\GameInput.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\GameView.cs" />
  <Reference Include="UnityEngine">
  <HintPath>D:/Program Files/Unity Versions/2020.3.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
