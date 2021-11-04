@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using QuoridorDelta.Model;
+﻿using QuoridorDelta.Model;
 
 namespace QuoridorDelta.DataBaseManagementSystem
 {
@@ -8,11 +6,13 @@ namespace QuoridorDelta.DataBaseManagementSystem
     {
         public readonly PlayerNumber PlayerNumber;
         public readonly Coords NewCoords;
+        public readonly bool IsJump;
 
-        public DBPawnMovedInfo(PlayerNumber playerNumber, in Coords newCoords)
+        public DBPawnMovedInfo(PlayerNumber playerNumber, in Coords newCoords, bool isJump)
         {
             PlayerNumber = playerNumber;
             NewCoords = newCoords;
+            IsJump = isJump;
         }
     }
 }

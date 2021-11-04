@@ -72,6 +72,9 @@
       <Compile Include="..\..\Assets\Scripts\Controller\Players\HumanPlayer.cs">
         <Link>Controller\Players\HumanPlayer.cs</Link>
       </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Players\IntelligentBot.cs">
+        <Link>Controller\Players\IntelligentBot.cs</Link>
+      </Compile>
       <Compile Include="..\..\Assets\Scripts\Controller\Players\Players.cs">
         <Link>Controller\Players\Players.cs</Link>
       </Compile>
@@ -111,6 +114,9 @@
       <Compile Include="..\..\Assets\Scripts\DataBase\DB.cs">
         <Link>DataBase\DB.cs</Link>
       </Compile>
+      <Compile Include="..\..\Assets\Scripts\Dev\ConsoleLogger.cs">
+        <Link>Dev\ConsoleLogger.cs</Link>
+      </Compile>
       <Compile Include="..\..\Assets\Scripts\Dev\OptimizedAttribute.cs">
         <Link>Dev\OptimizedAttribute.cs</Link>
       </Compile>
@@ -134,6 +140,18 @@
       </Compile>
       <Compile Include="..\..\Assets\Scripts\Model\WallRotation.cs">
         <Link>Model\WallRotation.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\ViewConsole\GameInput.cs">
+        <Link>ViewConsole\GameInput.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\ViewConsole\GameView.cs">
+        <Link>ViewConsole\GameView.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\ViewConsole\Parser.cs">
+        <Link>ViewConsole\Parser.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\ViewConsole\Tester.cs">
+        <Link>ViewConsole\Tester.cs</Link>
       </Compile>
       <Compile Include="..\..\Assets\Scripts\ViewConsole\ViewConsole.cs">
         <Link>ViewConsole\ViewConsole.cs</Link>

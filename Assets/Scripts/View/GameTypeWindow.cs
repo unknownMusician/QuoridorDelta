@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using UnityEngine;
 
@@ -7,11 +6,11 @@ namespace QuoridorDelta.View
 {
     public sealed class GameTypeWindow : MonoBehaviour
     {
-        [SerializeField] private GameObject _windowUI;
+        [SerializeField] private GameObject _windowUI = default!;
 
-        private Action<GameType> _handler;
+        private Action<GameType>? _handler;
 
-        public void Show([NotNull] Action<GameType> handler)
+        public void Show(Action<GameType> handler)
         {
             _handler = handler;
             _windowUI.SetActive(true);
@@ -19,13 +18,13 @@ namespace QuoridorDelta.View
 
         public void ChoosePvP()
         {
-            _handler(GameType.VersusPlayer);
+            _handler!(GameType.VersusPlayer);
             _handler = null;
         }
 
         public void ChoosePvBot()
         {
-            _handler(GameType.VersusBot);
+            _handler!(GameType.VersusBot);
             _handler = null;
         }
     }

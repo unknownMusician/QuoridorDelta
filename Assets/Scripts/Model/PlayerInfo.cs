@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace QuoridorDelta.Model
+﻿namespace QuoridorDelta.Model
 {
     public readonly struct PlayerInfo : System.IEquatable<PlayerInfo>
     {
@@ -27,7 +25,7 @@ namespace QuoridorDelta.Model
         public bool Equals(in PlayerInfo other)
             => other.PawnCoords == PawnCoords && other.WallCount == WallCount;
 
-        public override bool Equals(object obj) => obj is PlayerInfo other && Equals(in other);
+        public override bool Equals(object? obj) => obj is PlayerInfo other && Equals(in other);
         public override int GetHashCode() => base.GetHashCode();
         public override string ToString() => $"PlayerInfo ({PawnCoords}, {WallCount})";
 

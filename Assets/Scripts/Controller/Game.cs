@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 using QuoridorDelta.Controller.Abstractions.DataBase;
 using QuoridorDelta.Controller.Abstractions.View;
 using QuoridorDelta.DataBaseManagementSystem;
@@ -31,15 +29,15 @@ namespace QuoridorDelta.Controller
                 _players = PlayersFactory.CreatePlayers(input.ChooseGameType(), humanNumber, input, view, ref onChange!);
                 _dataBase = new Dbms(InitialRules.PlayerInfoContainer, onChange);
 
-                Loop(humanNumber, out PlayerNumber winner);
+                Loop(out PlayerNumber winner);
                 view.ShowWinner(winner);
             }
             while (input.ShouldRestart());
         }
 
-        private void Loop(PlayerNumber humanNumber, out PlayerNumber winner)
+        private void Loop(out PlayerNumber winner)
         {
-            for (winner = humanNumber.Changed(); !_rules!.IsWinner(winner);)
+            for (winner = PlayerNumber.Second; !_rules!.IsWinner(winner);)
             {
                 winner.Change();
 

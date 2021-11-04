@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace QuoridorDelta.Controller.PathFinding
+﻿namespace QuoridorDelta.Controller.PathFinding
 {
     public static class GraphExtension
     {

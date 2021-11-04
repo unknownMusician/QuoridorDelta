@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.DataBase

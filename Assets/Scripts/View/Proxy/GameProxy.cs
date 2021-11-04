@@ -1,22 +1,21 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading;
-using JetBrains.Annotations;
 
 namespace QuoridorDelta.View.Proxy
 {
     public abstract class GameProxy
     {
-        private Thread _thread;
+        private Thread? _thread;
 
         internal ConcurrentQueue<IRequest> Requests { get; } = new ConcurrentQueue<IRequest>();
 
-        private protected void Start([NotNull] ThreadStart starter)
+        private protected void Start(ThreadStart starter)
         {
             _thread = new Thread(starter) { Name = "GameThread" };
             _thread.Start();
         }
 
-        private protected TOut WaitRequest<TOut>([NotNull] InitializableRequest<TOut> request)
+        private protected TOut WaitRequest<TOut>(InitializableRequest<TOut> request)
         {
             Requests.Enqueue(request);
 
@@ -35,6 +34,6 @@ namespace QuoridorDelta.View.Proxy
 
         private protected void Send<TIn>(TIn input) => Requests.Enqueue(new ActionRequest<TIn>(input));
 
-        public void Dispose() => _thread.Abort();
+        public void Dispose() => _thread!.Abort();
     }
 }

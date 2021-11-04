@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using QuoridorDelta.DataBaseManagementSystem;
+﻿using QuoridorDelta.DataBaseManagementSystem;
 
 namespace QuoridorDelta.Controller
 {

@@ -8,10 +8,10 @@ namespace QuoridorDelta.View
     {
         private const int LeftMouseButtonIndex = 0;
 
-        private Camera _camera;
+        private Camera _camera = default!;
 
-        public event Action<Ray> OnMouseMove;
-        public event Action<Ray> OnMouseClick;
+        public event Action<Ray>? OnMouseMove;
+        public event Action<Ray>? OnMouseClick;
 
         private void Awake() => _camera = GetComponent<Camera>();
 

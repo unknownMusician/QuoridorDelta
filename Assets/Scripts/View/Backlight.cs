@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuoridorDelta.Model;
 using UnityEngine;
 
@@ -7,9 +6,9 @@ namespace QuoridorDelta.View
 {
     public sealed class Backlight : MonoBehaviour
     {
-        [SerializeField] private GameObject _lightPrefab;
-        [SerializeField] private Transform _lightsParent;
-        [SerializeField] private CoordsConverter _coordsConverter;
+        [SerializeField] private GameObject _lightPrefab = default!;
+        [SerializeField] private Transform _lightsParent = default!;
+        [SerializeField] private CoordsConverter _coordsConverter = default!;
         
         private const int MaxPossibleLightsCount = 5;
 
@@ -23,20 +22,20 @@ namespace QuoridorDelta.View
             }
         }
 
-        public void TurnOnLightOnCells([NotNull] IEnumerable<Coords> possibleMoves)
+        public void TurnOnLightOnCells(IEnumerable<Coords> possibleMoves)
         {
             int currentLightObjectIndex = 0;
 
             foreach (Coords coords in possibleMoves)
             {
-                RectTransform light = _lights[currentLightObjectIndex];
+                RectTransform lightTransform = _lights[currentLightObjectIndex];
 
-                light.position = _coordsConverter.ToVector3(coords);
-                light.gameObject.SetActive(true);
+                lightTransform.position = _coordsConverter.ToVector3(coords);
+                lightTransform.gameObject.SetActive(true);
                 currentLightObjectIndex++;
             }
         }
 
-        public void TurnOffLights() => _lights.ForEach(light => light.gameObject.SetActive(false));
+        public void TurnOffLights() => _lights.ForEach(lightTransform => lightTransform!.gameObject.SetActive(false));
     }
 }

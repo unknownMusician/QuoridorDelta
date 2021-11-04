@@ -4,7 +4,7 @@ namespace QuoridorDelta.View
 {
     public sealed class WrongMoveWindow : MonoBehaviour
     {
-        [SerializeField] private GameObject _windowUI;
+        [SerializeField] private GameObject _windowUI = default!;
         [SerializeField] private float _delayTime;
 
         public void Show()

@@ -1,5 +1,4 @@
-#nullable enable
-
+using System;
 using QuoridorDelta.Controller;
 
 namespace QuoridorDelta.ViewConsole
@@ -8,9 +7,26 @@ namespace QuoridorDelta.ViewConsole
     {
         public static void Main()
         {
-            /*Tester tester = new Tester();
-            tester.test();*/
-            new Game().Start(new GameInput(), new GameView());
+            try
+            {
+                Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+
+                throw;
+            }
+        }
+
+        private static void Run()
+        {
+            // new Tester().Test();
+            
+            var gameInput = new GameInput();
+            var gameView = new GameView(gameInput);
+            
+            new Game().Start(gameInput, gameView);
         }
     }
 }

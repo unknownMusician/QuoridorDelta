@@ -1,7 +1,7 @@
-﻿#nullable enable
-
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEngine;
+#else
+using System;
 #endif
 
 namespace Dev

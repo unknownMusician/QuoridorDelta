@@ -67,7 +67,6 @@
      <Compile Include="Assets\Scripts\View\Input\CameraInput.cs" />
      <Compile Include="Assets\Scripts\Controller\MicroModel\MoveType.cs" />
      <Compile Include="Assets\Scripts\Controller\Rules\Rules.cs" />
-     <Compile Include="Assets\Scripts\View\Input\UserInput.cs" />
      <Compile Include="Assets\Scripts\Controller\Players\PlayersFactory.cs" />
      <Compile Include="Assets\Scripts\View\WinnerWindow.cs" />
      <Compile Include="Assets\Scripts\Controller\Players\Bot.cs" />
@@ -132,6 +131,7 @@
      <Compile Include="Assets\Scripts\ViewConsole\Tester.cs" />
      <Compile Include="Assets\Scripts\ViewConsole\GameInput.cs" />
      <Compile Include="Assets\Scripts\ViewConsole\GameView.cs" />
+     <Compile Include="Assets\Scripts\Controller\Players\IntelligentBot.cs" />
  <Reference Include="UnityEngine">
  <HintPath>D:/Program Files/Unity Versions/2020.3.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

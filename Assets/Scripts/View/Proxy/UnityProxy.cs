@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 using UnityEngine;
@@ -11,9 +10,9 @@ namespace QuoridorDelta.View.Proxy
     public sealed class UnityProxy : MonoBehaviour
     {
         private bool _isAlive = true;
-        private QuoridorProxy _proxy;
-        private ISyncView _view;
-        private ISyncInput _input;
+        private QuoridorProxy? _proxy;
+        private ISyncView? _view;
+        private ISyncInput? _input;
 
         private void OnDestroy()
         {
@@ -34,58 +33,60 @@ namespace QuoridorDelta.View.Proxy
             StartCoroutine(Listening());
         }
 
-        private void HandleRequest([NotNull] IRequest request)
+        private void HandleRequest(IRequest request)
         {
             switch (request)
             {
                 case InitializableRequest<GameType> gameTypeRequest:
-                    _input.GetGameType(gameTypeRequest.StartInitializing());
+                    _input!.GetGameType(gameTypeRequest.StartInitializing());
 
                     break;
                 case Request<PlayerNumber, MoveType> moveTypeRequest:
-                    _input.GetMoveType(moveTypeRequest.Input, moveTypeRequest.StartInitializing());
+                    _input!.GetMoveType(moveTypeRequest.Input, moveTypeRequest.StartInitializing());
 
                     break;
                 case Request<(PlayerNumber, IEnumerable<Coords>), Coords> movePawnCoordsRequest:
-                    _input.GetMovePawnCoords(movePawnCoordsRequest.Input.Item1,
-                                             movePawnCoordsRequest.Input.Item2,
-                                             movePawnCoordsRequest.StartInitializing());
+                    _input!.GetMovePawnCoords(movePawnCoordsRequest.Input.Item1,
+                                              movePawnCoordsRequest.Input.Item2,
+                                              movePawnCoordsRequest.StartInitializing());
 
                     break;
                 case Request<(PlayerNumber, IEnumerable<WallCoords>), WallCoords> wallCoordsRequest:
-                    _input.GetPlaceWallCoords(wallCoordsRequest.Input.Item1,
-                                              wallCoordsRequest.Input.Item2,
-                                              wallCoordsRequest.StartInitializing());
+                    _input!.GetPlaceWallCoords(wallCoordsRequest.Input.Item1,
+                                               wallCoordsRequest.Input.Item2,
+                                               wallCoordsRequest.StartInitializing());
 
                     break;
                 case ActionRequest<PlayerNumber> showWinnerRequest:
-                    _view.ShowWinner(showWinnerRequest.Input);
+                    _view!.ShowWinner(showWinnerRequest.Input);
 
                     break;
                 case ActionRequest<MoveType> showWrongMoveRequest:
-                    _view.ShowWrongMove(showWrongMoveRequest.Input);
+                    _view!.ShowWrongMove(showWrongMoveRequest.Input);
 
                     break;
                 case InitializableRequest<bool> shouldRestartRequest:
-                    _input.ShouldRestart(shouldRestartRequest.StartInitializing());
+                    _input!.ShouldRestart(shouldRestartRequest.StartInitializing());
 
                     break;
                 case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>)> fieldInitRequest:
-                    _view.InitializeField(fieldInitRequest.Input.Item1, fieldInitRequest.Input.Item2);
+                    _view!.InitializeField(fieldInitRequest.Input.Item1, fieldInitRequest.Input.Item2);
 
                     break;
-                case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>, PlayerNumber, Coords)> movePawnRequest:
-                    _view.MovePawn(movePawnRequest.Input.Item1,
-                                   movePawnRequest.Input.Item2,
-                                   movePawnRequest.Input.Item3,
-                                   movePawnRequest.Input.Item4);
+                case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>, PlayerNumber, Coords)>
+                    movePawnRequest:
+                    _view!.MovePawn(movePawnRequest.Input.Item1,
+                                    movePawnRequest.Input.Item2,
+                                    movePawnRequest.Input.Item3,
+                                    movePawnRequest.Input.Item4);
 
                     break;
-                case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>, PlayerNumber, WallCoords)> placeWallRequest:
-                    _view.PlaceWall(placeWallRequest.Input.Item1,
-                                    placeWallRequest.Input.Item2,
-                                    placeWallRequest.Input.Item3,
-                                    placeWallRequest.Input.Item4);
+                case ActionRequest<(PlayerInfoContainer<PlayerInfo>, IEnumerable<WallCoords>, PlayerNumber,
+                    WallCoords)> placeWallRequest:
+                    _view!.PlaceWall(placeWallRequest.Input.Item1,
+                                     placeWallRequest.Input.Item2,
+                                     placeWallRequest.Input.Item3,
+                                     placeWallRequest.Input.Item4);
 
                     break;
                 default: throw new ArgumentOutOfRangeException();
@@ -96,7 +97,7 @@ namespace QuoridorDelta.View.Proxy
         {
             while (_isAlive)
             {
-                if (!_proxy.Requests.IsEmpty)
+                if (!_proxy!.Requests.IsEmpty)
                 {
                     if (_proxy.Requests.TryDequeue(out IRequest request))
                     {

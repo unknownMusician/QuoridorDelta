@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace QuoridorDelta.Model
+﻿namespace QuoridorDelta.Model
 {
     public readonly struct Coords : System.IEquatable<Coords>
     {
@@ -24,7 +22,7 @@ namespace QuoridorDelta.Model
         public bool Equals(Coords other) => Equals(in other);
         public bool Equals(in Coords other) => other.X == X && other.Y == Y;
 
-        public override bool Equals(object obj) => obj is Coords other && Equals(in other);
+        public override bool Equals(object? obj) => obj is Coords other && Equals(in other);
         public override int GetHashCode() => base.GetHashCode();
         public override string ToString() => $"Coords ({X}, {Y})";
 

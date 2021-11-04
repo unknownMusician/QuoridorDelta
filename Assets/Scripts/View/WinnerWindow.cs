@@ -8,8 +8,8 @@ namespace QuoridorDelta.View
 {
     public sealed class WinnerWindow : MonoBehaviour
     {
-        [SerializeField] private GameObject _windowUI;
-        [SerializeField] private Text _winnerText;
+        [SerializeField] private GameObject _windowUI = default!;
+        [SerializeField] private Text _winnerText = default!;
 
         [NotNull] private const string WinnerFormatText = "Player {0} is a Winner!";
 

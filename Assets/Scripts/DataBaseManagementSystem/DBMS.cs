@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using QuoridorDelta.Controller;
@@ -36,11 +34,16 @@ namespace QuoridorDelta.DataBaseManagementSystem
 
         public void MovePawn(PlayerNumber playerNumber, in Coords newCoords)
         {
+            Coords deltaCoords = PlayerInfoContainer[playerNumber].PawnCoords - newCoords;
+
+            // todo
+            bool isJump = Math.Abs(deltaCoords.X) + Math.Abs(deltaCoords.Y) > 1;
+            
             _db.PlayerInfoContainer = Dbms.CreateNew(PlayerInfoContainer,
                                                      playerNumber,
                                                      new PlayerInfo(newCoords, PlayerInfoContainer[playerNumber].WallCount));
 
-            OnChange?.Invoke(GameState, new DBPawnMovedInfo(playerNumber, newCoords));
+            OnChange?.Invoke(GameState, new DBPawnMovedInfo(playerNumber, newCoords, isJump));
         }
 
         public void PlaceWall(PlayerNumber playerNumber, in WallCoords newCoords)

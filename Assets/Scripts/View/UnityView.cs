@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 using UnityEngine;
@@ -8,9 +7,9 @@ namespace QuoridorDelta.View
 {
     public sealed class UnityView : MonoBehaviour, ISyncView
     {
-        [SerializeField] private WinnerWindow _winnerWindow;
-        [SerializeField] private WrongMoveWindow _wrongMoveWindow;
-        [SerializeField] private Field _field;
+        [SerializeField] private WinnerWindow _winnerWindow = default!;
+        [SerializeField] private WrongMoveWindow _wrongMoveWindow = default!;
+        [SerializeField] private Field _field = default!;
 
         private void OnValidate() => this.ValidateNull(_winnerWindow, _wrongMoveWindow, _field);
 
@@ -18,7 +17,9 @@ namespace QuoridorDelta.View
 
         public void ShowWrongMove(MoveType moveType) => _wrongMoveWindow.Show();
 
-        public void InitializeField(in PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords)
+        public void InitializeField(
+            in PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords
+        )
         {
             foreach ((PlayerNumber number, PlayerInfoHolder holder) in _field.PlayerInfoHolders.Pairs)
             {
@@ -27,17 +28,13 @@ namespace QuoridorDelta.View
         }
 
         public void MovePawn(
-            in PlayerInfoContainer<PlayerInfo> playerInfos,
-            IEnumerable<WallCoords> wallCoords,
-            PlayerNumber playerNumber,
-            in Coords newCoords
+            in PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords,
+            PlayerNumber playerNumber, in Coords newCoords
         ) => _field.PlayerInfoHolders[playerNumber].MovePawn(newCoords);
 
         public void PlaceWall(
-            in PlayerInfoContainer<PlayerInfo> playerInfos,
-            IEnumerable<WallCoords> wallCoords,
-            PlayerNumber playerNumber,
-            in WallCoords newCoords
+            in PlayerInfoContainer<PlayerInfo> playerInfos, IEnumerable<WallCoords> wallCoords,
+            PlayerNumber playerNumber, in WallCoords newCoords
         ) => _field.PlayerInfoHolders[playerNumber].PlaceWall(newCoords);
     }
 }

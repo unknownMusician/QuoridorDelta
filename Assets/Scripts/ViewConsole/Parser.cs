@@ -1,5 +1,3 @@
-#nullable enable
-
 using System;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
@@ -12,29 +10,23 @@ namespace QuoridorDelta.ViewConsole
         private const string PawnStringKey = "ABCDEFGHI";
 
 
-        public Coords ParseStringToPawnCoords(string commandStr)
+        public Coords ParsePawnCoords(string command) => ParsePawnCoords(ParseCommandToStringArray(command));
+
+        public Coords ParsePawnCoords(string[] splittedStrings)
+            => ConvertStringCoordsToObjectCoords(splittedStrings[1], Parser.PawnStringKey);
+
+        public MoveType ParseMoveType(string command) => ParseMoveType(ParseCommandToStringArray(command));
+
+        public MoveType ParseMoveType(string[] splittedStrings) => GetMoveType(splittedStrings[0]);
+
+        public PlayerNumber ParsePlayerNumber(string command)
+            => ParsePlayerNumber(ParseCommandToStringArray(command));
+
+        public PlayerNumber ParsePlayerNumber(string[] splittedStrings) => GetPlayerNumber(splittedStrings[0]);
+
+        public string ParseNewCoordsAndMoveTypeToCommandString(Coords coords, bool isJump)
         {
-            string[] strings = ParseCommandToStringArray(commandStr);
-
-            return ConvertStringCoordsToObjectCoords(strings[1], Parser.PawnStringKey);
-        }
-
-        public MoveType ParseStringToMoveType(string commandStr)
-        {
-            string[] strings = ParseCommandToStringArray(commandStr);
-
-            return GetMoveType(strings[0]);
-        }
-
-        public string ParseNewCoordsAndMoveTypeToCommandString(Coords coords)
-        {
-            bool wasJump = false; // todo boolean check 
-            string moveStr = "move";
-
-            if (wasJump)
-            {
-                moveStr = "jump";
-            }
+            string moveStr = isJump ? "jump" : "move";
 
             return moveStr + " " + Parser.PawnStringKey[coords.X] + (9 - coords.Y);
         }
@@ -53,56 +45,48 @@ namespace QuoridorDelta.ViewConsole
 
 
         public WallCoords ParseStringToWallCoords(string commandStr)
-        {
-            string[] strings = ParseCommandToStringArray(commandStr);
+            => ParseStringToWallCoords(ParseCommandToStringArray(commandStr));
 
-            return ConvertStringCoordsToObjectWallCoords(strings[1], Parser.WallStringKey);
-        }
+        public WallCoords ParseStringToWallCoords(string[] splittedStrings)
+            => ConvertStringCoordsToObjectWallCoords(splittedStrings[1], Parser.WallStringKey);
 
-        private string[] ParseCommandToStringArray(string commandStr)
+        public string[] ParseCommandToStringArray(string commandStr)
         {
             // Can make checks of inputed string
             return commandStr.Split(' ');
         }
 
         private Coords ConvertStringCoordsToObjectCoords(string coordsStr, string key)
-        {
-            int x = key.IndexOf(coordsStr[0]);
-            int y = 9 - int.Parse(coordsStr[1].ToString());
-
-            return new Coords(x, y);
-        }
+            => (key.IndexOf(coordsStr[0]), 9 - int.Parse(coordsStr[1].ToString()));
 
         private WallCoords ConvertStringCoordsToObjectWallCoords(string wallCoordsStr, string key)
         {
-            return new WallCoords(ConvertStringCoordsToObjectCoords(wallCoordsStr, key),
-                                  GetWallRotation(wallCoordsStr[2]));
+            Coords coords = ConvertStringCoordsToObjectCoords(wallCoordsStr, key);
+            coords = (coords.X, coords.Y - 1);
+
+            return new WallCoords(coords, GetWallRotation(wallCoordsStr[2]));
         }
 
-
-        private MoveType GetMoveType(string moveTypeStr)
+        private MoveType GetMoveType(string moveType) => moveType switch
         {
-            MoveType moveType = MoveType.PlaceWall;
+            "move" => MoveType.MovePawn,
+            "jump" => MoveType.MovePawn,
+            "wall" => MoveType.PlaceWall,
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
-            if (moveTypeStr == "move" || moveTypeStr == "jump")
-            {
-                moveType = MoveType.MovePawn;
-            }
-
-            return moveType;
-        }
-
-        private WallRotation GetWallRotation(Char wallRotationStr)
+        private WallRotation GetWallRotation(char wallRotation) => wallRotation switch
         {
-            // todo Refactor
-            WallRotation wallRotation = WallRotation.Horizontal;
+            'v' => WallRotation.Vertical,
+            'h' => WallRotation.Horizontal,
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
-            if (wallRotationStr == 'v')
-            {
-                wallRotation = WallRotation.Vertical;
-            }
-
-            return wallRotation;
-        }
+        private PlayerNumber GetPlayerNumber(string playerNumber) => playerNumber switch
+        {
+            "white" => PlayerNumber.First,
+            "black" => PlayerNumber.Second,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

@@ -5,10 +5,10 @@ namespace QuoridorDelta.View
 {
     public sealed class Initializer : MonoBehaviour
     {
-        [SerializeField] private UnityView _view;
-        [SerializeField] private UnityInput _input;
-        [SerializeField] private UnityProxy _proxy;
+        [SerializeField] private UnityView _view = default!;
+        [SerializeField] private UnityInput _input = default!;
+        [SerializeField] private UnityProxy _proxy = default!;
 
-        public void Start() => _proxy.StartGame(_view, _input);
+        public void Start() => _proxy!.StartGame(_view!, _input!);
     }
 }

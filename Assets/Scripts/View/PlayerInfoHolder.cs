@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Model;
 using UnityEngine;
@@ -11,33 +10,33 @@ namespace QuoridorDelta.View
     {
         private const float MaxRaycastDistance = 100.0f;
 
-        [SerializeField] private GameObject _pawn;
-        [SerializeField] private GameObject[] _walls;
+        [SerializeField] private GameObject _pawn = default!;
+        [SerializeField] private GameObject[] _walls = default!;
         [SerializeField] private LayerMask _boardMask;
         [SerializeField] private Vector3 _storedWallsStartPosition;
 
-        [SerializeField] private MouseInputHandler _mouseHandler;
-        [SerializeField] private CoordsConverter _converter;
-        [SerializeField] private SoundKeeper _soundKeeper;
+        [SerializeField] private MouseInputHandler _mouseHandler = default!;
+        [SerializeField] private CoordsConverter _converter = default!;
+        [SerializeField] private SoundKeeper _soundKeeper = default!;
 
         [SerializeField] private float _pursueLerp;
         [SerializeField] private float _animationMoveTime;
 
         // todo
 
-        private List<GameObject> _storedWalls;
-        private Action<MoveType> _moveTypeHandler;
-        private Action<Coords> _coordsHandler;
-        private Action<WallCoords> _wallCoordsHandler;
+        private List<GameObject> _storedWalls = default!;
+        private Action<MoveType>? _moveTypeHandler;
+        private Action<Coords>? _coordsHandler;
+        private Action<WallCoords>? _wallCoordsHandler;
 
-        private GameObject _lastClickedObject;
+        private GameObject _lastClickedObject = default!;
 
         private Coords _lastPursueCoords;
         private WallCoords _lastPursueWallCoords;
 
         private void Awake() => _storedWalls = new List<GameObject>(_walls);
 
-        public void GetMoveType([NotNull] Action<MoveType> handler)
+        public void GetMoveType(Action<MoveType> handler)
         {
             _moveTypeHandler = handler;
 
@@ -52,7 +51,7 @@ namespace QuoridorDelta.View
             _pawn.GetComponent<Highlightable>().Change(highlighted);
         }
 
-        public void GetMovePawnCoords([NotNull] Action<Coords> handler)
+        public void GetMovePawnCoords(Action<Coords> handler)
         {
             _coordsHandler = handler;
 
@@ -103,11 +102,12 @@ namespace QuoridorDelta.View
                                                                  _pursueLerp);
 
             _lastClickedObject.transform.rotation = Quaternion.Slerp(_lastClickedObject.transform.rotation,
-                                                                     _converter.GetWallQuaternion(newPursueWallCoords.Rotation),
+                                                                     _converter.GetWallQuaternion(
+                                                                         newPursueWallCoords.Rotation),
                                                                      _pursueLerp);
         }
 
-        public void GetPlaceWallCoords([NotNull] Action<WallCoords> handler)
+        public void GetPlaceWallCoords(Action<WallCoords> handler)
         {
             _wallCoordsHandler = handler;
             _mouseHandler.OnMouseMove += PursueCursorWall;
@@ -141,7 +141,7 @@ namespace QuoridorDelta.View
             _mouseHandler.OnMouseMove -= PursueCursorPawn;
             _mouseHandler.OnMouseClick -= RaycastMoveType;
 
-            _moveTypeHandler(moveType);
+            _moveTypeHandler!(moveType);
         }
 
         private void RaycastGetCoords(Ray ray)
@@ -154,7 +154,7 @@ namespace QuoridorDelta.View
             _mouseHandler.OnMouseMove -= PursueCursorPawn;
             _mouseHandler.OnMouseClick -= RaycastGetCoords;
 
-            _coordsHandler(_converter.ToCoords(hit.point));
+            _coordsHandler!(_converter.ToCoords(hit.point));
         }
 
         private void RaycastGetWallCoords(Ray ray)
@@ -167,7 +167,7 @@ namespace QuoridorDelta.View
             _mouseHandler.OnMouseMove -= PursueCursorWall;
             _mouseHandler.OnMouseClick -= RaycastGetWallCoords;
 
-            _wallCoordsHandler(_converter.ToWallCoords(hit.point));
+            _wallCoordsHandler!(_converter.ToWallCoords(hit.point));
         }
 
         public void MovePawn(Coords newCoords)
@@ -197,12 +197,7 @@ namespace QuoridorDelta.View
                  _soundKeeper.WallMoveSound.PlayNext);
         }
 
-        private void Move(
-            [NotNull] Transform movable,
-            Vector3 finPosition,
-            Quaternion finRotation,
-            [NotNull] Action endHandler
-        )
+        private void Move(Transform movable, Vector3 finPosition, Quaternion finRotation, Action endHandler)
         {
             Vector3 startPosition = movable.position;
             Quaternion startRotation = movable.rotation;

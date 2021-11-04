@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace QuoridorDelta.Model
+﻿namespace QuoridorDelta.Model
 {
     public enum PlayerNumber
     {

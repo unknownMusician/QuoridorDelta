@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable enable
-
 namespace QuoridorDelta.Controller.PathFinding
 {
     public interface IGraph
@@ -39,9 +37,14 @@ namespace QuoridorDelta.Controller.PathFinding
     public sealed class Node : INode
     {
         public IEnumerable<INode> Neighbors { get; set; }
+
         public (int x, int y) Position { get; set; }
         
-        public Node((int x, int y) position) => Position = position;
+        public Node((int x, int y) position)
+        {
+            Position = position;
+            Neighbors = Array.Empty<INode>();
+        }
 
         public override string ToString() => $"Node ({Position.x}, {Position.y})";
     }

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -50,7 +48,7 @@ namespace QuoridorDelta.Model
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public override bool Equals(object obj) => obj is PlayerInfoContainer<TInfo> other && Equals(in other);
+        public override bool Equals(object? obj) => obj is PlayerInfoContainer<TInfo> other && Equals(in other);
         public override int GetHashCode() => base.GetHashCode();
         public override string ToString() => $"PlayerInfos ({First}, {Second})";
 

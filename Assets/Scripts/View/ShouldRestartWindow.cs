@@ -1,15 +1,14 @@
 ﻿using System;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace QuoridorDelta.View
 {
     public sealed class ShouldRestartWindow : MonoBehaviour
     {
-        [SerializeField] private GameObject _windowUI;
-        private Action<bool> _handler;
+        [SerializeField] private GameObject _windowUI = default!;
+        private Action<bool>? _handler;
 
-        public void Show([NotNull] Action<bool> handler)
+        public void Show(Action<bool> handler)
         {
             _handler = handler;
             _windowUI.SetActive(true);
@@ -17,12 +16,12 @@ namespace QuoridorDelta.View
 
         public void Restart()
         {
-            _handler(true);
+            _handler!(true);
         }
 
         public void Exit()
         {
-            _handler(false);
+            _handler!(false);
 
             Application.Quit();
         }

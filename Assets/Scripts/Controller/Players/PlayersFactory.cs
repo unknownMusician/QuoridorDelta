@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 using QuoridorDelta.Controller.Abstractions.View;
 using QuoridorDelta.DataBaseManagementSystem;
 using QuoridorDelta.Model;

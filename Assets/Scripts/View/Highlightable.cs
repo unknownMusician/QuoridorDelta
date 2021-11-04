@@ -5,11 +5,11 @@ namespace QuoridorDelta.View
 {
     public sealed class Highlightable : MonoBehaviour
     {
-        [SerializeField] private MeshRenderer _renderer;
-        [SerializeField] private Material _changedMaterial;
+        [SerializeField] private MeshRenderer _renderer = default!;
+        [SerializeField] private Material _changedMaterial = default!;
 
-        private Material[] _defaultMaterials;
-        private Material[] _changedMaterials;
+        private Material[]? _defaultMaterials;
+        private Material[]? _changedMaterials;
 
         private void Awake()
         {

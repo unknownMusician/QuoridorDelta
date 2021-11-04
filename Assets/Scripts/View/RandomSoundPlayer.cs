@@ -6,16 +6,16 @@ namespace QuoridorDelta.View
     [RequireComponent(typeof(AudioSource))]
     public sealed class RandomSoundPlayer : MonoBehaviour
     {
-        [SerializeField] private AudioClip[] _clips;
+        [SerializeField] private AudioClip[] _clips = default!;
 
         private readonly Random _random = new Random();
-        private AudioSource _source;
+        private AudioSource? _source;
 
         private void Awake() => _source = GetComponent<AudioSource>();
 
         public void PlayNext()
         {
-            _source.clip = _clips[_random.Next(_clips.Length)];
+            _source!.clip = _clips[_random.Next(_clips.Length)];
             _source.Play();
         }
     }

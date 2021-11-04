@@ -1,7 +1,5 @@
 ﻿using QuoridorDelta.Model;
 
-#nullable enable
-
 namespace QuoridorDelta.Controller.Abstractions.View
 {
     public interface IGameInput : IPlayerInput

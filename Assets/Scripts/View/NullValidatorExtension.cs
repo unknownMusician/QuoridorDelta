@@ -1,12 +1,11 @@
 ﻿using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace QuoridorDelta.View
 {
     public static class NullValidatorExtension
     {
-        public static void ValidateNull([NotNull] this MonoBehaviour behaviour, [NotNull] params Object[] objects)
+        public static void ValidateNull(this MonoBehaviour behaviour, params Object?[] objects)
         {
             int counter = objects.Count(obj => obj is null);
 

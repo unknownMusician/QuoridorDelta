@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Controller.Abstractions.View;
@@ -11,29 +9,55 @@ namespace QuoridorDelta.ViewConsole
     public sealed class GameInput : IGameInput
     {
         private readonly Parser _parser = new Parser();
-        private string? _command;
+        private string? _command = null;
+        internal PlayerNumber BotNumber { get; private set; }
 
         public GameType ChooseGameType() => GameType.VersusBot;
-        public PlayerNumber ChoosePlayerNumber() => throw new NotImplementedException();
+        
+        public PlayerNumber ChoosePlayerNumber()
+        {
+            ReadCommandIfNull();
+
+            PlayerNumber consoleNumber = _parser.ParsePlayerNumber(_command!).Changed();
+            BotNumber = consoleNumber.Changed();
+
+            _command = null;
+
+            return consoleNumber;
+        }
 
         public MoveType ChooseMoveType(PlayerNumber playerNumber)
         {
-            _command = Console.ReadLine() ?? "";
+            ReadCommandIfNull();
 
-            return _parser.ParseStringToMoveType(_command);
+            return _parser.ParseMoveType(_command!);
         }
 
         public Coords MovePawn(PlayerNumber playerNumber, IEnumerable<Coords> possibleMoves)
         {
-            return _parser.ParseStringToPawnCoords(_command!);
+            ReadCommandIfNull();
+
+            Coords result = _parser.ParsePawnCoords(_command!);
+
+            _command = null;
+
+            return result;
         }
 
 
         public WallCoords PlaceWall(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves)
         {
-            return _parser.ParseStringToWallCoords(_command!);
+            ReadCommandIfNull();
+
+            WallCoords result = _parser.ParseStringToWallCoords(_command!);
+
+            _command = null;
+
+            return result;
         }
 
         public bool ShouldRestart() => false;
+
+        private string ReadCommandIfNull() => _command ??= (Console.ReadLine() ?? "");
     }
 }

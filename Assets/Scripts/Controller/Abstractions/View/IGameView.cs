@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using QuoridorDelta.Model;
+﻿using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller.Abstractions.View
 {

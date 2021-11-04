@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace QuoridorDelta.Model
+﻿namespace QuoridorDelta.Model
 {
     public readonly struct WallCoords : System.IEquatable<WallCoords>
     {
@@ -22,7 +20,7 @@ namespace QuoridorDelta.Model
         public static implicit operator WallCoords(in (Coords coords, WallRotation orientation) tuple)
             => new WallCoords(tuple.coords, tuple.orientation);
 
-        public override bool Equals(object obj) => obj is WallCoords other && Equals(in other);
+        public override bool Equals(object? obj) => obj is WallCoords other && Equals(in other);
         public bool Equals(in WallCoords other) => other.Coords == Coords && other.Rotation == Rotation;
         public bool Equals(WallCoords other) => Equals(in other);
 

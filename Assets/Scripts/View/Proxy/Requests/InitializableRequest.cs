@@ -1,12 +1,10 @@
 ﻿using System;
-using JetBrains.Annotations;
-using UnityEngine;
 
 namespace QuoridorDelta.View.Proxy
 {
     internal class InitializableRequest<TOutput> : IRequest
     {
-        public TOutput Result { get; private set; }
+        public TOutput Result { get; private set; } = default!;
         private bool StartedInitializing { get; set; }
         public bool Initialized { get; private set; }
 
@@ -21,7 +19,6 @@ namespace QuoridorDelta.View.Proxy
             Initialized = true;
         }
 
-        [NotNull]
         public Action<TOutput> StartInitializing()
         {
             if (StartedInitializing)
