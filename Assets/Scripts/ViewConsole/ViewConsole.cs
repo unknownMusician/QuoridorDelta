@@ -17,6 +17,7 @@ namespace ViewConsole
     public class GameInput : IGameInput
     {
         public GameType ChooseGameType() => GameType.VersusBot;
+        public PlayerNumber ChoosePlayerNumber() => throw new System.NotImplementedException();
 
         public MoveType ChooseMoveType(PlayerNumber playerNumber) => throw new System.NotImplementedException();
 

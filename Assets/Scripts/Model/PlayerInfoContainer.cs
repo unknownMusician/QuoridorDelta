@@ -20,6 +20,14 @@ namespace QuoridorDelta.Model
             Second = second;
         }
 
+        public PlayerInfoContainer<TInfo> With(PlayerNumber playerNumber, TInfo info)
+            => playerNumber switch
+            {
+                PlayerNumber.First => new PlayerInfoContainer<TInfo>(info, Second),
+                PlayerNumber.Second => new PlayerInfoContainer<TInfo>(First, info),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
         public void Deconstruct(out TInfo first, out TInfo second)
         {
             first = First;

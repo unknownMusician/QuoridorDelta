@@ -3,15 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dev;
+using QuoridorDelta.Controller.PathFinding;
 using QuoridorDelta.DataBaseManagementSystem;
 using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller
 {
-    public sealed class RandomBot : Bot
+    public class RandomBot : Bot
     {
         private readonly Random _random = new Random();
-        
+
         public RandomBot(ref Action<GameState, IDBChangeInfo>? onDBChange) => onDBChange += HandleChange;
 
         public override MoveType ChooseMoveType(PlayerNumber playerNumber) => (MoveType)_random.Next(0, 2);
@@ -24,5 +26,36 @@ namespace QuoridorDelta.Controller
 
         private T GetRandom<T>(IReadOnlyList<T> possibleCoords)
             => possibleCoords[_random.Next(0, possibleCoords.Count)];
+    }
+
+    public sealed class IntelligentBot : Bot
+    {
+        public IntelligentBot(ref Action<GameState, IDBChangeInfo>? onDBChange) => onDBChange += HandleChange;
+
+        public override MoveType ChooseMoveType(PlayerNumber playerNumber) => MoveType.MovePawn;
+
+        public override Coords MovePawn(PlayerNumber playerNumber, IEnumerable<Coords> possibleMoves)
+        {
+            IPathFinder pathFinder = new PathFinderAStar();
+
+            var paths = new Dictionary<Coords, int>();
+
+            foreach (Coords move in possibleMoves)
+            {
+                paths[move] =
+                    pathFinder.GetShortestPathLength(GraphHelper.ToGraph(LastGameState, move, playerNumber));
+
+                ConsoleLogger.Log($"{move} - {paths[move]}");
+            }
+
+            Coords result = paths.OrderBy(path => path.Value).First().Key;
+
+            ConsoleLogger.Log($"Result: {result}");
+
+            return result;
+        }
+
+        public override WallCoords PlaceWall(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves)
+            => throw new NotImplementedException();
     }
 }

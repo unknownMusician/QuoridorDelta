@@ -14,13 +14,13 @@ namespace QuoridorDelta.Controller.PathFinding
             var openSet = new List<NodeInfo>();
             var closedSet = new List<NodeInfo>();
 
-            openSet.Add(new NodeInfo(graph.FirstNode, null, 0, GetHeuristicPathLength(graph.FirstNode)));
+            openSet.Add(new NodeInfo(graph.FirstNode, null, 0, GetHeuristicPathLength(graph.FirstNode, graph)));
 
             while (openSet.Count > 0)
             {
                 NodeInfo currentNodeInfo = openSet.OrderBy(nodeInfo => nodeInfo.HeuristicFunctionValue).First();
 
-                if (currentNodeInfo.Node.IsFinal())
+                if (graph.IsFinal(currentNodeInfo.Node))
                 {
                     return currentNodeInfo.PathLengthToFirst;
                 }
@@ -43,7 +43,7 @@ namespace QuoridorDelta.Controller.PathFinding
                            neighbourNode,
                            currentNodeInfo,
                            currentNodeInfo.PathLengthToFirst + 1,
-                           GetHeuristicPathLength(neighbourNode)));
+                           GetHeuristicPathLength(neighbourNode, graph)));
                     }
                     else if (currentNodeInfo.PathLengthToFirst + 1 < openNodeInfo.PathLengthToFirst)
                     {
@@ -55,6 +55,6 @@ namespace QuoridorDelta.Controller.PathFinding
             throw new Exception("Program cannot find path to win");
         }
 
-        private static int GetHeuristicPathLength(in INode from) => NodeHelper.FinalYCoord - from.Position.y;
+        private static int GetHeuristicPathLength(in INode from, in IGraph graph) => graph.LastNodeYCoord - from.Position.y;
     }
 }

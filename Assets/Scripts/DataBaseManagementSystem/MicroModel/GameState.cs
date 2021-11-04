@@ -21,5 +21,11 @@ namespace QuoridorDelta.DataBaseManagementSystem
         }
 
         internal GameState(IDataBase dbms) : this(dbms.PlayerInfoContainer, dbms.Walls) { }
+
+        public GameState With(in PlayerInfoContainer<PlayerInfo> playerInfoContainer)
+            => new GameState(playerInfoContainer, Walls);
+
+        public GameState With(IEnumerable<WallCoords> walls)
+            => new GameState(PlayerInfoContainer, walls);
     }
 }

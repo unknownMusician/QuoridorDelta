@@ -1,4 +1,6 @@
-﻿#nullable enable
+﻿using System.Net;
+
+#nullable enable
 
 namespace QuoridorDelta.Controller.PathFinding
 {

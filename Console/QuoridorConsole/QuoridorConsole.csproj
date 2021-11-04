@@ -1,0 +1,149 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="..\..\Assets\Scripts\Common\Assertions.cs">
+        <Link>Common\Assertions.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Abstractions\Data\IDataBase.cs">
+        <Link>Controller\Abstractions\Data\IDataBase.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Abstractions\INotifiable.cs">
+        <Link>Controller\Abstractions\INotifiable.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Abstractions\IPlayerInput.cs">
+        <Link>Controller\Abstractions\IPlayerInput.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Abstractions\View\IGameInput.cs">
+        <Link>Controller\Abstractions\View\IGameInput.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Abstractions\View\IGameView.cs">
+        <Link>Controller\Abstractions\View\IGameView.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\DisposableStartHandler.cs">
+        <Link>Controller\DisposableStartHandler.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Game.cs">
+        <Link>Controller\Game.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\GameStateRememberer.cs">
+        <Link>Controller\GameStateRememberer.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\InitialRules.cs">
+        <Link>Controller\InitialRules.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\MicroModel\GameType.cs">
+        <Link>Controller\MicroModel\GameType.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\MicroModel\MoveType.cs">
+        <Link>Controller\MicroModel\MoveType.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PathFinding\GraphHelper.cs">
+        <Link>Controller\PathFinding\GraphHelper.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PathFinding\IGraph.cs">
+        <Link>Controller\PathFinding\IGraph.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PathFinding\INode.cs">
+        <Link>Controller\PathFinding\INode.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PathFinding\IPathFinder.cs">
+        <Link>Controller\PathFinding\IPathFinder.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PathFinding\GraphExtension.cs">
+        <Link>Controller\PathFinding\GraphExtension.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PathFinding\NodeInfo.cs">
+        <Link>Controller\PathFinding\NodeInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PathFinding\PathFinderAStar.cs">
+        <Link>Controller\PathFinding\PathFinderAStar.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\PlayerNumberExtension.cs">
+        <Link>Controller\PlayerNumberExtension.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Players\Bot.cs">
+        <Link>Controller\Players\Bot.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Players\HumanPlayer.cs">
+        <Link>Controller\Players\HumanPlayer.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Players\Players.cs">
+        <Link>Controller\Players\Players.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Players\PlayersFactory.cs">
+        <Link>Controller\Players\PlayersFactory.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Players\RandomBot.cs">
+        <Link>Controller\Players\RandomBot.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Rules\AllowingRules.cs">
+        <Link>Controller\Rules\AllowingRules.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Rules\OldRules.cs">
+        <Link>Controller\Rules\OldRules.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Controller\Rules\Rules.cs">
+        <Link>Controller\Rules\Rules.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\DataBaseManagementSystem\DBMS.cs">
+        <Link>DataBaseManagementSystem\DBMS.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\DataBaseManagementSystem\MicroModel\DBInitializedInfo.cs">
+        <Link>DataBaseManagementSystem\MicroModel\DBInitializedInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\DataBaseManagementSystem\MicroModel\DBPawnMovedInfo.cs">
+        <Link>DataBaseManagementSystem\MicroModel\DBPawnMovedInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\DataBaseManagementSystem\MicroModel\DBWallPlacedInfo.cs">
+        <Link>DataBaseManagementSystem\MicroModel\DBWallPlacedInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\DataBaseManagementSystem\MicroModel\GameState.cs">
+        <Link>DataBaseManagementSystem\MicroModel\GameState.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\DataBaseManagementSystem\MicroModel\IDBChangeInfo.cs">
+        <Link>DataBaseManagementSystem\MicroModel\IDBChangeInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\DataBase\DB.cs">
+        <Link>DataBase\DB.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Dev\OptimizedAttribute.cs">
+        <Link>Dev\OptimizedAttribute.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Dev\Profiler.cs">
+        <Link>Dev\Profiler.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Model\Coords.cs">
+        <Link>Model\Coords.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Model\PlayerInfo.cs">
+        <Link>Model\PlayerInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Model\PlayerInfoContainer.cs">
+        <Link>Model\PlayerInfoContainer.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Model\PlayerNumber.cs">
+        <Link>Model\PlayerNumber.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Model\WallCoords.cs">
+        <Link>Model\WallCoords.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\Model\WallRotation.cs">
+        <Link>Model\WallRotation.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Assets\Scripts\ViewConsole\ViewConsole.cs">
+        <Link>ViewConsole\ViewConsole.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="bin.meta" />
+      <None Remove="obj.meta" />
+      <None Remove="QuoridorConsole.csproj.meta" />
+    </ItemGroup>
+
+</Project>

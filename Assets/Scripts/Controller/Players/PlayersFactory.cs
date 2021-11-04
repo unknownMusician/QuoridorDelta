@@ -3,19 +3,25 @@
 using System;
 using QuoridorDelta.Controller.Abstractions.View;
 using QuoridorDelta.DataBaseManagementSystem;
+using QuoridorDelta.Model;
 
 namespace QuoridorDelta.Controller
 {
     public static class PlayersFactory
     {
         public static Players CreatePlayers(
-            GameType gameType, IGameInput input, INotifiable view, ref Action<GameState, IDBChangeInfo>? onDBChange
+            GameType gameType, PlayerNumber humanNumber, IGameInput input, INotifiable view, ref Action<GameState, IDBChangeInfo>? onDBChange
         )
         {
             IPlayerInput player1 = new HumanPlayer(input, view, ref onDBChange);
             IPlayerInput player2 = PlayersFactory.CreateSecondPlayer(gameType, input, ref onDBChange);
 
-            return new Players(player1, player2);
+            return humanNumber switch
+            {
+                PlayerNumber.First => new Players(player1, player2),
+                PlayerNumber.Second => new Players(player2, player1),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         private static IPlayerInput CreateSecondPlayer(
@@ -24,7 +30,7 @@ namespace QuoridorDelta.Controller
             => gameType switch
             {
                 GameType.VersusPlayer => new HumanPlayer(input),
-                GameType.VersusBot => new RandomBot(ref onDBChange),
+                GameType.VersusBot => new IntelligentBot(ref onDBChange),
                 _ => throw new ArgumentOutOfRangeException(nameof(gameType), gameType, null)
             };
     }
