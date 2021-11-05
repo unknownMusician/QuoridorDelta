@@ -84,8 +84,8 @@ namespace QuoridorDelta.ViewConsole
 
         private PlayerNumber GetPlayerNumber(string playerNumber) => playerNumber switch
         {
-            "white" => PlayerNumber.First,
-            "black" => PlayerNumber.Second,
+            "white" => PlayerNumber.White,
+            "black" => PlayerNumber.Black,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

@@ -11,13 +11,13 @@ namespace QuoridorDelta.Controller
             GameType gameType, PlayerNumber humanNumber, IGameInput input, INotifiable view, ref Action<GameState, IDBChangeInfo>? onDBChange
         )
         {
-            IPlayerInput player1 = new HumanPlayer(input, view, ref onDBChange);
-            IPlayerInput player2 = PlayersFactory.CreateSecondPlayer(gameType, input, ref onDBChange);
+            IPlayerInput humanPlayer = new HumanPlayer(input, view, ref onDBChange);
+            IPlayerInput secondPlayer = PlayersFactory.CreateSecondPlayer(gameType, input, ref onDBChange);
 
             return humanNumber switch
             {
-                PlayerNumber.First => new Players(player1, player2),
-                PlayerNumber.Second => new Players(player2, player1),
+                PlayerNumber.White => new Players(humanPlayer, secondPlayer),
+                PlayerNumber.Black => new Players(secondPlayer, humanPlayer),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -29,7 +29,7 @@ namespace QuoridorDelta.Controller
             {
                 GameType.VersusPlayer => new HumanPlayer(input),
                 GameType.VersusBot => new IntelligentBot(ref onDBChange),
-                _ => throw new ArgumentOutOfRangeException(nameof(gameType), gameType, null)
+                _ => throw new ArgumentOutOfRangeException()
             };
     }
 }

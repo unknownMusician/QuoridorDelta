@@ -17,8 +17,8 @@ namespace QuoridorDelta.Controller
         public IPlayerInput this[PlayerNumber playerNumber]
             => playerNumber switch
             {
-                PlayerNumber.First => First,
-                PlayerNumber.Second => Second,
+                PlayerNumber.White => First,
+                PlayerNumber.Black => Second,
                 _ => throw new ArgumentOutOfRangeException()
             };
     }

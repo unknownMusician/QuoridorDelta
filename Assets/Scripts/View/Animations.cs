@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace QuoridorDelta.View
 {
     public static class Animations
     {
-        public static IEnumerator Lerp(float time, [NotNull] Action<float> tConsumer)
+        public static IEnumerator Lerp(float time, Action<float> tConsumer)
         {
             float t = 0.0f;
 
@@ -22,7 +21,7 @@ namespace QuoridorDelta.View
             tConsumer(1.0f);
         }
 
-        public static IEnumerator Lerp(float time, [NotNull] Action<float> tConsumer, [NotNull] Action finHandler)
+        public static IEnumerator Lerp(float time, Action<float> tConsumer, Action finHandler)
         {
             yield return Animations.Lerp(time, tConsumer);
 
@@ -30,7 +29,7 @@ namespace QuoridorDelta.View
         }
         
         
-        public static IEnumerator Wait(float time, [NotNull] Action finHandler)
+        public static IEnumerator Wait(float time, Action finHandler)
         {
             float t = 0.0f;
 

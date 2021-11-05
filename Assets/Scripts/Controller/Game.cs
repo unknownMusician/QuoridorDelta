@@ -37,7 +37,7 @@ namespace QuoridorDelta.Controller
 
         private void Loop(out PlayerNumber winner)
         {
-            for (winner = PlayerNumber.Second; !_rules!.IsWinner(winner);)
+            for (winner = PlayerNumber.Black; !_rules!.IsWinner(winner);)
             {
                 winner.Change();
 

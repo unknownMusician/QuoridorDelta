@@ -18,12 +18,10 @@ namespace QuoridorDelta.ViewConsole
         {
             ReadCommandIfNull();
 
-            PlayerNumber consoleNumber = _parser.ParsePlayerNumber(_command!).Changed();
-            BotNumber = consoleNumber.Changed();
-
+            BotNumber = _parser.ParsePlayerNumber(_command!);
             _command = null;
 
-            return consoleNumber;
+            return BotNumber.Changed();
         }
 
         public MoveType ChooseMoveType(PlayerNumber playerNumber)

@@ -81,6 +81,7 @@
      <Compile Include="Assets\Scripts\View\MouseInputHandler.cs" />
      <Compile Include="Assets\Scripts\View\PlayerInfoHolder.cs" />
      <Compile Include="Assets\Scripts\Controller\PlayerNumberExtension.cs" />
+     <Compile Include="Assets\Scripts\Controller\Players\IntelligentBot.cs" />
      <Compile Include="Assets\Scripts\Controller\PathFinding\NodeInfo.cs" />
      <Compile Include="Assets\Scripts\Controller\PathFinding\IGraph.cs" />
      <Compile Include="Assets\Scripts\View\Field.cs" />
@@ -93,6 +94,7 @@
      <Compile Include="Assets\Scripts\View\PawnMoveInfo.cs" />
      <Compile Include="Assets\Scripts\Controller\GameStateRememberer.cs" />
      <Compile Include="Assets\Scripts\Controller\Players\RandomBot.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\Tester.cs" />
      <Compile Include="Assets\Scripts\Controller\PathFinding\IPathFinder.cs" />
      <Compile Include="Assets\Scripts\Controller\PathFinding\GraphExtension.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\Requests\ActionRequest.cs" />
@@ -107,6 +109,7 @@
      <Compile Include="Assets\Scripts\View\Initializer.cs" />
      <Compile Include="Assets\Scripts\Controller\Players\HumanPlayer.cs" />
      <Compile Include="Assets\Scripts\ViewConsole\ViewConsole.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\Parser.cs" />
      <Compile Include="Assets\Scripts\Model\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\Model\PlayerInfoContainer.cs" />
      <Compile Include="Assets\Scripts\Controller\Players\Players.cs" />
@@ -114,8 +117,10 @@
      <Compile Include="Assets\Scripts\View\ShouldRestartWindow.cs" />
      <Compile Include="Assets\Scripts\View\Highlightable.cs" />
      <Compile Include="Assets\Scripts\View\PlaceWallInfo.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\GameView.cs" />
      <Compile Include="Assets\Scripts\Controller\Rules\AllowingRules.cs" />
      <Compile Include="Assets\Scripts\Controller\InitialRules.cs" />
+     <Compile Include="Assets\Scripts\ViewConsole\GameInput.cs" />
      <Compile Include="Assets\Scripts\Controller\Abstractions\IPlayerInput.cs" />
      <Compile Include="Assets\Scripts\Controller\MicroModel\GameType.cs" />
      <Compile Include="Assets\Scripts\Controller\Abstractions\View\IGameView.cs" />
@@ -127,11 +132,6 @@
      <Compile Include="Assets\Scripts\View\Proxy\UnityProxy.cs" />
      <Compile Include="Assets\Scripts\View\Proxy\GameProxy.cs" />
      <Compile Include="Assets\Scripts\View\IMoveInfo.cs" />
-     <Compile Include="Assets\Scripts\ViewConsole\Parser.cs" />
-     <Compile Include="Assets\Scripts\ViewConsole\Tester.cs" />
-     <Compile Include="Assets\Scripts\ViewConsole\GameInput.cs" />
-     <Compile Include="Assets\Scripts\ViewConsole\GameView.cs" />
-     <Compile Include="Assets\Scripts\Controller\Players\IntelligentBot.cs" />
  <Reference Include="UnityEngine">
  <HintPath>D:/Program Files/Unity Versions/2020.3.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

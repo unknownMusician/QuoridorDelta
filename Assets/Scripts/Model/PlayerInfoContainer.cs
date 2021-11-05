@@ -10,7 +10,7 @@ namespace QuoridorDelta.Model
         public readonly TInfo Second;
 
         public (PlayerNumber number, TInfo element)[] Pairs
-            => new[] { (PlayerNumber.First, First), (PlayerNumber.Second, Second) };
+            => new[] { (PlayerNumber.White, First), (PlayerNumber.Black, Second) };
 
         public PlayerInfoContainer(in TInfo first, in TInfo second)
         {
@@ -21,8 +21,8 @@ namespace QuoridorDelta.Model
         public PlayerInfoContainer<TInfo> With(PlayerNumber playerNumber, TInfo info)
             => playerNumber switch
             {
-                PlayerNumber.First => new PlayerInfoContainer<TInfo>(info, Second),
-                PlayerNumber.Second => new PlayerInfoContainer<TInfo>(First, info),
+                PlayerNumber.White => new PlayerInfoContainer<TInfo>(info, Second),
+                PlayerNumber.Black => new PlayerInfoContainer<TInfo>(First, info),
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -61,8 +61,8 @@ namespace QuoridorDelta.Model
         public TInfo this[PlayerNumber playerNumber]
             => playerNumber switch
             {
-                PlayerNumber.First => First,
-                PlayerNumber.Second => Second,
+                PlayerNumber.White => First,
+                PlayerNumber.Black => Second,
                 _ => throw new ArgumentOutOfRangeException()
             };
     }

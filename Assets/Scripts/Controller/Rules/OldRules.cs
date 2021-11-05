@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Dev;
@@ -11,19 +10,19 @@ namespace QuoridorDelta.Controller
     public sealed class OldRules : Rules
     {
         public const int MinCoords = 0;
-        public const int MinWallCoords = OldRules.MinCoords;
+        public const int MinWallCoords = MinCoords;
         public const int MaxCoords = 8;
         public const int MaxWallCoords = 7;
 
         public static int GetDistance(in Coords c1, in Coords c2) => Math.Abs(c1.X - c2.X) + Math.Abs(c1.Y - c2.Y);
 
         public bool IsThereEnemyNearby(PlayerNumber playerNumber)
-            => OldRules.IsThereEnemyNearby(playerNumber, LastGameState.PlayerInfoContainer);
+            => IsThereEnemyNearby(playerNumber, LastGameState.PlayerInfoContainer);
 
         public static bool IsThereEnemyNearby(
             PlayerNumber playerNumber, in PlayerInfoContainer<PlayerInfo> playerInfos
         )
-            => OldRules.GetDistance(playerInfos[playerNumber].PawnCoords,
+            => GetDistance(playerInfos[playerNumber].PawnCoords,
                                     playerInfos[playerNumber.Changed()].PawnCoords)
             == 1;
 
@@ -31,8 +30,8 @@ namespace QuoridorDelta.Controller
         {
             (int x, int y) = coords;
 
-            const int minCoords = OldRules.MinCoords;
-            const int maxCoords = OldRules.MaxCoords;
+            const int minCoords = MinCoords;
+            const int maxCoords = MaxCoords;
 
             return (x >= minCoords) && (x <= maxCoords) && (y >= minCoords) && (y <= maxCoords);
         }
@@ -41,10 +40,10 @@ namespace QuoridorDelta.Controller
         {
             ((int x, int y), _) = coords;
 
-            bool result = (x >= OldRules.MinWallCoords)
-                       && (x <= OldRules.MaxWallCoords)
-                       && (y >= OldRules.MinWallCoords)
-                       && (y <= OldRules.MaxWallCoords);
+            bool result = (x >= MinWallCoords)
+                       && (x <= MaxWallCoords)
+                       && (y >= MinWallCoords)
+                       && (y <= MaxWallCoords);
 
             return result;
         }
@@ -77,13 +76,12 @@ namespace QuoridorDelta.Controller
             int otherCordsIndex = 1 - coordsIndex;
 
             return pawnCoords[otherCordsIndex] == newCoords[otherCordsIndex]
-                || OldRules.IsThereWallBetweenNeighbors(enemyCoords,
-                                                        (enemyCoords - pawnCoords) * 2 + pawnCoords,
-                                                        walls);
+                || IsThereWallBetweenNeighbors(enemyCoords, (enemyCoords - pawnCoords) * 2 + pawnCoords, walls)
+                || !IsWithinFieldRange(enemyCoords * 2 - pawnCoords);
         }
 
         public bool IsThereWallBetweenNeighbors(in Coords c1, in Coords c2)
-            => OldRules.IsThereWallBetweenNeighbors(c1, c2, LastGameState.Walls);
+            => IsThereWallBetweenNeighbors(c1, c2, LastGameState.Walls);
 
         public static bool IsThereWallBetweenNeighbors(in Coords c1, in Coords c2, IEnumerable<WallCoords> walls)
         {
@@ -117,7 +115,7 @@ namespace QuoridorDelta.Controller
         }
 
         public bool HasBadNeighbors(in WallCoords wallCoords)
-            => OldRules.HasBadNeighbors(wallCoords, LastGameState.Walls);
+            => HasBadNeighbors(wallCoords, LastGameState.Walls);
 
         public static bool HasBadNeighbors(in WallCoords wallCoords, IEnumerable<WallCoords> walls)
         {
@@ -137,54 +135,54 @@ namespace QuoridorDelta.Controller
         }
 
         public override bool CanMovePawn(PlayerNumber playerNumber, in Coords newCoords)
-            => OldRules.CanMovePawn(playerNumber, newCoords, LastGameState);
+            => CanMovePawn(playerNumber, newCoords, LastGameState);
 
         public static bool CanMovePawn(PlayerNumber playerNumber, in Coords newCoords, GameState gameState)
         {
             Coords pawnCoords = gameState.PlayerInfoContainer[playerNumber].PawnCoords;
 
-            int moveDistance = OldRules.GetDistance(pawnCoords, newCoords);
+            int moveDistance = GetDistance(pawnCoords, newCoords);
             Coords otherPawnCoords = gameState.PlayerInfoContainer[playerNumber.Changed()].PawnCoords;
 
             if ((newCoords == pawnCoords)
-             || (!OldRules.IsWithinFieldRange(newCoords))
+             || (!IsWithinFieldRange(newCoords))
              || (moveDistance > 2)
              || (otherPawnCoords == newCoords)
-             || (moveDistance > 1 && !OldRules.IsThereEnemyNearby(playerNumber, gameState.PlayerInfoContainer))
+             || (moveDistance > 1 && !IsThereEnemyNearby(playerNumber, gameState.PlayerInfoContainer))
              || (moveDistance > 1
-              && !OldRules.CanJump2StepsOverCloseEnemy(pawnCoords, otherPawnCoords, newCoords, gameState.Walls)))
+              && !CanJump2StepsOverCloseEnemy(pawnCoords, otherPawnCoords, newCoords, gameState.Walls)))
             {
                 return false;
             }
 
             return moveDistance switch
             {
-                2 => !OldRules.IsThereWallBetweenNeighbors(pawnCoords, otherPawnCoords, gameState.Walls)
-                  && !OldRules.IsThereWallBetweenNeighbors(otherPawnCoords, newCoords, gameState.Walls),
-                1 => !OldRules.IsThereWallBetweenNeighbors(pawnCoords, newCoords, gameState.Walls),
+                2 => !IsThereWallBetweenNeighbors(pawnCoords, otherPawnCoords, gameState.Walls)
+                  && !IsThereWallBetweenNeighbors(otherPawnCoords, newCoords, gameState.Walls),
+                1 => !IsThereWallBetweenNeighbors(pawnCoords, newCoords, gameState.Walls),
                 _ => throw new InvalidProgramException()
             };
         }
 
         public bool CanPlaceWallWallCountUnchecked(in WallCoords newCoords)
-            => OldRules.CanPlaceWallWallCountUnchecked(newCoords, LastGameState);
+            => CanPlaceWallWallCountUnchecked(newCoords, LastGameState);
 
         public static bool CanPlaceWallWallCountUnchecked(WallCoords newCoords, GameState gameState)
             => (gameState.Walls.All(wall => wall.Coords != newCoords.Coords))
-            && (OldRules.IsWithinFieldRange(newCoords))
-            && (!OldRules.HasBadNeighbors(newCoords, gameState.Walls))
-            && (OldRules.PathExists(newCoords, gameState));
+            && (IsWithinFieldRange(newCoords))
+            && (!HasBadNeighbors(newCoords, gameState.Walls))
+            && (PathExists(newCoords, gameState));
 
         public override bool CanPlaceWall(PlayerNumber playerNumber, in WallCoords newCoords)
-            => OldRules.CanPlaceWall(playerNumber, newCoords, LastGameState);
+            => CanPlaceWall(playerNumber, newCoords, LastGameState);
 
         [Optimized(0.3, 0.6)]
         public static bool CanPlaceWall(PlayerNumber playerNumber, in WallCoords newCoords, GameState gameState)
             => (gameState.PlayerInfoContainer[playerNumber].WallCount > 0)
-            && OldRules.CanPlaceWallWallCountUnchecked(newCoords, gameState);
+            && CanPlaceWallWallCountUnchecked(newCoords, gameState);
 
         public override IEnumerable<Coords> GetPossiblePawnMoves(PlayerNumber playerNumber)
-            => OldRules.GetPossiblePawnMoves(playerNumber, LastGameState);
+            => GetPossiblePawnMoves(playerNumber, LastGameState);
 
         public static IEnumerable<Coords> GetPossiblePawnMoves(PlayerNumber playerNumber, GameState gameState)
         {
@@ -198,8 +196,8 @@ namespace QuoridorDelta.Controller
                 {
                     Coords newCoords = (x, y);
 
-                    if (OldRules.GetDistance(pawnCoords, newCoords) <= 2
-                     && OldRules.CanMovePawn(playerNumber, newCoords, gameState))
+                    if (GetDistance(pawnCoords, newCoords) <= 2
+                     && CanMovePawn(playerNumber, newCoords, gameState))
                     {
                         possibleMoves.Add(newCoords);
                     }
@@ -210,7 +208,7 @@ namespace QuoridorDelta.Controller
         }
 
         public override bool IsWinner(PlayerNumber playerNumber)
-            => OldRules.IsWinner(playerNumber, LastGameState.PlayerInfoContainer);
+            => IsWinner(playerNumber, LastGameState.PlayerInfoContainer);
 
         public static bool IsWinner(PlayerNumber playerNumber, in PlayerInfoContainer<PlayerInfo> playerInfos)
         {
@@ -218,8 +216,8 @@ namespace QuoridorDelta.Controller
 
             return playerNumber switch
             {
-                PlayerNumber.First => coordsY == OldRules.MaxCoords,
-                PlayerNumber.Second => coordsY == OldRules.MinCoords,
+                PlayerNumber.White => coordsY == MaxCoords,
+                PlayerNumber.Black => coordsY == MinCoords,
                 _ => throw new ArgumentOutOfRangeException(),
             };
         }
@@ -227,25 +225,25 @@ namespace QuoridorDelta.Controller
         public static int GetWinCoordsY(PlayerNumber playerNumber)
             => playerNumber switch
             {
-                PlayerNumber.First => OldRules.MaxCoords,
-                PlayerNumber.Second => OldRules.MinCoords,
+                PlayerNumber.White => MaxCoords,
+                PlayerNumber.Black => MinCoords,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-        public bool PathExists(in WallCoords newCoords) => OldRules.PathExists(newCoords, LastGameState);
+        public bool PathExists(in WallCoords newCoords) => PathExists(newCoords, LastGameState);
 
         public static bool PathExists(in WallCoords newCoords, GameState gameState)
         {
             var wallList = new List<WallCoords>(gameState.Walls) { newCoords };
 
             bool result =
-                OldRules.PathExists(OldRules.GetWinCoordsY(PlayerNumber.First),
+                PathExists(GetWinCoordsY(PlayerNumber.White),
                                     wallList,
-                                    gameState.PlayerInfoContainer[PlayerNumber.First].PawnCoords,
+                                    gameState.PlayerInfoContainer[PlayerNumber.White].PawnCoords,
                                     new HashSet<Coords>())
-             && OldRules.PathExists(OldRules.GetWinCoordsY(PlayerNumber.Second),
+             && PathExists(GetWinCoordsY(PlayerNumber.Black),
                                     wallList,
-                                    gameState.PlayerInfoContainer[PlayerNumber.Second].PawnCoords,
+                                    gameState.PlayerInfoContainer[PlayerNumber.Black].PawnCoords,
                                     new HashSet<Coords>());
 
             return result;
@@ -306,11 +304,11 @@ namespace QuoridorDelta.Controller
 
             visitedCoords.Add(coords);
 
-            foreach (Coords neighbor in OldRules.GetNeighbors(coords))
+            foreach (Coords neighbor in GetNeighbors(coords))
             {
                 if (!visitedCoords.Contains(neighbor)
-                 && !OldRules.IsThereWallBetweenNeighbors(coords, neighbor, walls)
-                 && OldRules.PathExists(winCoordsY, walls, neighbor, visitedCoords))
+                 && !IsThereWallBetweenNeighbors(coords, neighbor, walls)
+                 && PathExists(winCoordsY, walls, neighbor, visitedCoords))
                 {
                     return true;
                 }
@@ -323,22 +321,22 @@ namespace QuoridorDelta.Controller
         {
             var neighbours = new List<Coords>();
 
-            OldRules.AddIfWithinFieldRange((coords.X - 1, coords.Y), neighbours);
-            OldRules.AddIfWithinFieldRange((coords.X + 1, coords.Y), neighbours);
-            OldRules.AddIfWithinFieldRange((coords.X, coords.Y - 1), neighbours);
-            OldRules.AddIfWithinFieldRange((coords.X, coords.Y + 1), neighbours);
+            AddIfWithinFieldRange((coords.X - 1, coords.Y), neighbours);
+            AddIfWithinFieldRange((coords.X + 1, coords.Y), neighbours);
+            AddIfWithinFieldRange((coords.X, coords.Y - 1), neighbours);
+            AddIfWithinFieldRange((coords.X, coords.Y + 1), neighbours);
 
             return neighbours;
         }
 
         public static Coords[] GetNeighborsWallsIncluded(Coords coords, IEnumerable<WallCoords> walls)
-            => OldRules.GetNeighbors(coords)
-                       .Where(neighbor => OldRules.IsThereWallBetweenNeighbors(neighbor, coords, walls))
+            => GetNeighbors(coords)
+                       .Where(neighbor => IsThereWallBetweenNeighbors(neighbor, coords, walls))
                        .ToArray();
 
         public static void AddIfWithinFieldRange(in Coords coords, ICollection<Coords> list)
         {
-            if (OldRules.IsWithinFieldRange(coords))
+            if (IsWithinFieldRange(coords))
             {
                 list.Add(coords);
             }
@@ -348,10 +346,10 @@ namespace QuoridorDelta.Controller
         {
             var neighbours = new List<Coords>();
 
-            OldRules.AddIf((coords.X - 1, coords.Y), neighbours, predicate);
-            OldRules.AddIf((coords.X + 1, coords.Y), neighbours, predicate);
-            OldRules.AddIf((coords.X, coords.Y - 1), neighbours, predicate);
-            OldRules.AddIf((coords.X, coords.Y + 1), neighbours, predicate);
+            AddIf((coords.X - 1, coords.Y), neighbours, predicate);
+            AddIf((coords.X + 1, coords.Y), neighbours, predicate);
+            AddIf((coords.X, coords.Y - 1), neighbours, predicate);
+            AddIf((coords.X, coords.Y + 1), neighbours, predicate);
 
             return neighbours;
         }
@@ -365,23 +363,23 @@ namespace QuoridorDelta.Controller
         }
 
         public override IEnumerable<WallCoords> GetPossibleWallPlacements(PlayerNumber playerNumber)
-            => OldRules.GetPossibleWallPlacements(LastGameState);
+            => GetPossibleWallPlacements(LastGameState);
 
         [Optimized(30, 50)]
         public static IEnumerable<WallCoords> GetPossibleWallPlacements(GameState gameState)
         {
             var possibleCoords = new List<WallCoords>();
 
-            for (int y = 0; y <= OldRules.MaxWallCoords; y++)
+            for (int y = 0; y <= MaxWallCoords; y++)
             {
-                for (int x = 0; x <= OldRules.MaxWallCoords; x++)
+                for (int x = 0; x <= MaxWallCoords; x++)
                 {
                     for (int r = 0; r < 2; r++)
                     {
                         var wallRotation = (WallRotation)r;
                         WallCoords wallCoords = ((x, y), wallRotation);
 
-                        if (OldRules.CanPlaceWallWallCountUnchecked(wallCoords, gameState))
+                        if (CanPlaceWallWallCountUnchecked(wallCoords, gameState))
                         {
                             possibleCoords.Add(wallCoords);
                         }

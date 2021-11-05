@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using QuoridorDelta.Controller;
 using QuoridorDelta.Controller.Abstractions.View;
 using QuoridorDelta.DataBaseManagementSystem;
@@ -14,7 +13,7 @@ namespace QuoridorDelta.View.Proxy
 
         public GameType ChooseGameType() => Wait<GameType>();
 
-        public PlayerNumber ChoosePlayerNumber() => PlayerNumber.First;
+        public PlayerNumber ChoosePlayerNumber() => PlayerNumber.White;
 
         public MoveType ChooseMoveType(PlayerNumber playerNumber) => Wait<PlayerNumber, MoveType>(playerNumber);
 
@@ -30,7 +29,7 @@ namespace QuoridorDelta.View.Proxy
 
         public bool ShouldRestart() => Wait<bool>();
 
-        public void HandleChange(GameState gameState, [NotNull] IDBChangeInfo changeInfo)
+        public void HandleChange(GameState gameState, IDBChangeInfo changeInfo)
         {
             switch (changeInfo)
             {

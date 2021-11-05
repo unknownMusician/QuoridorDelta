@@ -2,7 +2,7 @@
 {
     public enum PlayerNumber
     {
-        First,
-        Second
+        White,
+        Black
     }
 }

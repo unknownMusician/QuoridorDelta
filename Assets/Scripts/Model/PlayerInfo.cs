@@ -17,6 +17,9 @@
             wallCount = WallCount;
         }
 
+        public PlayerInfo With(in Coords pawnCoords) => new PlayerInfo(pawnCoords, WallCount);
+        public PlayerInfo With(int wallCount) => new PlayerInfo(PawnCoords, wallCount);
+
         public static implicit operator PlayerInfo(in (Coords pawnCoords, int wallCount) tuple)
             => new PlayerInfo(tuple.pawnCoords, tuple.wallCount);
 

@@ -61,8 +61,8 @@ namespace QuoridorDelta.DataBaseManagementSystem
         private static PlayerInfoContainer<PlayerInfo> CreateNew(in PlayerInfoContainer<PlayerInfo> old, PlayerNumber changedPlayer, in PlayerInfo newPlayer)
             => changedPlayer switch
             {
-                PlayerNumber.First => new PlayerInfoContainer<PlayerInfo>(newPlayer, old[PlayerNumber.Second]),
-                PlayerNumber.Second => new PlayerInfoContainer<PlayerInfo>(old[PlayerNumber.First], newPlayer),
+                PlayerNumber.White => new PlayerInfoContainer<PlayerInfo>(newPlayer, old[PlayerNumber.Black]),
+                PlayerNumber.Black => new PlayerInfoContainer<PlayerInfo>(old[PlayerNumber.White], newPlayer),
                 _ => throw new ArgumentOutOfRangeException()
             };
     }

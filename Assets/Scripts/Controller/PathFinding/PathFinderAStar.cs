@@ -8,15 +8,25 @@ namespace QuoridorDelta.Controller.PathFinding
     {
         public int GetShortestPathLength(in IGraph graph)
         {
+            if (!TryGetShortestPathLength(graph, out int length))
+            {
+                throw new Exception("Program cannot find path to win");
+            }
+
+            return length;
+        }
+
+        public bool TryGetShortestPathLength(in IGraph graph, out int length)
+        {
             var openSet = new List<NodeInfo>();
             var closedSet = new List<NodeInfo>();
 
             openSet.Add(new NodeInfo(graph.FirstNode, 0, GetDirectPathLength(graph.FirstNode, graph)));
 
-            return MainCycle(graph, openSet, closedSet);
+            return TryMainCycle(graph, openSet, closedSet, out length);
         }
 
-        private int MainCycle(in IGraph graph, List<NodeInfo> openSet, List<NodeInfo> closedSet)
+        private bool TryMainCycle(in IGraph graph, List<NodeInfo> openSet, List<NodeInfo> closedSet, out int length)
         {
             while (openSet.Count > 0)
             {
@@ -24,7 +34,9 @@ namespace QuoridorDelta.Controller.PathFinding
 
                 if (graph.IsFinal(currentNodeInfo.Node))
                 {
-                    return currentNodeInfo.PathLengthToFirst;
+                    length = currentNodeInfo.PathLengthToFirst;
+
+                    return true;
                 }
 
                 openSet.Remove(currentNodeInfo);
@@ -33,10 +45,14 @@ namespace QuoridorDelta.Controller.PathFinding
                 HandleNeighbours(openSet, closedSet, currentNodeInfo, graph);
             }
 
-            throw new Exception("Program cannot find path to win");
+            length = int.MaxValue;
+
+            return false;
         }
 
-        private void HandleNeighbours(List<NodeInfo> openSet, List<NodeInfo> closedSet, NodeInfo currentNodeInfo, in IGraph graph)
+        private void HandleNeighbours(
+            List<NodeInfo> openSet, List<NodeInfo> closedSet, NodeInfo currentNodeInfo, in IGraph graph
+        )
         {
             foreach (var neighbourNode in currentNodeInfo.Node.Neighbors)
             {
@@ -47,7 +63,9 @@ namespace QuoridorDelta.Controller.PathFinding
             }
         }
 
-        private bool TryAddNodeToOpenSet(List<NodeInfo> openSet, NodeInfo parentNodeInfo, INode neighbourNode, in IGraph graph)
+        private bool TryAddNodeToOpenSet(
+            List<NodeInfo> openSet, NodeInfo parentNodeInfo, INode neighbourNode, in IGraph graph
+        )
         {
             NodeInfo? openNodeInfo =
                 openSet.FirstOrDefault(nodeInfo => nodeInfo.Node.Position == neighbourNode.Position);

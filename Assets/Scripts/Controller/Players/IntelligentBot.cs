@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dev;
 using QuoridorDelta.Controller.PathFinding;
 using QuoridorDelta.DataBaseManagementSystem;
 using QuoridorDelta.Model;
@@ -18,16 +17,16 @@ namespace QuoridorDelta.Controller
 
         public override MoveType ChooseMoveType(PlayerNumber playerNumber)
         {
-            int currentBotPath =
-                _pathFinder.GetShortestPathLength(GraphHelper.ToGraph(LastGameState, playerNumber));
+            _pathFinder.TryGetShortestPathLength(GraphHelper.ToGraph(LastGameState, playerNumber),
+                                                 out int currentBotPath);
 
-            int currentEnemyPath =
-                _pathFinder.GetShortestPathLength(GraphHelper.ToGraph(LastGameState, playerNumber.Changed()));
+            _pathFinder.TryGetShortestPathLength(GraphHelper.ToGraph(LastGameState, playerNumber.Changed()),
+                                                 out int currentEnemyPath);
 
             _computedCoords = GetBestMove(playerNumber, out int moveLength);
             _computedWallCoords = GetBestPlace(playerNumber, out int placeLength);
 
-            return moveLength - currentBotPath <= currentEnemyPath - placeLength ?
+            return (moveLength - currentBotPath) <= (currentEnemyPath - placeLength) ?
                 MoveType.MovePawn :
                 MoveType.PlaceWall;
         }
@@ -40,14 +39,23 @@ namespace QuoridorDelta.Controller
 
             foreach (Coords move in possiblePawnMoves)
             {
-                PlayerInfo newPlayerInfo = (move, LastGameState.PlayerInfoContainer[playerNumber].WallCount);
+                PlayerInfo newPlayerInfo = LastGameState.PlayerInfoContainer[playerNumber].With(move);
 
                 PlayerInfoContainer<PlayerInfo> newPlayerInfoContainer =
                     LastGameState.PlayerInfoContainer.With(playerNumber, newPlayerInfo);
 
                 IGraph graph = GraphHelper.ToGraph(LastGameState.With(newPlayerInfoContainer), playerNumber);
 
-                movePaths[move] = _pathFinder.GetShortestPathLength(graph);
+                if (!_pathFinder.TryGetShortestPathLength(graph, out int pathLength))
+                {
+                    // todo
+
+                    length = pathLength;
+
+                    return possiblePawnMoves.First();
+                }
+
+                movePaths[move] = pathLength;
             }
 
             KeyValuePair<Coords, int> minMove = movePaths.OrderBy(path => path.Value).First();
@@ -71,7 +79,16 @@ namespace QuoridorDelta.Controller
 
                 IGraph graph = GraphHelper.ToGraph(newGameState, playerNumber.Changed());
 
-                placePaths[place] = _pathFinder.GetShortestPathLength(graph);
+                if (!_pathFinder.TryGetShortestPathLength(graph, out int pathLength))
+                {
+                    // todo
+
+                    length = pathLength;
+
+                    return possibleWallPlacements.First();
+                }
+
+                placePaths[place] = pathLength;
             }
 
             KeyValuePair<WallCoords, int> maxPlace = placePaths.OrderByDescending(path => path.Value).First();
@@ -86,14 +103,16 @@ namespace QuoridorDelta.Controller
             Coords result = _computedCoords ?? GetBestMove(playerNumber, out int _);
 
             _computedCoords = null;
+            _computedWallCoords = null;
 
             return result;
         }
 
         public override WallCoords PlaceWall(PlayerNumber playerNumber, IEnumerable<WallCoords> possibleMoves)
         {
-            WallCoords result =  _computedWallCoords ?? GetBestPlace(playerNumber, out int _);
+            WallCoords result = _computedWallCoords ?? GetBestPlace(playerNumber, out int _);
 
+            _computedCoords = null;
             _computedWallCoords = null;
 
             return result;
